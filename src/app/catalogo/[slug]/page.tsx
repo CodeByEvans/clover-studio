@@ -37,11 +37,7 @@ export async function generateMetadata({
 }
 
 // SERVER-SIDE
-export default async function ProductPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const products = await getProducts();
 
   const product = products.find(
