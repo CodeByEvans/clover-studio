@@ -17,11 +17,12 @@ export async function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
+  const resolvedParams = await params;
   const products = await getProducts();
   const product = products.find(
-    (p: ProductType) => p.slug.toString() === params.slug
+    (p: ProductType) => p.slug.toString() === resolvedParams.slug
   );
 
   if (!product) {
@@ -37,11 +38,16 @@ export async function generateMetadata({
 }
 
 // SERVER-SIDE
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
   const products = await getProducts();
 
   const product = products.find(
-    (p: ProductType) => p.slug.toString() === params.slug
+    (p: ProductType) => p.slug.toString() === resolvedParams.slug
   );
 
   if (!product) {
