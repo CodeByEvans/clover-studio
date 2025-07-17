@@ -1,8 +1,3 @@
-import connectDB from "@/lib/db/connect";
-import { tagInputSchema, tagOutputSchema } from "@/lib/schemas/tagSchema";
-import { createTag, getAllTags } from "@/lib/services/tagService";
-import { NextRequest, NextResponse } from "next/server";
-
 /*
 export const GET = async (req: NextRequest) => {
   await connectDB();

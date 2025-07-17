@@ -3,8 +3,6 @@ import CatalogHeader from "@/components/catalog/catalog-header";
 import CatalogContent from "@/components/catalog/catalog-content";
 import useProducts from "@/lib/queries/useProducts";
 import { useCategories } from "@/lib/queries/useCategories";
-import { useState } from "react";
-import ContactModal from "@/components/contactModal";
 
 export default function CatalogoPage() {
   const {

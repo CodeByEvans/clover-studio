@@ -2,11 +2,11 @@ import slugify from "slugify";
 import { Product } from "../db/models/Product";
 import {
   productInputSchema,
+  ProductInputSchemaType,
   productUpdateSchema,
 } from "../schemas/productSchema";
 import { uploadImageToCloudinary } from "./cloudinaryService";
 import { Category } from "../db/models/Category";
-import { Tag } from "../db/models/Tag";
 
 // Servicio para obtener todos los productos activos
 export const getAllProducts = () => Product.find({ isActive: { $ne: false } });
@@ -20,40 +20,42 @@ export const getProductById = async (id: string) => {
   return product;
 };
 
+type InputValue = string | number | undefined;
+
 // Servicio para crear un producto nuevo
 export const createProduct = async (data: FormData) => {
   // 1. Convertir FormData a objeto plano y separar archivos (imágenes)
-  const obj: Record<string, any> = {};
+  const obj: Partial<Record<keyof ProductInputSchemaType, InputValue>> = {};
   const files: File[] = [];
   data.forEach((value, key) => {
     if (key === "images" && value instanceof File) {
       files.push(value);
     } else {
-      obj[key] = value;
+      // Si el valor viene como string, convertimos price a número
+      if (key === "price" && typeof value === "string") {
+        obj[key as keyof ProductInputSchemaType] = Number(value);
+      } else if (typeof value === "string") {
+        obj[key as keyof ProductInputSchemaType] = value;
+      }
     }
   });
 
-  // 2. Convertir tags a array si es un string
-  if (typeof obj.tags === "string") {
-    obj.tags = [obj.tags];
-  }
-
-  // 3. Validar datos de entrada con zod, convertir price a número
+  // 2. Validar datos de entrada con zod, convertir price a número
   const validatedInput = productInputSchema.parse({
     ...obj,
   });
 
-  // 4. Buscar categoría y tags
+  // 3. Buscar categoría
   const category = await Category.findById(validatedInput.category);
 
   if (!category) {
     throw new Error("Category not found");
   }
 
-  // 5. Generar slug basado en el nombre del producto
+  // 4. Generar slug basado en el nombre del producto
   const slug = slugify(validatedInput.name, { lower: true });
 
-  // 6. Verificar que no exista otro producto con el mismo nombre o slug
+  // 5. Verificar que no exista otro producto con el mismo nombre o slug
   const existingProduct = await Product.findOne({
     $or: [{ name: validatedInput.name }, { slug }],
   });
@@ -61,7 +63,7 @@ export const createProduct = async (data: FormData) => {
     throw new Error("Product with this name or slug already exists");
   }
 
-  // 7. Subir imágenes a Cloudinary
+  // 6. Subir imágenes a Cloudinary
   const images = await Promise.all(
     files.map(async (file) => {
       const arrayBuffer = await file.arrayBuffer();
@@ -71,7 +73,7 @@ export const createProduct = async (data: FormData) => {
     })
   );
 
-  // 8. Preparar objeto para guardar, asignando slug y vaciando imágenes (se pueden subir después)
+  // 7. Preparar objeto para guardar, asignando slug y vaciando imágenes (se pueden subir después)
   const productToCreate = {
     ...validatedInput,
     slug,
@@ -82,7 +84,7 @@ export const createProduct = async (data: FormData) => {
     isActive: true,
   };
 
-  // 9. Crear el producto en la base de datos
+  // 8. Crear el producto en la base de datos
   const product = await Product.create(productToCreate);
 
   return Product.findById(product._id).populate("category");
@@ -91,10 +93,10 @@ export const createProduct = async (data: FormData) => {
 // Servicio para actualizar un producto existente
 export const updateProduct = async (
   id: string,
-  data: FormData | Record<string, any>
+  data: FormData | Partial<ProductInputSchemaType>
 ) => {
   // 1. Convertir datos a objeto plano y separar archivos si es FormData
-  const obj: Record<string, any> = {};
+  const obj: Partial<Record<keyof ProductInputSchemaType, InputValue>> = {};
   const files: File[] = [];
 
   if (data instanceof FormData) {
@@ -102,7 +104,12 @@ export const updateProduct = async (
       if (key === "images" && value instanceof File) {
         files.push(value);
       } else {
-        obj[key] = value;
+        // Si el valor viene como string, convertimos price a número
+        if (key === "price" && typeof value === "string") {
+          obj[key as keyof ProductInputSchemaType] = Number(value);
+        } else if (typeof value === "string") {
+          obj[key as keyof ProductInputSchemaType] = value;
+        }
       }
     });
   } else {

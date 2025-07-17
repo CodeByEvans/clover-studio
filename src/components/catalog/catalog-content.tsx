@@ -119,6 +119,7 @@ export default function CatalogContent({
     selectedPriceRange,
     sortBy,
     selectedFeatures,
+    products,
   ]);
 
   // Pagination
@@ -159,8 +160,6 @@ export default function CatalogContent({
             onViewModeChange={setViewMode}
             totalProducts={filteredAndSortedProducts.length}
             currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
           />
 
           <ProductGrid

@@ -12,8 +12,6 @@ interface CatalogSearchProps {
   onViewModeChange: (mode: ViewMode) => void;
   totalProducts: number;
   currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
 }
 
 const sortOptions = [
@@ -33,8 +31,6 @@ export default function CatalogSearch({
   onViewModeChange,
   totalProducts,
   currentPage,
-  totalPages,
-  onPageChange,
 }: CatalogSearchProps) {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-8">
@@ -106,7 +102,9 @@ export default function CatalogSearch({
         {searchTerm && (
           <div>
             Resultados para:{" "}
-            <span className="font-semibold text-[#8B1E3F]">"{searchTerm}"</span>
+            <span className="font-semibold text-[#8B1E3F]">
+              &quot;{searchTerm}&quot;
+            </span>
           </div>
         )}
       </div>

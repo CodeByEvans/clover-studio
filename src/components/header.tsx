@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, Search, Heart, ShoppingBag, User } from "lucide-react";
+import { Menu, X, Heart } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useFavorites } from "@/contexts/favorites-context";
 
@@ -13,21 +13,21 @@ export default function Header() {
   const router = useRouter();
   const pathname = usePathname();
 
-  function scrollToId(id: string) {
+  const scrollToId = useCallback((id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
-  }
+  }, []);
 
-  function handleScrollToId(id: string) {
+  const handleScrollToId = (id: string) => {
     if (pathname === "/") {
       scrollToId(id);
     } else {
       setPendingScrollId(id);
       router.push(`/`);
     }
-  }
+  };
 
   useEffect(() => {
     if (pathname === "/" && pendingScrollId) {

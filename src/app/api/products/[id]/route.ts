@@ -23,11 +23,12 @@ export const GET = async (
   try {
     const product = await getProductById(id);
     return NextResponse.json(product, { status: 200 });
-  } catch (error: any) {
-    console.error(error);
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error("Unknown error");
+    console.error(err);
     return NextResponse.json(
-      { error: error.message || "Failed to get product" },
-      { status: error.status || 500 }
+      { error: err.message || "Failed to get product" },
+      { status: 500 }
     );
   }
 };
@@ -50,11 +51,12 @@ export const DELETE = async (
       { message: "Product deleted successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error(error);
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error("Unknown error");
+    console.error(err);
     return NextResponse.json(
-      { error: error.message || "Failed to delete product" },
-      { status: error.status || 500 }
+      { error: err.message || "Failed to delete product" },
+      { status: 500 }
     );
   }
 };
@@ -75,11 +77,12 @@ export const PUT = async (
     const body = await req.json();
     const product = await updateProduct(id, body);
     return NextResponse.json(product, { status: 200 });
-  } catch (error: any) {
-    console.error(error);
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error("Unknown error");
+    console.error(err);
     return NextResponse.json(
-      { error: error.message || "Failed to update product" },
-      { status: error.status || 500 }
+      { error: err.message || "Failed to update product" },
+      { status: 500 }
     );
   }
 };

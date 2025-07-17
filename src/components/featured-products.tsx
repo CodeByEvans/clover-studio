@@ -1,12 +1,10 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { Star, Heart, ShoppingBag } from "lucide-react";
+import { Star, ShoppingBag } from "lucide-react";
 import { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
 import FavoriteButton from "./favorites/favorite-button";
-import { useState } from "react";
-import ContactModal from "./contactModal";
 
 interface FeaturedProductsProps {
   featuredProducts: ProductType[];

@@ -1,15 +1,10 @@
 // src/app/api/products/route.ts
 
 import connectDB from "@/lib/db/connect";
-import {
-  createProduct,
-  deleteProduct,
-  getAllProducts,
-  updateProduct,
-} from "@/lib/services/productService";
+import { createProduct, getAllProducts } from "@/lib/services/productService";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   await connectDB();
   const products = await getAllProducts();
   return NextResponse.json(products);
@@ -27,12 +22,9 @@ export const POST = async (req: NextRequest) => {
   try {
     const product = await createProduct(formData);
     return NextResponse.json(product, { status: 201 });
-  } catch (error: any) {
-    console.error(error);
-
-    return NextResponse.json(
-      { error: error.message || "Failed to create product" },
-      { status: error.status || 500 }
-    );
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error("Unknown error");
+    console.error(err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 };

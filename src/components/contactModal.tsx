@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Link from "next/link";
 import { MessageCircle, Phone, Instagram, Mail } from "lucide-react";
 

@@ -1,6 +1,4 @@
-import slugify from "slugify";
-import { Tag } from "../db/models/Tag";
-import { tagInputSchema, tagOutputSchema } from "../schemas/tagSchema";
+/*
 
 // Servicio para obtener todas las tags
 export const getAllTags = () => Tag.find();
@@ -82,3 +80,5 @@ export const updateTag = async (id: string, data: Record<string, any>) => {
 // Servicio para eliminar una tag (soft delete)
 export const deleteTag = (id: string) =>
   Tag.findByIdAndUpdate(id, { isActive: false });
+
+*/

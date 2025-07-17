@@ -1,7 +1,6 @@
 // src/models/Product.ts
 // Model for the Product collection
 
-import { optional } from "joi";
 import { model, models, Schema } from "mongoose";
 
 const ProductImageSchema = new Schema({

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  Heart,
   Share2,
   Star,
   MessageCircle,
@@ -29,7 +28,6 @@ export default function ProductDetailSober({
   product,
 }: ProductDetailSoberProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [quantity, setQuantity] = useState(1);
   const [showContactModal, setShowContactModal] = useState(false);
 
   const {

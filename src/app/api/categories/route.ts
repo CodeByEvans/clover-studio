@@ -1,17 +1,8 @@
 import connectDB from "@/lib/db/connect";
-import {
-  categoryInputSchema,
-  categoryOutputSchema,
-} from "@/lib/schemas/categorySchema";
-import {
-  createCategory,
-  deleteCategory,
-  getAllCategories,
-  updateCategory,
-} from "@/lib/services/categoryService";
-import { NextRequest, NextResponse } from "next/server";
+import { getAllCategories } from "@/lib/services/categoryService";
+import { NextResponse } from "next/server";
 
-export const GET = async (req: NextRequest) => {
+export const GET = async () => {
   await connectDB();
   const categories = await getAllCategories();
   return NextResponse.json(categories, { status: 200 });

@@ -1,10 +1,4 @@
-import slugify from "slugify";
 import { Category } from "../db/models/Category";
-import {
-  categoryInputSchema,
-  categoryOutputSchema,
-  categoryUpdateSchema,
-} from "../schemas/categorySchema";
 
 // Servicio para obtener todas las categorías
 export const getAllCategories = () => Category.find();
@@ -16,6 +10,7 @@ export const getCategoryById = async (id: string) => {
   return category;
 };
 
+/*
 // Servicio para crear categoría
 export const createCategory = async (data: Record<string, any>) => {
   // 1. Validar input
@@ -82,3 +77,5 @@ export const updateCategory = async (id: string, data: Record<string, any>) => {
 // Servicio para eliminar categoría (soft delete)
 export const deleteCategory = (id: string) =>
   Category.findByIdAndUpdate(id, { isActive: false });
+
+*/

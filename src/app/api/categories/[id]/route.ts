@@ -1,13 +1,5 @@
 import connectDB from "@/lib/db/connect";
-import {
-  categoryOutputSchema,
-  categoryUpdateSchema,
-} from "@/lib/schemas/categorySchema";
-import {
-  deleteCategory,
-  getCategoryById,
-  updateCategory,
-} from "@/lib/services/categoryService";
+import { getCategoryById } from "@/lib/services/categoryService";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (
@@ -25,11 +17,12 @@ export const GET = async (
   try {
     const category = await getCategoryById(id);
     return NextResponse.json(category, { status: 200 });
-  } catch (error: any) {
-    console.error(error);
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error("Unknown error");
+    console.error(err);
     return NextResponse.json(
-      { error: error.message || "Failed to get category" },
-      { status: error.status || 500 }
+      { error: err.message || "Failed to get category" },
+      { status: 500 }
     );
   }
 };

@@ -5,8 +5,6 @@ import { Star, Heart, ShoppingBag, Eye } from "lucide-react";
 import type { ViewMode } from "./catalog-content";
 import type { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
-import { Dispatch, useState } from "react";
-import ContactModal from "../contactModal";
 import Link from "next/link";
 import FavoriteButton from "../favorites/favorite-button";
 

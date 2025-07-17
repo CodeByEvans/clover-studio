@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  Heart,
   Share2,
   Star,
   MessageCircle,
@@ -17,7 +16,6 @@ import RelatedProducts from "./related-products";
 import { ProductType } from "@/lib/types/Product.type";
 import useProducts from "@/lib/queries/useProducts";
 import { useCategories } from "@/lib/queries/useCategories";
-import { getCategoryName } from "@/lib/utils";
 import { CategoryType } from "@/lib/types/Category.type";
 import ContactModal from "../contactModal";
 import FavoriteButton from "../favorites/favorite-button";

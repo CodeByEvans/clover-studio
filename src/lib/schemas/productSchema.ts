@@ -8,6 +8,13 @@ export const productInputSchema = z.object({
     z.number().min(0, "Price must be greater than 0")
   ),
   category: z.string().min(1),
+
+  type: z.enum(["sober", "colorful", "general"]).optional().default("general"),
+  badge: z
+    .enum(["Nuevo", "Oferta", "Exclusivo", "Personalizable", "Gift-ready"])
+    .optional(),
+  originalPrice: z.number().positive().optional(),
+  features: z.array(z.string()).optional(),
 });
 
 export type ProductInputSchemaType = z.infer<typeof productInputSchema>;
@@ -23,7 +30,6 @@ export type ImageVersionSchemaType = z.infer<typeof imageVersionSchema>;
 export const productOutputSchema = productInputSchema.extend({
   slug: z.string().min(1),
   images: z.array(imageVersionSchema),
-  category: z.string().min(1),
   rating: z.number().min(0).max(5).default(0),
   reviews: z.number().min(0).default(0),
   isActive: z.boolean().default(true),
