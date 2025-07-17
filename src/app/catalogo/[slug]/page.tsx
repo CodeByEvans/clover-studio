@@ -20,7 +20,11 @@ export async function generateStaticParams() {
 }
 
 // SERVER-SIDE: para SEO
-export async function generateMetadata({ params }: ProductPageProps) {
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const products = await getProducts();
   const product = products.find(
     (p: ProductType) => p.slug.toString() === params.slug
