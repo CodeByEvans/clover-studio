@@ -3,11 +3,24 @@ import ProductDetailGeneral from "@/components/product/product-detail-general";
 import ProductDetailSober from "@/components/product/product-detail-sober";
 import ProductDetailColorful from "@/components/product/product-detail-colorful";
 import { ProductType } from "@/lib/types/Product.type";
-import { getProducts } from "@/lib/api/productApi";
+import { GET } from "@/app/api/products/route";
+
+// Función para obtener productos directamente
+async function getProductsForSSG(): Promise<ProductType[]> {
+  try {
+    // Llamar directamente a la función de la API route
+    const response = await GET();
+    const products = await response.json();
+    return products;
+  } catch (error) {
+    console.error("Error fetching products for SSG:", error);
+    return [];
+  }
+}
 
 // SERVER-SIDE: para SSG
 export async function generateStaticParams() {
-  const products = await getProducts();
+  const products = await getProductsForSSG();
   return products.map((product: ProductType) => ({
     slug: product.slug.toString(),
   }));
@@ -20,7 +33,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = await params;
-  const products = await getProducts();
+  const products = await getProductsForSSG();
   const product = products.find(
     (p: ProductType) => p.slug.toString() === resolvedParams.slug
   );
@@ -38,13 +51,13 @@ export async function generateMetadata({
 }
 
 // SERVER-SIDE
-export default async function Page({
+export default async function ProductPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const resolvedParams = await params;
-  const products = await getProducts();
+  const products = await getProductsForSSG();
 
   const product = products.find(
     (p: ProductType) => p.slug.toString() === resolvedParams.slug
