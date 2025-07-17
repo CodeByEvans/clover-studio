@@ -1,7 +1,6 @@
 import * as joi from "joi";
 
 interface EnvVars {
-  PORT: number;
   MONGO_URI: string;
   CLOUDINARY_CLOUD_NAME: string;
   CLOUDINARY_API_KEY: string;
@@ -10,7 +9,6 @@ interface EnvVars {
 
 const envsSchema = joi
   .object({
-    PORT: joi.number().required(),
     MONGO_URI: joi.string().required(),
     CLOUDINARY_CLOUD_NAME: joi.string().required(),
     CLOUDINARY_API_KEY: joi.string().required(),
@@ -27,7 +25,6 @@ if (error) {
 const envVars: EnvVars = value;
 
 export const envs = {
-  port: envVars.PORT,
   mongoUri: envVars.MONGO_URI,
   cloudinaryCloudName: envVars.CLOUDINARY_CLOUD_NAME,
   cloudinaryApiKey: envVars.CLOUDINARY_API_KEY,
