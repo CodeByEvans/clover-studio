@@ -5,12 +5,6 @@ import ProductDetailColorful from "@/components/product/product-detail-colorful"
 import { ProductType } from "@/lib/types/Product.type";
 import { getProducts } from "@/lib/api/productApi";
 
-interface ProductPageProps {
-  params: {
-    slug: string;
-  };
-}
-
 // SERVER-SIDE: para SSG
 export async function generateStaticParams() {
   const products = await getProducts();
@@ -43,7 +37,11 @@ export async function generateMetadata({
 }
 
 // SERVER-SIDE
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const products = await getProducts();
 
   const product = products.find(
