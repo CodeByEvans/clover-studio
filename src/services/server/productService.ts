@@ -1,12 +1,12 @@
 import slugify from "slugify";
-import { Product } from "../db/models/Product";
+import { Product } from "../../lib/db/models/Product";
 import {
   productInputSchema,
   ProductInputSchemaType,
   productUpdateSchema,
-} from "../schemas/productSchema";
+} from "../../lib/schemas/productSchema";
 import { uploadImageToCloudinary } from "./cloudinaryService";
-import { Category } from "../db/models/Category";
+import { Category } from "../../lib/db/models/Category";
 
 // Servicio para obtener todos los productos activos
 export const getAllProducts = () => Product.find({ isActive: { $ne: false } });

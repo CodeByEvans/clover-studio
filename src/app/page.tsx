@@ -5,9 +5,10 @@ import Categories from "@/components/categories";
 import FeaturedProducts from "@/components/featured-products";
 import CallToAction from "@/components/call-to-action";
 import Newsletter from "@/components/newsletter";
-import { useCategories } from "@/lib/queries/useCategories";
-import useProducts from "@/lib/queries/useProducts";
+import { useCategories } from "@/lib/hooks/useCategories";
+import useProducts from "@/lib/hooks/useProducts";
 import { ProductType } from "@/lib/types/Product.type";
+import LoadingLayout from "@/components/common/LoadingLayout";
 
 export default function Home() {
   const {
@@ -21,7 +22,9 @@ export default function Home() {
     error: productsError,
   } = useProducts();
 
-  if (categoriesLoading || productsLoading) return <div>Cargando...</div>;
+  if (categoriesLoading || productsLoading) {
+    return <LoadingLayout message="Cargando productos..." />;
+  }
   if (categoriesError || productsError) return <div>Error al cargar</div>;
   if (!categories || !products) return <div>No hay datos</div>;
 

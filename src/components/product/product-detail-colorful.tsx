@@ -15,11 +15,13 @@ import {
 import ProductImageGallery from "./product-image-gallery";
 import RelatedProducts from "./related-products";
 import { ProductType } from "@/lib/types/Product.type";
-import useProducts from "@/lib/queries/useProducts";
-import { useCategories } from "@/lib/queries/useCategories";
+import useProducts from "@/lib/hooks/useProducts";
+import { useCategories } from "@/lib/hooks/useCategories";
 import { CategoryType } from "@/lib/types/Category.type";
 import FavoriteButton from "../favorites/favorite-button";
 import ContactModal from "../contactModal";
+import LoadingLayout from "../common/LoadingLayout";
+import { shareContent } from "@/lib/utils";
 
 interface ProductDetailColorfulProps {
   product: ProductType;
@@ -42,7 +44,9 @@ export default function ProductDetailColorful({
     error: categoriesError,
   } = useCategories();
 
-  if (productsLoading || categoriesLoading) return <div>Cargando...</div>;
+  if (productsLoading || categoriesLoading) {
+    return <LoadingLayout message="Cargando producto..." />;
+  }
   if (productsError || categoriesError) return <div>Error al cargar</div>;
   if (!products || !categories) return <div>No hay datos</div>;
 
@@ -51,6 +55,15 @@ export default function ProductDetailColorful({
   );
 
   const productImages = product.images.map((image) => image.large);
+
+  // Handle Share
+  const handleShare = () => {
+    shareContent({
+      title: "Clover Studio",
+      text: "Mira este sitio de productos aromáticos únicos",
+      url: window.location.href,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#F8C8DC]/20 to-[#C9EAF3]/20">
@@ -210,19 +223,22 @@ export default function ProductDetailColorful({
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
-                  className="flex-1 bg-gradient-to-r from-[#F8C8DC] to-[#D3B5E5] hover:from-[#f5b8d1] hover:to-[#c9a8db] text-[#8B1E3F] py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg transform hover:-translate-y-1"
+                  className="flex-1 bg-gradient-to-r from-[#F8C8DC] to-[#D3B5E5] hover:from-[#f5b8d1] hover:to-[#c9a8db] text-[#8B1E3F] py-4 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-lg transform hover:-translate-y-1 cursor-pointer"
                   onClick={() => setShowContactModal(true)}
                 >
                   <MessageCircle className="w-5 h-5" />
                   Consultar Disponibilidad
                 </button>
                 <FavoriteButton
-                  className="border-2 border-[#BEE8CC] text-[#8B1E3F] hover:bg-[#BEE8CC] py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+                  className="border-2 border-[#BEE8CC] text-[#8B1E3F] hover:bg-[#BEE8CC] py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   product={product}
                   size="md"
                   variant="button"
                 />{" "}
-                <button className="border-2 border-[#FDE68A] text-[#8B1E3F] hover:bg-[#FDE68A] py-4 px-6 rounded-xl transition-colors flex items-center justify-center">
+                <button
+                  className="border-2 border-[#FDE68A] text-[#8B1E3F] hover:bg-[#FDE68A] py-4 px-6 rounded-xl transition-colors flex items-center justify-center cursor-pointer"
+                  onClick={handleShare}
+                >
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>

@@ -1,4 +1,4 @@
-import { Category } from "../db/models/Category";
+import { Category } from "../../lib/db/models/Category";
 
 // Servicio para obtener todas las categorías
 export const getAllCategories = () => Category.find();

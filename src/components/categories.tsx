@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Flame, Palette, Droplets, Coffee, Heart, Gift } from "lucide-react";
-import { useCategories } from "@/lib/queries/useCategories";
+import { useCategories } from "@/lib/hooks/useCategories";
 import { CategoryType } from "@/lib/types/Category.type";
 
 const iconMap = {

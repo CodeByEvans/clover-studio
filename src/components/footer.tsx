@@ -1,8 +1,11 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Mail, Phone, MapPin, Heart } from "lucide-react";
+import { useScrollToId } from "@/hooks/useScrollToId";
 
 export default function Footer() {
+  const { handleScrollToId } = useScrollToId();
   return (
     <footer className="bg-gray-900 text-white">
       <div className="container mx-auto px-4 py-16">
@@ -78,12 +81,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/contacto"
-                  className="text-gray-400 hover:text-[#F8C8DC] transition-colors"
+                <button
+                  onClick={() => handleScrollToId("contacto")}
+                  className="text-gray-400 hover:text-[#F8C8DC] transition-colors cursor-pointer"
                 >
                   Contacto
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

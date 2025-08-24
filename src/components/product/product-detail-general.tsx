@@ -14,11 +14,13 @@ import {
 import ProductImageGallery from "./product-image-gallery";
 import RelatedProducts from "./related-products";
 import { ProductType } from "@/lib/types/Product.type";
-import useProducts from "@/lib/queries/useProducts";
-import { useCategories } from "@/lib/queries/useCategories";
+import useProducts from "@/lib/hooks/useProducts";
+import { useCategories } from "@/lib/hooks/useCategories";
 import { CategoryType } from "@/lib/types/Category.type";
 import ContactModal from "../contactModal";
 import FavoriteButton from "../favorites/favorite-button";
+import LoadingLayout from "../common/LoadingLayout";
+import { shareContent } from "@/lib/utils";
 
 interface ProductDetailGeneralProps {
   product: ProductType;
@@ -42,7 +44,9 @@ export default function ProductDetailGeneral({
     error: categoriesError,
   } = useCategories();
 
-  if (productsLoading || categoriesLoading) return <div>Cargando...</div>;
+  if (productsLoading || categoriesLoading) {
+    return <LoadingLayout message="Cargando producto..." />;
+  }
   if (productsError || categoriesError) return <div>Error al cargar</div>;
   if (!products || !categories) return <div>No hay datos</div>;
 
@@ -52,6 +56,15 @@ export default function ProductDetailGeneral({
 
   // Mock additional images for gallery
   const productImages = product.images.map((image) => image.large);
+
+  // Handle Share
+  const handleShare = () => {
+    shareContent({
+      title: "Clover Studio",
+      text: "Mira este sitio de productos aromáticos únicos",
+      url: window.location.href,
+    });
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -198,19 +211,22 @@ export default function ProductDetailGeneral({
             <div className="space-y-4">
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
-                  className="flex-1 bg-[#8B1E3F] hover:bg-[#7a1a37] text-white py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 bg-[#8B1E3F] hover:bg-[#7a1a37] text-white py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   onClick={() => setShowContactModal(true)}
                 >
                   <MessageCircle className="w-5 h-5" />
                   Consultar Disponibilidad
                 </button>
                 <FavoriteButton
-                  className="border-2 border-[#F8C8DC] text-[#8B1E3F] hover:bg-[#F8C8DC] py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2"
+                  className="border-2 border-[#F8C8DC] text-[#8B1E3F] hover:bg-[#F8C8DC] py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
                   product={product}
                   size="md"
                   variant="button"
                 />
-                <button className="border-2 border-gray-200 text-gray-600 hover:bg-gray-50 py-4 px-6 rounded-xl transition-colors flex items-center justify-center">
+                <button
+                  className="border-2 border-gray-200 text-gray-600 hover:bg-gray-50 py-4 px-6 rounded-xl transition-colors flex items-center justify-center cursor-pointer"
+                  onClick={handleShare}
+                >
                   <Share2 className="w-5 h-5" />
                 </button>
               </div>

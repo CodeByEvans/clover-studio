@@ -15,6 +15,9 @@ import {
 import { useFavorites } from "@/contexts/favorites-context";
 import FavoriteProductCard from "./favorite-product-card";
 import FavoritesEmpty from "./favorites-empty";
+import { useCategories } from "@/lib/hooks/useCategories";
+import { CategoryType } from "@/lib/types/Category.type";
+import LoadingLayout from "../common/LoadingLayout";
 
 type ViewMode = "grid" | "list";
 type SortOption = "recent" | "name" | "price-low" | "price-high" | "category";
@@ -32,6 +35,16 @@ export default function FavoritesContent() {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [sortBy, setSortBy] = useState<SortOption>("recent");
   const [selectedCategory, setSelectedCategory] = useState("all");
+
+  const { data: categoriesData, isLoading, isError } = useCategories();
+
+  if (isLoading) {
+    return <LoadingLayout message="Cargando favoritos..." />;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
 
   // Get unique categories from favorites
   const categories = [
@@ -99,10 +112,10 @@ export default function FavoritesContent() {
               <Trash2 className="w-5 h-5" />
               Limpiar Todo
             </button>
-            <button className="flex items-center gap-2 text-[#999999] hover:text-[#8B1E3F] transition-colors">
+            {/*<button className="flex items-center gap-2 text-[#999999] hover:text-[#8B1E3F] transition-colors">
               <Share2 className="w-5 h-5" />
               Compartir Lista
-            </button>
+            </button>*/}
           </div>
         </div>
       </div>
@@ -120,12 +133,13 @@ export default function FavoritesContent() {
             >
               <option value="all">Todas las Categorías</option>
               {categories.slice(1).map((categoryId) => {
-                const product = favorites.find(
-                  (p) => p.category === categoryId
-                );
                 return (
                   <option key={categoryId} value={categoryId}>
-                    {product?.category}
+                    {
+                      categoriesData?.find(
+                        (category: CategoryType) => category.id === categoryId
+                      )?.name
+                    }
                   </option>
                 );
               })}
@@ -191,6 +205,11 @@ export default function FavoritesContent() {
           <FavoriteProductCard
             key={product.id}
             product={product}
+            category={
+              categoriesData?.find(
+                (category: CategoryType) => category.id === product.category
+              )!
+            }
             viewMode={viewMode}
           />
         ))}

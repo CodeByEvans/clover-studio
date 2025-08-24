@@ -1,7 +1,10 @@
 // src/app/api/products/route.ts
 
 import connectDB from "@/lib/db/connect";
-import { createProduct, getAllProducts } from "@/lib/services/productService";
+import {
+  createProduct,
+  getAllProducts,
+} from "@/services/server/productService";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async () => {

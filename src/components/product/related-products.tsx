@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Star, Heart, ShoppingBag } from "lucide-react";
 import { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
+import { useState } from "react";
+import ContactModal from "../contactModal";
 
 interface RelatedProductsProps {
   currentProduct: ProductType;
@@ -19,6 +21,10 @@ export default function RelatedProducts({
   products,
   category,
 }: RelatedProductsProps) {
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+    null
+  );
   // Get related products from the same category, excluding current product
   const relatedProducts = products
     .filter(
@@ -67,6 +73,13 @@ export default function RelatedProducts({
 
   return (
     <section className="mt-16">
+      {showContactModal && (
+        <ContactModal
+          productName={selectedProduct?.name || ""}
+          productSlug={selectedProduct?.slug || ""}
+          onClose={() => setShowContactModal(false)}
+        />
+      )}
       <div className="text-center mb-12">
         <h2 className={`text-3xl md:text-4xl font-bold ${colors.title} mb-4`}>
           Productos Relacionados
@@ -84,14 +97,15 @@ export default function RelatedProducts({
           >
             {/* Product Image */}
             <div className="relative overflow-hidden">
-              <Image
-                src={product.images[0].large || "/placeholder.svg"}
-                alt={product.name}
-                width={300}
-                height={300}
-                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-
+              <Link href={`/catalogo/${product.slug}`}>
+                <Image
+                  src={product.images[0].large || "/placeholder.svg"}
+                  alt={product.name}
+                  width={300}
+                  height={300}
+                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </Link>
               {/* Badge */}
               {product.badge && (
                 <div
@@ -126,9 +140,11 @@ export default function RelatedProducts({
                 {category.name}
               </div>
 
-              <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[#8B1E3F] transition-colors line-clamp-2">
-                {product.name}
-              </h3>
+              <Link href={`/catalogo/${product.slug}`}>
+                <h3 className="font-bold text-gray-900 mb-2 group-hover:text-[#8B1E3F] transition-colors line-clamp-2">
+                  {product.name}
+                </h3>
+              </Link>
 
               {/* Rating */}
               <div className="flex items-center gap-1 mb-3">
@@ -159,14 +175,16 @@ export default function RelatedProducts({
               </div>
 
               {/* CTA Button */}
-              <Link href={`/catalogo/${product.slug}`}>
-                <button
-                  className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${colors.button}`}
-                >
-                  <ShoppingBag className="w-4 h-4" />
-                  Ver Producto
-                </button>
-              </Link>
+              <button
+                className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${colors.button} cursor-pointer`}
+                onClick={() => {
+                  setSelectedProduct(product);
+                  setShowContactModal(true);
+                }}
+              >
+                <ShoppingBag className="w-4 h-4" />
+                Consultar Producto
+              </button>
             </div>
           </div>
         ))}

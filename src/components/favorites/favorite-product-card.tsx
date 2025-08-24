@@ -7,14 +7,17 @@ import Link from "next/link";
 import { Star, Heart, ShoppingBag, Eye, Trash2 } from "lucide-react";
 import { useFavorites } from "@/contexts/favorites-context";
 import { ProductType } from "@/lib/types/Product.type";
+import { CategoryType } from "@/lib/types/Category.type";
 
 interface FavoriteProductCardProps {
   product: ProductType;
+  category: CategoryType;
   viewMode: "grid" | "list";
 }
 
 export default function FavoriteProductCard({
   product,
+  category,
   viewMode,
 }: FavoriteProductCardProps) {
   const { removeFromFavorites } = useFavorites();
@@ -35,7 +38,7 @@ export default function FavoriteProductCard({
         <div className="flex flex-col md:flex-row">
           {/* Image */}
           <div className="relative md:w-64 h-48 md:h-auto overflow-hidden">
-            <Link href={`/catalogo/${product.id}`}>
+            <Link href={`/catalogo/${product.slug}`}>
               <Image
                 src={product.images[0].large || "/placeholder.svg"}
                 alt={product.name}
@@ -67,7 +70,7 @@ export default function FavoriteProductCard({
             <div className="flex justify-between items-start mb-4">
               <div className="flex-1">
                 <div className="text-sm text-[#999999] mb-1">
-                  {product.category}
+                  {category.name}
                 </div>
                 <Link href={`/catalogo/${product.id}`}>
                   <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-[#8B1E3F] transition-colors">
@@ -118,7 +121,7 @@ export default function FavoriteProductCard({
 
               <div className="flex items-center gap-2">
                 <Link
-                  href={`/catalogo/${product.id}`}
+                  href={`/catalogo/${product.slug}`}
                   className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   <Eye className="w-5 h-5 text-gray-600" />
@@ -150,7 +153,7 @@ export default function FavoriteProductCard({
     >
       {/* Product Image */}
       <div className="relative overflow-hidden">
-        <Link href={`/catalogo/${product.id}`}>
+        <Link href={`/catalogo/${product.slug}`}>
           <Image
             src={product.images[0].large || "/placeholder.svg"}
             alt={product.name}
@@ -189,7 +192,7 @@ export default function FavoriteProductCard({
             <Heart className="w-5 h-5 text-white fill-current" />
           </button>
           <Link
-            href={`/catalogo/${product.id}`}
+            href={`/catalogo/${product.slug}`}
             className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
           >
             <Eye className="w-5 h-5 text-gray-600 hover:text-[#8B1E3F]" />
@@ -201,7 +204,7 @@ export default function FavoriteProductCard({
       <div className="p-6">
         <div className="text-sm text-[#999999] mb-2">{product.category}</div>
 
-        <Link href={`/catalogo/${product.id}`}>
+        <Link href={`/catalogo/${product.slug}`}>
           <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">
             {product.name}
           </h3>

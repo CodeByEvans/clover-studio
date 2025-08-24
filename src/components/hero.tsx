@@ -98,7 +98,7 @@ export default function Hero() {
                 <Sparkles className="w-8 h-8 text-[#8B1E3F]" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-2">Envío Gratis</h3>
-              <p className="text-[#999999]">En compras superiores a $50.000</p>
+              <p className="text-[#999999]">En compras superiores a 50€.</p>
             </div>
           </div>
         </div>

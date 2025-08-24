@@ -7,6 +7,8 @@ import type { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
 import Link from "next/link";
 import FavoriteButton from "../favorites/favorite-button";
+import { useState } from "react";
+import ContactModal from "../contactModal";
 
 interface ProductGridProps {
   products: ProductType[];
@@ -27,6 +29,10 @@ export default function ProductGrid({
   categories,
   onChangeSearchTerm,
 }: ProductGridProps) {
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+    null
+  );
+  const [showContactModal, setShowContactModal] = useState(false);
   if (products.length === 0) {
     return (
       <div className="text-center py-16">
@@ -52,6 +58,13 @@ export default function ProductGrid({
   return (
     <>
       {/* Products Grid/List */}
+      {showContactModal && (
+        <ContactModal
+          productName={selectedProduct?.name || ""}
+          productSlug={selectedProduct?.slug || ""}
+          onClose={() => setShowContactModal(false)}
+        />
+      )}
       <div
         className={
           viewMode === "grid"
@@ -65,6 +78,8 @@ export default function ProductGrid({
             product={product}
             viewMode={viewMode}
             categories={categories}
+            setSelectedProduct={setSelectedProduct}
+            setShowContactModal={setShowContactModal}
           />
         ))}
       </div>
@@ -111,10 +126,14 @@ function ProductCard({
   product,
   viewMode,
   categories,
+  setSelectedProduct,
+  setShowContactModal,
 }: {
   product: ProductType;
   viewMode: ViewMode;
   categories: CategoryType[];
+  setSelectedProduct: React.Dispatch<React.SetStateAction<ProductType | null>>;
+  setShowContactModal: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const category = categories.find(
     (category: CategoryType) => category.id === product.category
@@ -160,12 +179,14 @@ function ProductCard({
         <div className="flex flex-col md:flex-row">
           {/* Image */}
           <div className="relative md:w-64 h-48 md:h-auto overflow-hidden">
-            <Image
-              src={product.images[0].large || "/placeholder.svg"}
-              alt={product.name}
-              fill
-              className="object-cover hover:scale-105 transition-transform duration-300"
-            />
+            <Link href={`/catalogo/${product.slug}`}>
+              <Image
+                src={product.images[0].large || "/placeholder.svg"}
+                alt={product.name}
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-300"
+              />
+            </Link>
             {product.badge && (
               <div
                 className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-semibold ${
@@ -192,9 +213,11 @@ function ProductCard({
                 <div className="text-sm text-[#999999] mb-1">
                   {categoryName}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
-                  {product.name}
-                </h3>
+                <Link href={`/catalogo/${product.slug}`}>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                    {product.name}
+                  </h3>
+                </Link>
 
                 {/* Rating */}
                 <div className="flex items-center gap-2 mb-3">
@@ -216,9 +239,11 @@ function ProductCard({
                 </div>
               </div>
 
-              <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <Heart className="w-5 h-5 text-gray-400 hover:text-[#8B1E3F]" />
-              </button>
+              <FavoriteButton
+                product={product}
+                className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
+                variant="icon"
+              />
             </div>
 
             <div className="flex items-center justify-between">
@@ -234,15 +259,19 @@ function ProductCard({
               </div>
 
               <div className="flex items-center gap-2">
-                <button className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                  <Eye className="w-5 h-5 text-gray-600" />
-                </button>
+                {/*<button className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+                    <Eye className="w-5 h-5 text-gray-600" />
+                  </button>}*/}
                 <button
                   className={`px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 ${
                     product.type === "sober"
                       ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white"
                       : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F]"
                   }`}
+                  onClick={() => {
+                    setSelectedProduct(product);
+                    setShowContactModal(true);
+                  }}
                 >
                   <ShoppingBag className="w-4 h-4" />
                   Consultar
@@ -264,13 +293,15 @@ function ProductCard({
     >
       {/* Product Image */}
       <div className="relative overflow-hidden">
-        <Image
-          src={product.images[0].large || "/placeholder.svg"}
-          alt={product.name}
-          width={300}
-          height={300}
-          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-        />
+        <Link href={`/catalogo/${product.slug}`}>
+          <Image
+            src={product.images[0].large || "/placeholder.svg"}
+            alt={product.name}
+            width={300}
+            height={300}
+            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </Link>
 
         {/* Badge */}
         {product.badge && (
@@ -298,9 +329,9 @@ function ProductCard({
             className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
             variant="icon"
           />
-          <button className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+          {/*<button className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
             <Eye className="w-5 h-5 text-gray-600 hover:text-[#8B1E3F]" />
-          </button>
+          </button>*/}
         </div>
       </div>
 
@@ -308,9 +339,11 @@ function ProductCard({
       <div className="p-6">
         <div className="text-sm text-[#999999] mb-2">{categoryName}</div>
 
-        <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">
-          {product.name}
-        </h3>
+        <Link href={`/catalogo/${product.slug}`}>
+          <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">
+            {product.name}
+          </h3>
+        </Link>
 
         {/* Rating */}
         <div className="flex items-center gap-2 mb-4">
@@ -344,14 +377,16 @@ function ProductCard({
         </div>
 
         {/* CTA Button */}
-        <Link href={`/catalogo/${product.slug}`} className="w-full">
-          <button
-            className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${colors.button}`}
-          >
-            <ShoppingBag className="w-5 h-5" />
-            Ver Producto
-          </button>
-        </Link>
+        <button
+          className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${colors.button} cursor-pointer`}
+          onClick={() => {
+            setShowContactModal(true);
+            setSelectedProduct(product);
+          }}
+        >
+          <ShoppingBag className="w-5 h-5" />
+          Consultar Disponibilidad
+        </button>
       </div>
     </div>
   );

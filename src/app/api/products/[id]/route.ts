@@ -5,7 +5,7 @@ import {
   deleteProduct,
   getProductById,
   updateProduct,
-} from "@/lib/services/productService";
+} from "@/services/server/productService";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (

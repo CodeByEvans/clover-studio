@@ -1,5 +1,5 @@
 import connectDB from "@/lib/db/connect";
-import { getCategoryById } from "@/lib/services/categoryService";
+import { getCategoryById } from "@/services/server/categoryService";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (

@@ -5,6 +5,8 @@ import { Star, ShoppingBag } from "lucide-react";
 import { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
 import FavoriteButton from "./favorites/favorite-button";
+import { useState } from "react";
+import ContactModal from "./contactModal";
 
 interface FeaturedProductsProps {
   featuredProducts: ProductType[];
@@ -15,8 +17,19 @@ export default function FeaturedProducts({
   featuredProducts,
   categories,
 }: FeaturedProductsProps) {
+  const [showContactModal, setShowContactModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+    null
+  );
   return (
     <section id="catalogo" className="py-20 bg-white">
+      {showContactModal && (
+        <ContactModal
+          onClose={() => setShowContactModal(false)}
+          productName={selectedProduct?.name || ""}
+          productSlug={selectedProduct?.slug || ""}
+        />
+      )}
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
@@ -46,13 +59,15 @@ export default function FeaturedProducts({
               >
                 {/* Product Image */}
                 <div className="relative overflow-hidden">
-                  <Image
-                    src={product.images[0].large || "/placeholder.svg"}
-                    alt={product.name}
-                    width={300}
-                    height={300}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 brightness-90"
-                  />
+                  <Link href={`/catalogo/${product.slug}`}>
+                    <Image
+                      src={product.images[0].large || "/placeholder.svg"}
+                      alt={product.name}
+                      width={300}
+                      height={300}
+                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300 brightness-90"
+                    />
+                  </Link>
 
                   {/* Badge */}
                   {product.badge && (
@@ -87,9 +102,11 @@ export default function FeaturedProducts({
                     {categoryName}
                   </div>
 
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">
-                    {product.name}
-                  </h3>
+                  <Link href={`/catalogo/${product.slug}`}>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">
+                      {product.name}
+                    </h3>
+                  </Link>
 
                   {/* Rating */}
                   <div className="flex items-center gap-2 mb-4">
@@ -123,19 +140,20 @@ export default function FeaturedProducts({
                   </div>
 
                   {/* CTA Button */}
-                  <Link href={`/catalogo/${product.slug}`}>
-                    <button
-                      className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                        product.type === "sober"
-                          ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white"
-                          : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F]"
-                      }`}
-                      onClick={() => {}}
-                    >
-                      <ShoppingBag className="w-5 h-5" />
-                      Ver producto
-                    </button>
-                  </Link>
+                  <button
+                    className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
+                      product.type === "sober"
+                        ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white"
+                        : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F]"
+                    }`}
+                    onClick={() => {
+                      setSelectedProduct(product);
+                      setShowContactModal(true);
+                    }}
+                  >
+                    <ShoppingBag className="w-5 h-5" />
+                    Consultar Disponibilidad
+                  </button>
                 </div>
               </div>
             );
