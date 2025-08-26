@@ -28,7 +28,9 @@ export default function FeaturedProducts({
   const { addToCart } = useCart();
   const { showSuccess } = useNotifications();
 
-  const handleAddToCart = (product: Product) => {
+  const handleAddToCart = (e: React.MouseEvent, product: Product) => {
+    e.preventDefault(); // Prevenir navegación
+    e.stopPropagation(); // Evitar que el evento burbujee
     addToCart(product);
     showSuccess(
       "¡Producto Agregado!",
@@ -139,26 +141,26 @@ export default function FeaturedProducts({
           {featuredProducts.map((product: Product) => {
             return (
               <div key={product.id} className="group relative">
-                <div
-                  className={`bg-white/90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:rotate-1 border relative ${
-                    product.type === "sober"
-                      ? "border-[#EFE6DD]/60"
-                      : "border-white/60"
-                  }`}
-                >
-                  {/* Enhanced background decoration */}
-                  <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-[#F8C8DC]/10 to-[#D3B5E5]/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-20 transition-all duration-500 z-20">
-                    <div className="flex gap-1">
-                      <div className="w-1 h-1 bg-[#F8C8DC] rounded-full"></div>
-                      <div className="w-1 h-1 bg-[#D3B5E5] rounded-full"></div>
-                      <div className="w-1 h-1 bg-[#BEE8CC] rounded-full"></div>
+                <Link href={`/productos/${product.slug}`} className="block">
+                  <div
+                    className={`bg-white/90 backdrop-blur-sm rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-3 hover:rotate-1 border relative cursor-pointer ${
+                      product.type === "sober"
+                        ? "border-[#EFE6DD]/60"
+                        : "border-white/60"
+                    }`}
+                  >
+                    {/* Enhanced background decoration */}
+                    <div className="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-[#F8C8DC]/10 to-[#D3B5E5]/10 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-20 transition-all duration-500 z-20">
+                      <div className="flex gap-1">
+                        <div className="w-1 h-1 bg-[#F8C8DC] rounded-full"></div>
+                        <div className="w-1 h-1 bg-[#D3B5E5] rounded-full"></div>
+                        <div className="w-1 h-1 bg-[#BEE8CC] rounded-full"></div>
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Enhanced Product Image */}
-                  <div className="relative overflow-hidden">
-                    <Link href={`/catalogo/${product.slug}`}>
+                    {/* Enhanced Product Image */}
+                    <div className="relative overflow-hidden">
                       <Image
                         src={product.images[0].large || "/placeholder.svg"}
                         alt={product.name}
@@ -166,118 +168,120 @@ export default function FeaturedProducts({
                         height={300}
                         className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500 brightness-95"
                       />
-                    </Link>
 
-                    {/* Enhanced Badge */}
-                    {product.badge && (
-                      <div className="absolute top-6 left-6 z-10">
-                        <div
-                          className={`px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm transform group-hover:scale-105 transition-transform duration-300 ${
-                            product.badge === "Bestseller"
-                              ? "bg-[#8B1E3F]/90 text-white border border-[#8B1E3F]/20"
-                              : product.badge === "Nuevo"
-                              ? "bg-[#BEE8CC]/90 text-[#8B1E3F] border border-[#BEE8CC]/30"
-                              : product.badge === "Exclusivo"
-                              ? "bg-[#D3B5E5]/90 text-[#8B1E3F] border border-[#D3B5E5]/30"
-                              : product.badge === "Oferta"
-                              ? "bg-[#FDE68A]/90 text-[#8B1E3F] border border-[#FDE68A]/30"
-                              : "bg-[#F8C8DC]/90 text-[#8B1E3F] border border-[#F8C8DC]/30"
-                          }`}
-                        >
-                          {product.badge}
+                      {/* Enhanced Badge */}
+                      {product.badge && (
+                        <div className="absolute top-6 left-6 z-10">
+                          <div
+                            className={`px-4 py-2 rounded-full text-sm font-semibold shadow-lg backdrop-blur-sm transform group-hover:scale-105 transition-transform duration-300 ${
+                              product.badge === "Bestseller"
+                                ? "bg-[#8B1E3F]/90 text-white border border-[#8B1E3F]/20"
+                                : product.badge === "Nuevo"
+                                ? "bg-[#BEE8CC]/90 text-[#8B1E3F] border border-[#BEE8CC]/30"
+                                : product.badge === "Exclusivo"
+                                ? "bg-[#D3B5E5]/90 text-[#8B1E3F] border border-[#D3B5E5]/30"
+                                : product.badge === "Oferta"
+                                ? "bg-[#FDE68A]/90 text-[#8B1E3F] border border-[#FDE68A]/30"
+                                : "bg-[#F8C8DC]/90 text-[#8B1E3F] border border-[#F8C8DC]/30"
+                            }`}
+                          >
+                            {product.badge}
+                          </div>
                         </div>
+                      )}
+
+                      {/* Enhanced Wishlist Button */}
+                      <div
+                        className="absolute top-6 right-6 z-10"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
+                        <FavoriteButton
+                          product={product}
+                          variant="icon"
+                          className="bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
+                        />
                       </div>
-                    )}
 
-                    {/* Enhanced Wishlist Button */}
-                    <div className="absolute top-6 right-6 z-10">
-                      <FavoriteButton
-                        product={product}
-                        variant="icon"
-                        className="bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white hover:scale-110 transition-all duration-300"
-                      />
+                      {/* Subtle overlay gradient */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
 
-                    {/* Subtle overlay gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
+                    {/* Enhanced Product Info */}
+                    <div className="p-8 relative z-10">
+                      <div className="text-sm text-[#999999] mb-3 font-medium">
+                        {product.category.name}
+                      </div>
 
-                  {/* Enhanced Product Info */}
-                  <div className="p-8 relative z-10">
-                    <div className="text-sm text-[#999999] mb-3 font-medium">
-                      {product.category.name}
-                    </div>
-
-                    <Link href={`/catalogo/${product.slug}`}>
                       <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-[#8B1E3F] group-hover:to-[#F8C8DC] group-hover:bg-clip-text transition-all duration-300 leading-tight">
                         {product.name}
                       </h3>
-                    </Link>
 
-                    {/* Enhanced Rating */}
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-4 h-4 transition-colors duration-200 ${
-                              i < Math.floor(product.rating)
-                                ? "text-[#FDE68A] fill-current"
-                                : "text-gray-300"
-                            }`}
-                          />
-                        ))}
+                      {/* Enhanced Rating */}
+                      <div className="flex items-center gap-3 mb-6">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-4 h-4 transition-colors duration-200 ${
+                                i < Math.floor(product.rating)
+                                  ? "text-[#FDE68A] fill-current"
+                                  : "text-gray-300"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm text-[#999999] group-hover:text-gray-700 transition-colors duration-300">
+                          {product.rating} ({product.reviews} reseñas)
+                        </span>
                       </div>
-                      <span className="text-sm text-[#999999] group-hover:text-gray-700 transition-colors duration-300">
-                        {product.rating} ({product.reviews} reseñas)
-                      </span>
+
+                      {/* Enhanced Price */}
+                      <div className="flex items-center gap-3 mb-6">
+                        <span className="text-3xl font-bold text-[#8B1E3F]">
+                          {product.price}€
+                        </span>
+                        {product.originalPrice && (
+                          <span className="text-lg text-[#999999] line-through">
+                            {product.originalPrice}€
+                          </span>
+                        )}
+                        {product.originalPrice && (
+                          <span className="text-sm bg-[#BEE8CC] text-[#8B1E3F] px-2 py-1 rounded-full font-semibold">
+                            -
+                            {Math.round(
+                              (1 - product.price / product.originalPrice) * 100
+                            )}
+                            %
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Enhanced CTA Button */}
+                      <button
+                        className={`w-full py-4 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer transform hover:-translate-y-1 hover:shadow-xl relative overflow-hidden ${
+                          product.type === "sober"
+                            ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white shadow-lg"
+                            : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F] shadow-lg"
+                        }`}
+                        onClick={(e) => handleAddToCart(e, product)}
+                      >
+                        {/* Subtle button decoration */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+
+                        <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+                        <span className="relative z-10">Añadir al carrito</span>
+                      </button>
                     </div>
 
-                    {/* Enhanced Price */}
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="text-3xl font-bold text-[#8B1E3F]">
-                        {product.price}€
-                      </span>
-                      {product.originalPrice && (
-                        <span className="text-lg text-[#999999] line-through">
-                          {product.originalPrice}€
-                        </span>
-                      )}
-                      {product.originalPrice && (
-                        <span className="text-sm bg-[#BEE8CC] text-[#8B1E3F] px-2 py-1 rounded-full font-semibold">
-                          -
-                          {Math.round(
-                            (1 - product.price / product.originalPrice) * 100
-                          )}
-                          %
-                        </span>
-                      )}
+                    {/* Subtle corner accent */}
+                    <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
+                      <div className="w-8 h-8 border-l-2 border-b-2 border-[#F8C8DC] rounded-bl-xl"></div>
                     </div>
-
-                    {/* Enhanced CTA Button */}
-                    <button
-                      className={`w-full py-4 rounded-2xl font-semibold transition-all duration-300 flex items-center justify-center gap-3 cursor-pointer transform hover:-translate-y-1 hover:shadow-xl relative overflow-hidden ${
-                        product.type === "sober"
-                          ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white shadow-lg"
-                          : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F] shadow-lg"
-                      }`}
-                      onClick={() => {
-                        handleAddToCart(product);
-                      }}
-                    >
-                      {/* Subtle button decoration */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
-
-                      <ShoppingBag className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
-                      <span className="relative z-10">Añadir al carrito</span>
-                    </button>
                   </div>
-
-                  {/* Subtle corner accent */}
-                  <div className="absolute bottom-6 left-6 opacity-0 group-hover:opacity-20 transition-opacity duration-500">
-                    <div className="w-8 h-8 border-l-2 border-b-2 border-[#F8C8DC] rounded-bl-xl"></div>
-                  </div>
-                </div>
+                </Link>
               </div>
             );
           })}
