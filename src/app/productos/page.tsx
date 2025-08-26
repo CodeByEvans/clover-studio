@@ -1,7 +1,8 @@
 import ProductsContent from "@/components/products/products-content";
+import { Suspense } from "react";
 
 export const metadata = {
-  title: "Productos - Clover Resin Studio",
+  title: "Productos - Clover Studio",
   description:
     "Explora nuestra colección completa de velas artesanales, wax melts y productos aromáticos únicos.",
 };
@@ -9,7 +10,9 @@ export const metadata = {
 export default function ProductosPage() {
   return (
     <main className="min-h-screen bg-[#F9F7F3]">
-      <ProductsContent />
+      <Suspense fallback={<div>Cargando...</div>}>
+        <ProductsContent />
+      </Suspense>
     </main>
   );
 }
