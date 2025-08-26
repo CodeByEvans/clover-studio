@@ -269,7 +269,7 @@ export default function CategoriesOverview() {
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center mb-16">
               <Link
-                href="https://wa.me/573001234567?text=Hola! Me interesa un producto personalizado"
+                href="https://wa.me/34691453544?text=Hola! Me interesa un producto personalizado"
                 target="_blank"
                 className="group relative"
               >
