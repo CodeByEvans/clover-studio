@@ -267,7 +267,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     {trendingProducts.map((product) => (
                       <Link
                         key={product.id}
-                        href={`/productos/${product.id}`}
+                        href={`/productos/${product.slug}`}
                         onClick={onClose}
                         className="group"
                       >
@@ -325,7 +325,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       {searchResults.map((product) => (
                         <Link
                           key={product.id}
-                          href={`/productos/${product.id}`}
+                          href={`/productos/${product.slug}`}
                           onClick={onClose}
                           className="flex items-center gap-4 p-4 hover:bg-gray-50 rounded-xl transition-colors group"
                         >
