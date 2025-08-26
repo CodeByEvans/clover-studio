@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Star, Heart, ShoppingBag } from "lucide-react";
 import { CategoryType } from "@/lib/types/Category.type";
 import { useState } from "react";
-import ContactModal from "../contactModal";
 import { Product } from "@/lib/types/Product";
 
 interface RelatedProductsProps {
@@ -21,8 +20,6 @@ export default function RelatedProducts({
   products,
   category,
 }: RelatedProductsProps) {
-  const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   // Get related products from the same category, excluding current product
   const relatedProducts = products
     .filter(
@@ -71,13 +68,6 @@ export default function RelatedProducts({
 
   return (
     <section className="mt-16">
-      {showContactModal && (
-        <ContactModal
-          productName={selectedProduct?.name || ""}
-          productSlug={selectedProduct?.slug || ""}
-          onClose={() => setShowContactModal(false)}
-        />
-      )}
       <div className="text-center mb-12">
         <h2 className={`text-3xl md:text-4xl font-bold ${colors.title} mb-4`}>
           Productos Relacionados
@@ -176,8 +166,7 @@ export default function RelatedProducts({
               <button
                 className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${colors.button} cursor-pointer`}
                 onClick={() => {
-                  setSelectedProduct(product);
-                  setShowContactModal(true);
+                  console.log(product);
                 }}
               >
                 <ShoppingBag className="w-4 h-4" />

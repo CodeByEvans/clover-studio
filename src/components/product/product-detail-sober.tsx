@@ -16,7 +16,6 @@ import RelatedProducts from "./related-products";
 
 import useProducts from "@/lib/hooks/useProducts";
 import FavoriteButton from "../favorites/favorite-button";
-import ContactModal from "../contactModal";
 import LoadingLayout from "../common/LoadingLayout";
 import { shareContent } from "@/lib/utils";
 import { Product } from "@/lib/types/Product";
@@ -31,7 +30,6 @@ export default function ProductDetailSober({
   product,
 }: ProductDetailSoberProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [showContactModal, setShowContactModal] = useState(false);
   const { showSuccess } = useNotifications();
   const { addToCart } = useCart();
 
@@ -70,13 +68,6 @@ export default function ProductDetailSober({
 
   return (
     <div className="min-h-screen bg-[#F9F7F3]">
-      {showContactModal && (
-        <ContactModal
-          onClose={() => setShowContactModal(false)}
-          productName={product.name}
-          productSlug={product.slug}
-        />
-      )}
       {/* Breadcrumb */}
       <div className="bg-[#EFE6DD] py-4">
         <div className="container mx-auto px-4">
