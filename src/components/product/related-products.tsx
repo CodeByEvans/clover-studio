@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Heart, ShoppingBag } from "lucide-react";
 import { CategoryType } from "@/lib/types/Category.type";
-import { useState } from "react";
 import { Product } from "@/lib/types/Product";
 
 interface RelatedProductsProps {
