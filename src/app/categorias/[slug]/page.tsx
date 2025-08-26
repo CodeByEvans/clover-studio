@@ -4,26 +4,24 @@ import { getCategories } from "@/services/client/categoryApi";
 import React from "react";
 import { CategoryType } from "@/lib/types/Category.type";
 
-interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
 export async function generateStaticParams() {
   const categories = await getCategories();
   // categories es un array de CategoryType
   return categories.map((cat: CategoryType) => ({
-    slug: cat.slug,
+    slug: cat.slug.toString(),
   }));
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
   const categories = await getCategories();
-
-  const { slug } = await params;
-
-  const category = categories.find((cat: CategoryType) => cat.slug === slug);
+  const category = categories.find(
+    (cat: CategoryType) => cat.slug.toString() === resolvedParams.slug
+  );
 
   if (!category) {
     return {
@@ -39,10 +37,16 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-export default async function CategoryPage({ params }: PageProps) {
+export default async function CategoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const resolvedParams = await params;
   const categories = await getCategories();
-  const { slug } = await params;
-  const category = categories.find((cat: CategoryType) => cat.slug === slug);
+  const category = categories.find(
+    (cat: CategoryType) => cat.slug.toString() === resolvedParams.slug
+  );
 
   if (!category) {
     notFound();
