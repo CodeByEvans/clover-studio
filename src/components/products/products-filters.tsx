@@ -9,19 +9,10 @@ import {
   Gift,
   Filter,
 } from "lucide-react";
-import { CategoryType } from "@/lib/types/Category.type";
-import { ProductType } from "@/lib/types/Product.type";
-import { useRouter } from "next/navigation";
-import { useSearchParams } from "next/navigation";
+import { CategoryType, FeatureWithCount } from "@/lib/types/Category.type";
+import { Product } from "@/lib/types/Product";
 
 interface CategoryWithCount extends CategoryType {
-  count: number;
-}
-
-interface FeatureWithCount {
-  id: string;
-  name: string;
-  slug: string;
   count: number;
 }
 
@@ -36,10 +27,10 @@ const iconMap = {
 
 const priceRanges = [
   { id: "all", name: "Todos los precios" },
-  { id: "0-10", name: "Hasta 10€" },
-  { id: "10-20", name: "10€ - 20€" },
-  { id: "20-30", name: "20€ - 30€" },
-  { id: "30+", name: "Más de 30€" },
+  { id: "0-20000", name: "Hasta €20.00", count: 0 },
+  { id: "20000-40000", name: "€20.00 - €40.00", count: 0 },
+  { id: "40000-60000", name: "€40.00 - €60.00", count: 0 },
+  { id: "60000+", name: "Más de €60.00", count: 0 },
 ];
 
 const features = [
@@ -48,21 +39,22 @@ const features = [
   { id: "Exclusivo", name: "Exclusivos", slug: "exclusivo" },
   { id: "Customizable", name: "Personalizables", slug: "personalizable" },
   { id: "Gift-ready", name: "Listos para Regalo", slug: "gift-ready" },
+  { id: "Eco-friendly", name: "Eco-Friendly", slug: "eco-friendly" },
 ];
 
-interface CatalogFiltersProps {
+interface ProductsFiltersProps {
   selectedCategory: string;
   onCategoryChange: (category: string) => void;
   selectedPriceRange: string;
   onPriceRangeChange: (range: string) => void;
   selectedFeatures: string[];
-  onFeaturesChange: (feature: string) => void;
+  onFeaturesChange: (features: string[]) => void;
   totalProducts: number;
   categories: CategoryType[];
-  products: ProductType[];
+  products: Product[];
 }
 
-export default function CatalogFilters({
+export default function ProductsFilters({
   selectedCategory,
   onCategoryChange,
   selectedPriceRange,
@@ -70,9 +62,10 @@ export default function CatalogFilters({
   selectedFeatures,
   onFeaturesChange,
   totalProducts,
-  products,
   categories,
-}: CatalogFiltersProps) {
+  products,
+}: ProductsFiltersProps) {
+  // Crear categorías con conteo dinámico
   const categoriesWithAll: CategoryWithCount[] = [
     {
       id: "all",
@@ -81,39 +74,33 @@ export default function CatalogFilters({
       textColor: "",
       description: "",
       slug: "all",
+      icon: "Filter",
       count: products.length,
     },
     ...categories.map((category) => ({
       ...category,
-      count: products.filter((product) => product.category === category.id)
+      count: products.filter((product) => product.category.id === category.id)
         .length,
     })),
   ];
 
-  const featuresWithCount: FeatureWithCount[] = features.map((feature) => ({
-    ...feature,
-    count: products.filter((product) => product.badge === feature.id).length,
-  }));
-
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
+  // Crear rangos de precio con conteo dinámico
   const priceRangesWithCount = priceRanges.map((range) => {
     let count = 0;
     if (range.id === "all") {
       count = products.length;
-    } else if (range.id === "0-10") {
-      count = products.filter((product) => product.price <= 10).length;
-    } else if (range.id === "10-20") {
+    } else if (range.id === "0-20000") {
+      count = products.filter((product) => product.price <= 20000).length;
+    } else if (range.id === "20000-40000") {
       count = products.filter(
-        (product) => product.price > 10 && product.price <= 20
+        (product) => product.price > 20000 && product.price <= 40000
       ).length;
-    } else if (range.id === "20-30") {
+    } else if (range.id === "40000-60000") {
       count = products.filter(
-        (product) => product.price > 20 && product.price <= 30
+        (product) => product.price > 40000 && product.price <= 60000
       ).length;
-    } else if (range.id === "30+") {
-      count = products.filter((product) => product.price > 30).length;
+    } else if (range.id === "60000+") {
+      count = products.filter((product) => product.price > 60000).length;
     }
     return {
       ...range,
@@ -121,27 +108,19 @@ export default function CatalogFilters({
     };
   });
 
-  function updateQueryParam(key: string, value: string) {
-    const currentParams = new URLSearchParams(searchParams.toString());
-    if (value === "all") {
-      currentParams.delete(key);
+  // Crear características con conteo dinámico
+  const featuresWithCount: FeatureWithCount[] = features.map((feature) => ({
+    ...feature,
+    count: products.filter((product) => product.badge === feature.id).length,
+  }));
+
+  const handleFeatureToggle = (featureId: string) => {
+    if (selectedFeatures.includes(featureId)) {
+      onFeaturesChange(selectedFeatures.filter((id) => id !== featureId));
     } else {
-      currentParams.set(key, value);
+      onFeaturesChange([...selectedFeatures, featureId]);
     }
-
-    router.replace(`/catalogo?${currentParams.toString()}`, { scroll: false });
-  }
-
-  function updateMultiValueParam(key: string, values: string[]) {
-    const currentParams = new URLSearchParams(searchParams.toString());
-    if (values.length === 0) {
-      currentParams.delete(key);
-    } else {
-      currentParams.set(key, values.join(","));
-    }
-
-    router.replace(`/catalogo?${currentParams.toString()}`);
-  }
+  };
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 sticky top-24">
@@ -158,15 +137,12 @@ export default function CatalogFilters({
         <div className="space-y-2">
           {categoriesWithAll.map((category) => {
             const IconComponent = category.icon
-              ? iconMap[category.icon]
+              ? iconMap[category.icon as keyof typeof iconMap] || Filter
               : Filter;
             return (
               <button
                 key={category.id}
-                onClick={() => {
-                  onCategoryChange(category.id);
-                  updateQueryParam("categoria", category.slug);
-                }}
+                onClick={() => onCategoryChange(category.id)}
                 className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${
                   selectedCategory === category.id
                     ? "bg-[#F8C8DC] text-[#8B1E3F] shadow-md"
@@ -193,10 +169,7 @@ export default function CatalogFilters({
           {priceRangesWithCount.map((range) => (
             <button
               key={range.id}
-              onClick={() => {
-                onPriceRangeChange(range.id);
-                updateQueryParam("precio", range.id);
-              }}
+              onClick={() => onPriceRangeChange(range.id)}
               className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 ${
                 selectedPriceRange === range.id
                   ? "bg-[#D6BA8A] text-[#8B1E3F] shadow-md"
@@ -224,15 +197,9 @@ export default function CatalogFilters({
               <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 text-[#8B1E3F] border-gray-300 rounded focus:ring-[#F8C8DC]"
                   checked={selectedFeatures.includes(feature.slug)}
-                  onChange={(e) => {
-                    const updatedFeatures = e.target.checked
-                      ? [...selectedFeatures, feature.slug]
-                      : selectedFeatures.filter((f) => f !== feature.slug);
-                    onFeaturesChange(feature.slug);
-                    updateMultiValueParam("caracteristicas", updatedFeatures);
-                  }}
+                  onChange={() => handleFeatureToggle(feature.slug)}
+                  className="w-4 h-4 text-[#8B1E3F] border-gray-300 rounded focus:ring-[#F8C8DC]"
                 />
                 <span className="text-gray-700">{feature.name}</span>
               </div>
@@ -247,6 +214,7 @@ export default function CatalogFilters({
         onClick={() => {
           onCategoryChange("all");
           onPriceRangeChange("all");
+          onFeaturesChange([]);
         }}
         className="w-full py-3 px-4 border-2 border-[#8B1E3F] text-[#8B1E3F] rounded-xl font-semibold hover:bg-[#8B1E3F] hover:text-white transition-all duration-200"
       >

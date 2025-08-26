@@ -6,11 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star, Heart, ShoppingBag, Eye, Trash2 } from "lucide-react";
 import { useFavorites } from "@/contexts/favorites-context";
-import { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
+import { Product } from "@/lib/types/Product";
 
 interface FavoriteProductCardProps {
-  product: ProductType;
+  product: Product;
   category: CategoryType;
   viewMode: "grid" | "list";
 }
@@ -202,7 +202,9 @@ export default function FavoriteProductCard({
 
       {/* Product Info */}
       <div className="p-6">
-        <div className="text-sm text-[#999999] mb-2">{product.category}</div>
+        <div className="text-sm text-[#999999] mb-2">
+          {product.category.name}
+        </div>
 
         <Link href={`/catalogo/${product.slug}`}>
           <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">

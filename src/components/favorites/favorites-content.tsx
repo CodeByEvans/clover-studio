@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   Heart,
   Trash2,
-  Share2,
   ShoppingBag,
   Grid,
   List,
@@ -49,14 +48,14 @@ export default function FavoritesContent() {
   // Get unique categories from favorites
   const categories = [
     "all",
-    ...new Set(favorites.map((product) => product.category)),
+    ...new Set(favorites.map((product) => product.category.id)),
   ];
 
   // Filter and sort favorites
   const filteredAndSortedFavorites = favorites
     .filter(
       (product) =>
-        selectedCategory === "all" || product.category === selectedCategory
+        selectedCategory === "all" || product.category.id === selectedCategory
     )
     .sort((a, b) => {
       switch (sortBy) {
@@ -67,7 +66,7 @@ export default function FavoritesContent() {
         case "price-high":
           return b.price - a.price;
         case "category":
-          return a.category.localeCompare(b.category);
+          return a.category.id.localeCompare(b.category.id);
         case "recent":
         default:
           return 0; // Keep original order (most recent first)
@@ -83,7 +82,7 @@ export default function FavoritesContent() {
       {/* Header */}
       <div className="mb-8">
         <Link
-          href="/catalogo"
+          href="/productos"
           className="inline-flex items-center gap-2 text-[#999999] hover:text-[#8B1E3F] mb-6 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -201,18 +200,21 @@ export default function FavoritesContent() {
             : "space-y-6"
         }
       >
-        {filteredAndSortedFavorites.map((product) => (
-          <FavoriteProductCard
-            key={product.id}
-            product={product}
-            category={
-              categoriesData?.find(
-                (category: CategoryType) => category.id === product.category
-              )!
-            }
-            viewMode={viewMode}
-          />
-        ))}
+        {filteredAndSortedFavorites.map((product) => {
+          const category = categoriesData?.find(
+            (c: CategoryType) => c.id === product.category.id
+          );
+          if (!category) return null;
+
+          return (
+            <FavoriteProductCard
+              key={product.id}
+              product={product}
+              category={category}
+              viewMode={viewMode}
+            />
+          );
+        })}
       </div>
 
       {/* Quick Actions */}

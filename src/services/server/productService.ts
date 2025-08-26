@@ -9,11 +9,12 @@ import { uploadImageToCloudinary } from "./cloudinaryService";
 import { Category } from "../../lib/db/models/Category";
 
 // Servicio para obtener todos los productos activos
-export const getAllProducts = () => Product.find({ isActive: { $ne: false } });
+export const getAllProducts = () =>
+  Product.find({ isActive: { $ne: false } }).populate("category");
 
 // Servicio para obtener un producto por su id
 export const getProductById = async (id: string) => {
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate("category");
   if (!product) {
     throw new Error("Product not found");
   }

@@ -1,13 +1,13 @@
 "use client";
 
-import { ProductType } from "@/lib/types/Product.type";
+import { Product } from "@/lib/types/Product";
 import type React from "react";
 
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface FavoritesContextType {
-  favorites: ProductType[];
-  addToFavorites: (product: ProductType) => void;
+  favorites: Product[];
+  addToFavorites: (product: Product) => void;
   removeFromFavorites: (productId: number) => void;
   isFavorite: (productId: number) => boolean;
   clearFavorites: () => void;
@@ -19,7 +19,7 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(
 );
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const [favorites, setFavorites] = useState<ProductType[]>([]);
+  const [favorites, setFavorites] = useState<Product[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Load favorites from localStorage on mount
@@ -42,7 +42,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
     }
   }, [favorites, isLoaded]);
 
-  const addToFavorites = (product: ProductType) => {
+  const addToFavorites = (product: Product) => {
     setFavorites((prev) => {
       if (prev.some((fav) => fav.id === product.id)) {
         return prev;

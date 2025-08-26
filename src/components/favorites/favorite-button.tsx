@@ -4,10 +4,11 @@ import type React from "react";
 
 import { Heart } from "lucide-react";
 import { useFavorites } from "@/contexts/favorites-context";
-import { ProductType } from "@/lib/types/Product.type";
+import { Product } from "@/lib/types/Product";
+import { useNotifications } from "@/contexts/notifications-context";
 
 interface FavoriteButtonProps {
-  product: ProductType;
+  product: Product;
   className?: string;
   size?: "sm" | "md" | "lg";
   variant: "icon" | "button";
@@ -20,6 +21,7 @@ export default function FavoriteButton({
   variant,
 }: FavoriteButtonProps) {
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
+  const { showSuccess, showInfo } = useNotifications();
   const isProductFavorite = isFavorite(product.id);
 
   const handleToggleFavorite = (e: React.MouseEvent) => {
@@ -28,8 +30,18 @@ export default function FavoriteButton({
 
     if (isProductFavorite) {
       removeFromFavorites(product.id);
+      showInfo(
+        "Eliminado de Favoritos",
+        `${product.name} ha sido eliminado de tu lista de favoritos`,
+        3000
+      );
     } else {
       addToFavorites(product);
+      showSuccess(
+        "¡Agregado a Favoritos!",
+        `${product.name} ha sido agregado a tu lista de favoritos`,
+        4000
+      );
     }
   };
 

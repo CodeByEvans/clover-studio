@@ -3,15 +3,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Star, Heart, ShoppingBag } from "lucide-react";
-import { ProductType } from "@/lib/types/Product.type";
 import { CategoryType } from "@/lib/types/Category.type";
 import { useState } from "react";
 import ContactModal from "../contactModal";
+import { Product } from "@/lib/types/Product";
 
 interface RelatedProductsProps {
-  currentProduct: ProductType;
+  currentProduct: Product;
   colorScheme: "general" | "sober" | "colorful";
-  products: ProductType[];
+  products: Product[];
   category: CategoryType;
 }
 
@@ -22,9 +22,7 @@ export default function RelatedProducts({
   category,
 }: RelatedProductsProps) {
   const [showContactModal, setShowContactModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
-    null
-  );
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   // Get related products from the same category, excluding current product
   const relatedProducts = products
     .filter(

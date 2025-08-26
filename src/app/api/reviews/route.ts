@@ -2,7 +2,7 @@ import { createReview, getReviews } from "@/services/server/reviewService";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const reviews = await getReviews();
     return NextResponse.json(reviews, { status: 200 });

@@ -13,17 +13,18 @@ import {
 } from "lucide-react";
 import ProductImageGallery from "./product-image-gallery";
 import RelatedProducts from "./related-products";
-import { ProductType } from "@/lib/types/Product.type";
+
 import useProducts from "@/lib/hooks/useProducts";
-import { useCategories } from "@/lib/hooks/useCategories";
-import { CategoryType } from "@/lib/types/Category.type";
 import FavoriteButton from "../favorites/favorite-button";
 import ContactModal from "../contactModal";
 import LoadingLayout from "../common/LoadingLayout";
 import { shareContent } from "@/lib/utils";
+import { Product } from "@/lib/types/Product";
+import { useCart } from "@/contexts/cart-context";
+import { useNotifications } from "@/contexts/notifications-context";
 
 interface ProductDetailSoberProps {
-  product: ProductType;
+  product: Product;
 }
 
 export default function ProductDetailSober({
@@ -31,6 +32,8 @@ export default function ProductDetailSober({
 }: ProductDetailSoberProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [showContactModal, setShowContactModal] = useState(false);
+  const { showSuccess } = useNotifications();
+  const { addToCart } = useCart();
 
   const {
     data: products,
@@ -38,23 +41,14 @@ export default function ProductDetailSober({
     error: productsError,
   } = useProducts();
 
-  const {
-    data: categories,
-    isLoading: categoriesLoading,
-    error: categoriesError,
-  } = useCategories();
-
-  if (productsLoading || categoriesLoading) {
+  if (productsLoading) {
     return <LoadingLayout message="Cargando producto..." />;
   }
-  if (productsError || categoriesError) return <div>Error al cargar</div>;
-  if (!products || !categories) return <div>No hay datos</div>;
+  if (productsError) return <div>Error al cargar</div>;
+  if (!products) return <div>No hay datos</div>;
 
   const productImages = product.images.map((image) => image.large);
 
-  const category = categories.find(
-    (category: CategoryType) => category.id === product.category
-  );
   // Handle Share
   const handleShare = () => {
     shareContent({
@@ -62,6 +56,16 @@ export default function ProductDetailSober({
       text: "Mira este sitio de productos aromáticos únicos",
       url: window.location.href,
     });
+  };
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product, 1);
+
+    showSuccess(
+      "¡Producto Agregado!",
+      `${product.name} (${product.price}€) ha sido añadido al carrito`,
+      4000
+    );
   };
 
   return (
@@ -81,15 +85,15 @@ export default function ProductDetailSober({
               Inicio
             </Link>
             <span>/</span>
-            <Link href="/catalogo" className="hover:text-[#8B1E3F]">
-              Catálogo
+            <Link href="/categorias" className="hover:text-[#8B1E3F]">
+              Categorias
             </Link>
             <span>/</span>
             <Link
-              href={`/catalogo?categoria=${category.slug}`}
+              href={`/categorias/${product.category?.slug}`}
               className="hover:text-[#8B1E3F]"
             >
-              {category.name}
+              {product.category.name}
             </Link>
             <span>/</span>
             <span className="text-[#8B1E3F] font-medium">{product.name}</span>
@@ -100,7 +104,7 @@ export default function ProductDetailSober({
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Link
-          href="/catalogo"
+          href="/productos"
           className="inline-flex items-center gap-2 text-[#999999] hover:text-[#8B1E3F] mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -133,7 +137,7 @@ export default function ProductDetailSober({
             {/* Title and Category */}
             <div>
               <p className="text-[#D6BA8A] text-sm mb-2 font-medium">
-                {category.name}
+                {product.category.name}
               </p>
               <h1 className="text-3xl md:text-4xl font-bold text-[#8B1E3F] mb-4">
                 {product.name}
@@ -212,10 +216,10 @@ export default function ProductDetailSober({
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   className="flex-1 bg-[#8B1E3F] hover:bg-[#7a1a37] text-white py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                  onClick={() => setShowContactModal(true)}
+                  onClick={() => handleAddToCart(product)}
                 >
                   <MessageCircle className="w-5 h-5" />
-                  Consultar Disponibilidad
+                  Añadir al carrito
                 </button>
                 <FavoriteButton
                   className="border-2 border-[#BEE8CC] text-[#8B1E3F] hover:bg-[#BEE8CC] py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
@@ -274,7 +278,7 @@ export default function ProductDetailSober({
           currentProduct={product}
           colorScheme="sober"
           products={products}
-          category={category}
+          category={product.category}
         />
       </div>
     </div>

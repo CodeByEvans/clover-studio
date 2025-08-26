@@ -10,4 +10,11 @@ interface CategoryType {
   slug: string;
 }
 
-export type { CategoryType };
+interface FeatureWithCount {
+  id: string;
+  name: string;
+  slug: string;
+  count: number;
+}
+
+export type { CategoryType, FeatureWithCount };

@@ -4,4 +4,5 @@ export type IconName =
   | "Droplets"
   | "Coffee"
   | "Heart"
-  | "Gift";
+  | "Gift"
+  | "Filter";

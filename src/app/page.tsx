@@ -7,8 +7,8 @@ import CallToAction from "@/components/call-to-action";
 import Newsletter from "@/components/newsletter";
 import { useCategories } from "@/lib/hooks/useCategories";
 import useProducts from "@/lib/hooks/useProducts";
-import { ProductType } from "@/lib/types/Product.type";
 import LoadingLayout from "@/components/common/LoadingLayout";
+import { Product } from "@/lib/types/Product";
 
 export default function Home() {
   const {
@@ -29,7 +29,7 @@ export default function Home() {
   if (!categories || !products) return <div>No hay datos</div>;
 
   const featuredProducts = products.sort(
-    (a: ProductType, b: ProductType) => b.rating - a.rating
+    (a: Product, b: Product) => b.rating - a.rating
   );
 
   return (

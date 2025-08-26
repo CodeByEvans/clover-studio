@@ -1,9 +1,16 @@
 "use client";
 
 import { Search, Grid, List, ChevronDown } from "lucide-react";
-import type { SortOption, ViewMode } from "./catalog-content";
 
-interface CatalogSearchProps {
+export type SortOption =
+  | "name"
+  | "price-low"
+  | "price-high"
+  | "rating"
+  | "newest";
+export type ViewMode = "grid" | "list";
+
+interface ProductsSearchProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   sortBy: SortOption;
@@ -12,6 +19,8 @@ interface CatalogSearchProps {
   onViewModeChange: (mode: ViewMode) => void;
   totalProducts: number;
   currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
 }
 
 const sortOptions = [
@@ -22,7 +31,7 @@ const sortOptions = [
   { value: "rating" as SortOption, label: "Mejor Valorados" },
 ];
 
-export default function CatalogSearch({
+export default function ProductsSearch({
   searchTerm,
   onSearchChange,
   sortBy,
@@ -31,7 +40,7 @@ export default function CatalogSearch({
   onViewModeChange,
   totalProducts,
   currentPage,
-}: CatalogSearchProps) {
+}: ProductsSearchProps) {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-8">
       {/* Search and Controls */}
@@ -101,7 +110,7 @@ export default function CatalogSearch({
         </div>
         {searchTerm && (
           <div>
-            Resultados para:
+            Resultados para:{" "}
             <span className="font-semibold text-[#8B1E3F]">
               &quot;{searchTerm}&quot;
             </span>

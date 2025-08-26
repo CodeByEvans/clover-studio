@@ -1,23 +1,26 @@
 "use client";
 
-import Image from "next/image";
-import { Star, Heart, ShoppingBag, Eye } from "lucide-react";
-import type { ViewMode } from "./catalog-content";
-import type { ProductType } from "@/lib/types/Product.type";
-import { CategoryType } from "@/lib/types/Category.type";
-import Link from "next/link";
-import FavoriteButton from "../favorites/favorite-button";
+import type React from "react";
+
 import { useState } from "react";
-import ContactModal from "../contactModal";
+import Image from "next/image";
+import Link from "next/link";
+import { Star, ShoppingBag, Eye, Plus } from "lucide-react";
+
+import { useCart } from "@/contexts/cart-context";
+import FavoriteButton from "@/components/favorites/favorite-button";
+import ProductQuickViewModal from "./product-quick-view-modal";
+import { Product } from "@/lib/types/Product";
+import { useNotifications } from "@/contexts/notifications-context";
+
+export type ViewMode = "grid" | "list";
 
 interface ProductGridProps {
-  products: ProductType[];
+  products: Product[];
   viewMode: ViewMode;
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  categories: CategoryType[];
-  onChangeSearchTerm: (term: string) => void;
 }
 
 export default function ProductGrid({
@@ -26,13 +29,24 @@ export default function ProductGrid({
   currentPage,
   totalPages,
   onPageChange,
-  categories,
-  onChangeSearchTerm,
 }: ProductGridProps) {
-  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(
     null
   );
-  const [showContactModal, setShowContactModal] = useState(false);
+  const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+
+  const handleQuickView = (product: Product, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setQuickViewProduct(product);
+    setIsQuickViewOpen(true);
+  };
+
+  const closeQuickView = () => {
+    setIsQuickViewOpen(false);
+    setQuickViewProduct(null);
+  };
+
   if (products.length === 0) {
     return (
       <div className="text-center py-16">
@@ -45,10 +59,7 @@ export default function ProductGrid({
         <p className="text-[#999999] mb-6">
           Intenta ajustar tus filtros o términos de búsqueda
         </p>
-        <button
-          className="bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F] px-6 py-3 rounded-xl font-semibold transition-colors"
-          onClick={() => onChangeSearchTerm("")}
-        >
+        <button className="bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F] px-6 py-3 rounded-xl font-semibold transition-colors">
           Ver Todos los Productos
         </button>
       </div>
@@ -58,13 +69,6 @@ export default function ProductGrid({
   return (
     <>
       {/* Products Grid/List */}
-      {showContactModal && (
-        <ContactModal
-          productName={selectedProduct?.name || ""}
-          productSlug={selectedProduct?.slug || ""}
-          onClose={() => setShowContactModal(false)}
-        />
-      )}
       <div
         className={
           viewMode === "grid"
@@ -77,9 +81,7 @@ export default function ProductGrid({
             key={product.id}
             product={product}
             viewMode={viewMode}
-            categories={categories}
-            setSelectedProduct={setSelectedProduct}
-            setShowContactModal={setShowContactModal}
+            onQuickView={handleQuickView}
           />
         ))}
       </div>
@@ -118,6 +120,13 @@ export default function ProductGrid({
           </button>
         </div>
       )}
+
+      {/* Quick View Modal */}
+      <ProductQuickViewModal
+        product={quickViewProduct}
+        isOpen={isQuickViewOpen}
+        onClose={closeQuickView}
+      />
     </>
   );
 }
@@ -125,68 +134,47 @@ export default function ProductGrid({
 function ProductCard({
   product,
   viewMode,
-  categories,
-  setSelectedProduct,
-  setShowContactModal,
+  onQuickView,
 }: {
-  product: ProductType;
+  product: Product;
   viewMode: ViewMode;
-  categories: CategoryType[];
-  setSelectedProduct: React.Dispatch<React.SetStateAction<ProductType | null>>;
-  setShowContactModal: React.Dispatch<React.SetStateAction<boolean>>;
+  onQuickView: (product: Product, e: React.MouseEvent) => void;
 }) {
-  const category = categories.find(
-    (category: CategoryType) => category.id === product.category
-  );
-  const categoryName = category?.name || product.category;
+  const { addToCart } = useCart();
+  const { showSuccess } = useNotifications();
 
-  const getColorClasses = () => {
-    switch (product.type) {
-      case "sober":
-        return {
-          title: "text-[#8B1E3F]",
-          card: "bg-white border-[#EFE6DD] hover:shadow-xl",
-          button: "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white",
-          price: "text-[#8B1E3F]",
-          category: "text-[#D6BA8A]",
-        };
-      case "colorful":
-        return {
-          title:
-            "bg-gradient-to-r from-[#8B1E3F] to-[#D3B5E5] bg-clip-text text-transparent",
-          card: "bg-white/80 backdrop-blur-sm border-[#F8C8DC]/50 hover:shadow-2xl",
-          button:
-            "bg-gradient-to-r from-[#F8C8DC] to-[#D3B5E5] hover:from-[#f5b8d1] hover:to-[#c9a8db] text-[#8B1E3F]",
-          price: "text-[#8B1E3F]",
-          category: "text-[#D3B5E5]",
-        };
-      default:
-        return {
-          title: "text-gray-900",
-          card: "bg-white border-gray-100 hover:shadow-xl",
-          button: "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F]",
-          price: "text-[#8B1E3F]",
-          category: "text-[#999999]",
-        };
-    }
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product);
+
+    showSuccess(
+      "¡Producto Agregado!",
+      `${product.name} (${product.price}€) ha sido añadido al carrito`,
+      3000
+    );
   };
 
-  const colors = getColorClasses();
+  const priceInEuros = `${product.price}€`;
+  const originalPriceInEuros = product.originalPrice
+    ? `${product.originalPrice}€`
+    : undefined;
 
   if (viewMode === "list") {
     return (
       <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
         <div className="flex flex-col md:flex-row">
           {/* Image */}
-          <div className="relative md:w-64 h-48 md:h-auto overflow-hidden">
-            <Link href={`/catalogo/${product.slug}`}>
-              <Image
-                src={product.images[0].large || "/placeholder.svg"}
-                alt={product.name}
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-300"
-              />
-            </Link>
+          <Link
+            href={`/productos/${product.slug}`}
+            className="relative md:w-64 h-48 md:h-auto overflow-hidden"
+          >
+            <Image
+              src={product.images[0].large || "/placeholder.svg"}
+              alt={product.name}
+              fill
+              className="object-cover hover:scale-105 transition-transform duration-300"
+            />
             {product.badge && (
               <div
                 className={`absolute top-4 left-4 px-3 py-1 rounded-full text-sm font-semibold ${
@@ -204,17 +192,17 @@ function ProductCard({
                 {product.badge}
               </div>
             )}
-          </div>
+          </Link>
 
           {/* Content */}
           <div className="flex-1 p-6">
             <div className="flex justify-between items-start mb-4">
               <div>
                 <div className="text-sm text-[#999999] mb-1">
-                  {categoryName}
+                  {product.category.name}
                 </div>
-                <Link href={`/catalogo/${product.slug}`}>
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <Link href={`/productos/${product.id}`}>
+                  <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-[#8B1E3F] transition-colors">
                     {product.name}
                   </h3>
                 </Link>
@@ -239,42 +227,38 @@ function ProductCard({
                 </div>
               </div>
 
-              <FavoriteButton
-                product={product}
-                className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
-                variant="icon"
-              />
+              <FavoriteButton product={product} variant="icon" />
             </div>
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-2xl font-bold text-[#8B1E3F]">
-                  {product.price}€
+                  {priceInEuros}
                 </span>
-                {product.originalPrice && (
+                {originalPriceInEuros && (
                   <span className="text-lg text-[#999999] line-through">
-                    {product.originalPrice}€
+                    {originalPriceInEuros}
                   </span>
                 )}
               </div>
 
               <div className="flex items-center gap-2">
-                {/*<button className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-                    <Eye className="w-5 h-5 text-gray-600" />
-                  </button>}*/}
                 <button
+                  onClick={(e) => onQuickView(product, e)}
+                  className="p-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  <Eye className="w-5 h-5 text-gray-600" />
+                </button>
+                <button
+                  onClick={handleAddToCart}
                   className={`px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2 ${
                     product.type === "sober"
                       ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white"
                       : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F]"
                   }`}
-                  onClick={() => {
-                    setSelectedProduct(product);
-                    setShowContactModal(true);
-                  }}
                 >
-                  <ShoppingBag className="w-4 h-4" />
-                  Consultar
+                  <Plus className="w-4 h-4" />
+                  Añadir
                 </button>
               </div>
             </div>
@@ -292,16 +276,17 @@ function ProductCard({
       }`}
     >
       {/* Product Image */}
-      <div className="relative overflow-hidden">
-        <Link href={`/catalogo/${product.slug}`}>
-          <Image
-            src={product.images[0].large || "/placeholder.svg"}
-            alt={product.name}
-            width={300}
-            height={300}
-            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </Link>
+      <Link
+        href={`/productos/${product.slug}`}
+        className="relative overflow-hidden block"
+      >
+        <Image
+          src={product.images[0].large || "/placeholder.svg"}
+          alt={product.name}
+          width={300}
+          height={300}
+          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+        />
 
         {/* Badge */}
         {product.badge && (
@@ -324,22 +309,23 @@ function ProductCard({
 
         {/* Quick Actions */}
         <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <FavoriteButton
-            product={product}
+          <FavoriteButton product={product} variant="icon" />
+          <button
+            onClick={(e) => onQuickView(product, e)}
             className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors"
-            variant="icon"
-          />
-          {/*<button className="w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white transition-colors">
+          >
             <Eye className="w-5 h-5 text-gray-600 hover:text-[#8B1E3F]" />
-          </button>*/}
+          </button>
         </div>
-      </div>
+      </Link>
 
       {/* Product Info */}
       <div className="p-6">
-        <div className="text-sm text-[#999999] mb-2">{categoryName}</div>
+        <div className="text-sm text-[#999999] mb-2">
+          {product.category.name}
+        </div>
 
-        <Link href={`/catalogo/${product.slug}`}>
+        <Link href={`/productos/${product.id}`}>
           <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-[#8B1E3F] transition-colors">
             {product.name}
           </h3>
@@ -367,25 +353,26 @@ function ProductCard({
         {/* Price */}
         <div className="flex items-center gap-2 mb-4">
           <span className="text-2xl font-bold text-[#8B1E3F]">
-            {product.price}€
+            {priceInEuros}
           </span>
-          {product.originalPrice && (
+          {originalPriceInEuros && (
             <span className="text-lg text-[#999999] line-through">
-              {product.originalPrice}€
+              {originalPriceInEuros}
             </span>
           )}
         </div>
 
         {/* CTA Button */}
         <button
-          className={`w-full py-2 rounded-lg font-semibold transition-all duration-300 flex items-center justify-center gap-2 text-sm ${colors.button} cursor-pointer`}
-          onClick={() => {
-            setShowContactModal(true);
-            setSelectedProduct(product);
-          }}
+          onClick={handleAddToCart}
+          className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 ${
+            product.type === "sober"
+              ? "bg-[#8B1E3F] hover:bg-[#7a1a37] text-white"
+              : "bg-[#F8C8DC] hover:bg-[#f5b8d1] text-[#8B1E3F]"
+          }`}
         >
-          <ShoppingBag className="w-5 h-5" />
-          Consultar Disponibilidad
+          <Plus className="w-5 h-5" />
+          Añadir al Carrito
         </button>
       </div>
     </div>

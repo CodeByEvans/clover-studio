@@ -13,24 +13,25 @@ import {
 } from "lucide-react";
 import ProductImageGallery from "./product-image-gallery";
 import RelatedProducts from "./related-products";
-import { ProductType } from "@/lib/types/Product.type";
 import useProducts from "@/lib/hooks/useProducts";
-import { useCategories } from "@/lib/hooks/useCategories";
-import { CategoryType } from "@/lib/types/Category.type";
-import ContactModal from "../contactModal";
 import FavoriteButton from "../favorites/favorite-button";
 import LoadingLayout from "../common/LoadingLayout";
 import { shareContent } from "@/lib/utils";
+import { Product } from "@/lib/types/Product";
+import { useCart } from "@/contexts/cart-context";
+import { useNotifications } from "@/contexts/notifications-context";
 
 interface ProductDetailGeneralProps {
-  product: ProductType;
+  product: Product;
 }
 
 export default function ProductDetailGeneral({
   product,
 }: ProductDetailGeneralProps) {
   const [selectedImage, setSelectedImage] = useState(0);
-  const [showContactModal, setShowContactModal] = useState(false);
+
+  const { addToCart } = useCart();
+  const { showSuccess } = useNotifications();
 
   const {
     data: products,
@@ -38,21 +39,11 @@ export default function ProductDetailGeneral({
     error: productsError,
   } = useProducts();
 
-  const {
-    data: categories,
-    isLoading: categoriesLoading,
-    error: categoriesError,
-  } = useCategories();
-
-  if (productsLoading || categoriesLoading) {
+  if (productsLoading) {
     return <LoadingLayout message="Cargando producto..." />;
   }
-  if (productsError || categoriesError) return <div>Error al cargar</div>;
-  if (!products || !categories) return <div>No hay datos</div>;
-
-  const category = categories.find(
-    (category: CategoryType) => category.id === product.category
-  );
+  if (productsError) return <div>Error al cargar</div>;
+  if (!products) return <div>No hay datos</div>;
 
   // Mock additional images for gallery
   const productImages = product.images.map((image) => image.large);
@@ -66,35 +57,38 @@ export default function ProductDetailGeneral({
     });
   };
 
+  const handleAddToCart = (product: Product) => {
+    addToCart(product, 1);
+
+    showSuccess(
+      "¡Producto Agregado!",
+      `${product.name} (${product.price}€) ha sido añadido al carrito`,
+      4000
+    );
+  };
+
   return (
     <div className="min-h-screen bg-white">
-      {showContactModal && (
-        <ContactModal
-          onClose={() => setShowContactModal(false)}
-          productName={product.name}
-          productSlug={product.slug}
-        />
-      )}
       {/* Breadcrumb */}
-      <div className="bg-[#F9F7F3] py-4">
+      <div className="bg-[#EFE6DD] py-4">
         <div className="container mx-auto px-4">
           <div className="flex items-center gap-2 text-sm text-[#999999]">
             <Link href="/" className="hover:text-[#8B1E3F]">
               Inicio
             </Link>
             <span>/</span>
-            <Link href="/catalogo" className="hover:text-[#8B1E3F]">
-              Catálogo
+            <Link href="/categorias" className="hover:text-[#8B1E3F]">
+              Categorias
             </Link>
             <span>/</span>
             <Link
-              href={`/catalogo?categoria=${category.slug}`}
+              href={`/categorias/${product.category?.slug}`}
               className="hover:text-[#8B1E3F]"
             >
-              {category?.name}
+              {product.category.name}
             </Link>
             <span>/</span>
-            <span className="text-gray-900 font-medium">{product.name}</span>
+            <span className="text-[#8B1E3F] font-medium">{product.name}</span>
           </div>
         </div>
       </div>
@@ -102,7 +96,7 @@ export default function ProductDetailGeneral({
       <div className="container mx-auto px-4 py-8">
         {/* Back Button */}
         <Link
-          href="/catalogo"
+          href="/productos"
           className="inline-flex items-center gap-2 text-[#999999] hover:text-[#8B1E3F] mb-8 transition-colors"
         >
           <ArrowLeft className="w-5 h-5" />
@@ -134,7 +128,10 @@ export default function ProductDetailGeneral({
 
             {/* Title and Category */}
             <div>
-              <p className="text-[#999999] text-sm mb-2"> {category.name}</p>
+              <p className="text-[#999999] text-sm mb-2">
+                {" "}
+                {product.category.name}
+              </p>
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 {product.name}
               </h1>
@@ -212,10 +209,10 @@ export default function ProductDetailGeneral({
               <div className="flex flex-col sm:flex-row gap-4">
                 <button
                   className="flex-1 bg-[#8B1E3F] hover:bg-[#7a1a37] text-white py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
-                  onClick={() => setShowContactModal(true)}
+                  onClick={() => handleAddToCart(product)}
                 >
                   <MessageCircle className="w-5 h-5" />
-                  Consultar Disponibilidad
+                  Añadir al carrito
                 </button>
                 <FavoriteButton
                   className="border-2 border-[#F8C8DC] text-[#8B1E3F] hover:bg-[#F8C8DC] py-4 px-6 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
@@ -274,7 +271,7 @@ export default function ProductDetailGeneral({
           currentProduct={product}
           colorScheme="general"
           products={products}
-          category={category}
+          category={product.category}
         />
       </div>
     </div>
