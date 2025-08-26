@@ -5,6 +5,7 @@ import {
   reviewInputSchema,
   reviewOutputSchema,
 } from "../../lib/schemas/reviewSchema";
+import { ReviewData } from "@/lib/types/Review.type";
 
 export const getReviews = async () => {
   const reviews = await Review.find({ approved: true });
