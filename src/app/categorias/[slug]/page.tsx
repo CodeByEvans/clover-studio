@@ -4,20 +4,25 @@ import { getCategories } from "@/services/client/categoryApi";
 import React from "react";
 import { CategoryType } from "@/lib/types/Category.type";
 
+interface PageProps {
+  params: {
+    slug: string;
+  };
+}
+
 export async function generateStaticParams() {
   const categories = await getCategories();
-  return Object.keys(categories).map((slug) => ({
-    slug,
+  // categories es un array de CategoryType
+  return categories.map((cat: CategoryType) => ({
+    slug: cat.slug,
   }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export async function generateMetadata({ params }: PageProps) {
   const categories = await getCategories();
+
   const { slug } = await params;
+
   const category = categories.find((cat: CategoryType) => cat.slug === slug);
 
   if (!category) {
@@ -34,11 +39,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
+export default async function CategoryPage({ params }: PageProps) {
   const categories = await getCategories();
   const { slug } = await params;
   const category = categories.find((cat: CategoryType) => cat.slug === slug);
