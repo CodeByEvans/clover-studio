@@ -1,6 +1,7 @@
 "use client";
 
 import Hero from "@/components/hero";
+import Newsletter from "@/components/newsletter";
 import { useCategories } from "@/lib/hooks/useCategories";
 import useProducts from "@/lib/hooks/useProducts";
 import LoadingLayout from "@/components/common/LoadingLayout";
@@ -8,7 +9,6 @@ import { Product } from "@/lib/types/Product";
 import About from "@/components/about";
 import FeaturedCollection from "@/components/featured-collection";
 import CustomProducts from "@/components/custom-products";
-import Testimonials from "@/components/testimonials";
 
 export default function Home() {
   const {
@@ -38,7 +38,7 @@ export default function Home() {
       <About />
       <FeaturedCollection />
       <CustomProducts />
-      <Testimonials />
+      <Newsletter />
     </main>
   );
 }

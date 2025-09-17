@@ -58,23 +58,25 @@ export default function Hero() {
           <div className="space-y-8">
             {/* Logo pequeño */}
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14  rounded-full flex items-center justify-center shadow-lg relative">
+              <div className="w-12 h-12 bg-gradient-to-r from-[#309551] to-[#F59E0B] rounded-full flex items-center justify-center shadow-lg relative">
                 <img
                   src="/logo.svg"
                   alt="Clover Studio"
-                  width={80}
-                  height={80}
+                  width={60}
+                  height={60}
                   loading="lazy"
                 />
               </div>
-              <h2 className="text-2xl font-bold">Clover Studio</h2>
+              <h2 className="text-2xl font-bold text-[#B91C1C]">
+                Clover Studio
+              </h2>
             </div>
 
             {/* Título principal */}
             <div>
               <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-6">
                 Pequeños detalles que
-                <span className="block text-transparent bg-gradient-to-r from-[#ae0006] to-[#8B1E3F] bg-clip-text">
+                <span className="block text-transparent bg-gradient-to-r from-[#309551] to-[#B91C1C] bg-clip-text">
                   iluminan
                 </span>
                 grandes momentos
@@ -83,34 +85,37 @@ export default function Hero() {
 
             {/* Descripción */}
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-lg">
-              Velas artesanales, wax melts y productos aromáticos únicos. Cada
-              pieza creada con amor para llenar tu hogar de calidez y
-              personalidad.
+              Velas artesanales, wax melts y productos aromáticos únicos.
+              <span className="text-[#8B1E3F] font-semibold">
+                {" "}
+                Cada pieza creada con amor
+              </span>{" "}
+              para llenar tu hogar de calidez y personalidad.
             </p>
 
             {/* Email Capture Form */}
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-3 max-w-2xl">
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md">
                 <input
                   type="email"
                   placeholder="tu@email.com"
                   className="flex-1 px-6 py-4 rounded-full border-2 border-gray-200 focus:border-[#309551] focus:outline-none text-lg transition-all duration-300"
                 />
-                <button className="group relative inline-flex w-">
-                  {/* Efecto de brillo detrás del botón, ahora con el color verde */}
-                  <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Contenido principal del botón */}
-                  <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 group-hover:scale-105 flex items-center justify-center gap-2">
-                    Suscribete a nuestra lista
+                <button className="group relative overflow-hidden whitespace-nowrap">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#309551] to-[#F59E0B] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative bg-gradient-to-r from-[#309551] to-[#F59E0B] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg transform group-hover:-translate-y-1 group-hover:shadow-xl flex items-center justify-center gap-2">
+                    Lista VIP
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </button>
               </div>
 
               <p className="text-sm text-gray-500 max-w-md">
-                Sé el primero en conocer nuestro lanzamiento y obtén
-                <span className="font-semibold text-[#d8ab2d]">
+                <span className="font-semibold text-[#B91C1C]">
+                  Sé la primera en conocer
+                </span>{" "}
+                nuestro lanzamiento y obtén
+                <span className="font-semibold text-[#F59E0B]">
                   {" "}
                   20% de descuento
                 </span>{" "}
@@ -122,7 +127,7 @@ export default function Hero() {
             <div>
               <button
                 onClick={() => scrollToId("sobre-nosotros")}
-                className="group  font-medium text-lg transition-all duration-300 flex items-center gap-2 cursor-pointer"
+                className="group text-[#B91C1C] hover:text-[#309551] font-medium text-lg transition-all duration-300 flex items-center gap-2"
               >
                 Conoce nuestra historia
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />

@@ -90,19 +90,19 @@ export default function Hero() {
 
             {/* Email Capture Form */}
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-3 max-w-2xl">
+              <div className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
                 <input
                   type="email"
                   placeholder="tu@email.com"
                   className="flex-1 px-6 py-4 rounded-full border-2 border-gray-200 focus:border-[#309551] focus:outline-none text-lg transition-all duration-300"
                 />
-                <button className="group relative inline-flex w-">
+                <button className="group relative w-full sm:w-auto inline-flex justify-center">
                   {/* Efecto de brillo detrás del botón, ahora con el color verde */}
                   <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                   {/* Contenido principal del botón */}
-                  <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 group-hover:scale-105 flex items-center justify-center gap-2">
-                    Suscribete a nuestra lista
+                  <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 group-hover:scale-105 flex items-center justify-center gap-2 w-full">
+                    Únete a nuestra lista VIP
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </button>

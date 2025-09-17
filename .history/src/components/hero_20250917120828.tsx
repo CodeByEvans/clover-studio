@@ -102,7 +102,7 @@ export default function Hero() {
 
                   {/* Contenido principal del botón */}
                   <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 group-hover:scale-105 flex items-center justify-center gap-2">
-                    Suscribete a nuestra lista
+                    Únete a nuestra lista VIP
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </button>

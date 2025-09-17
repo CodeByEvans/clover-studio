@@ -52,29 +52,49 @@ export default function Hero() {
         </svg>
       </div>
 
+      {/* Elementos decorativos flotantes */}
+      <div className="absolute top-20 left-10 opacity-15 animate-pulse">
+        <Sparkles className="w-8 h-8 text-[#309551]" />
+      </div>
+      <div
+        className="absolute bottom-32 right-16 opacity-15 animate-pulse"
+        style={{ animationDelay: "1s" }}
+      >
+        <Sparkles className="w-6 h-6 text-[#F59E0B]" />
+      </div>
+      <div
+        className="absolute top-1/2 left-1/6 opacity-10 animate-pulse"
+        style={{ animationDelay: "2s" }}
+      >
+        <Sparkles className="w-5 h-5 text-[#246B3D]" />
+      </div>
+
       <div className="container mx-auto px-4 min-h-screen flex items-center relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full">
           {/* Contenido izquierdo */}
           <div className="space-y-8">
             {/* Logo pequeño */}
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14  rounded-full flex items-center justify-center shadow-lg relative">
-                <img
-                  src="/logo.svg"
-                  alt="Clover Studio"
-                  width={80}
-                  height={80}
-                  loading="lazy"
-                />
+              <div className="w-12 h-12 bg-gradient-to-r from-[#309551] to-[#F59E0B] rounded-full flex items-center justify-center shadow-lg relative">
+                {/* Logo de trébol simple */}
+                <svg
+                  className="w-7 h-7 text-white"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M12 2C10.5 2 9.2 2.8 8.5 4C7.8 2.8 6.5 2 5 2C2.8 2 1 3.8 1 6C1 7.5 1.8 8.8 3 9.5C1.8 10.2 1 11.5 1 13C1 15.2 2.8 17 5 17C6.5 17 7.8 16.2 8.5 15C9.2 16.2 10.5 17 12 17C12.5 17 13 16.8 13.4 16.6C13.8 17.5 14.7 18 15.5 18C17.4 18 19 16.4 19 14.5C19 13.7 18.7 12.9 18.1 12.3C19.3 11.7 20 10.4 20 9C20 6.8 18.2 5 16 5C14.5 5 13.2 5.8 12.5 7C12.2 6.4 11.8 5.9 11.3 5.5C11.7 3.6 11.9 2.8 12 2Z" />
+                </svg>
               </div>
-              <h2 className="text-2xl font-bold">Clover Studio</h2>
+              <h2 className="text-2xl font-bold text-[#B91C1C]">
+                Clover Studio
+              </h2>
             </div>
 
             {/* Título principal */}
             <div>
               <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-6">
                 Pequeños detalles que
-                <span className="block text-transparent bg-gradient-to-r from-[#ae0006] to-[#8B1E3F] bg-clip-text">
+                <span className="block text-transparent bg-gradient-to-r from-[#309551] to-[#B91C1C] bg-clip-text">
                   iluminan
                 </span>
                 grandes momentos
@@ -83,34 +103,37 @@ export default function Hero() {
 
             {/* Descripción */}
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed max-w-lg">
-              Velas artesanales, wax melts y productos aromáticos únicos. Cada
-              pieza creada con amor para llenar tu hogar de calidez y
-              personalidad.
+              Velas artesanales, wax melts y productos aromáticos únicos.
+              <span className="text-[#8B1E3F] font-semibold">
+                {" "}
+                Cada pieza creada con amor
+              </span>{" "}
+              para llenar tu hogar de calidez y personalidad.
             </p>
 
             {/* Email Capture Form */}
             <div className="space-y-4">
-              <div className="flex flex-col sm:flex-row gap-3 max-w-2xl">
+              <div className="flex flex-col sm:flex-row gap-3 max-w-md">
                 <input
                   type="email"
                   placeholder="tu@email.com"
                   className="flex-1 px-6 py-4 rounded-full border-2 border-gray-200 focus:border-[#309551] focus:outline-none text-lg transition-all duration-300"
                 />
-                <button className="group relative inline-flex w-">
-                  {/* Efecto de brillo detrás del botón, ahora con el color verde */}
-                  <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Contenido principal del botón */}
-                  <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 group-hover:scale-105 flex items-center justify-center gap-2">
-                    Suscribete a nuestra lista
+                <button className="group relative overflow-hidden whitespace-nowrap">
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#309551] to-[#F59E0B] opacity-90 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative bg-gradient-to-r from-[#309551] to-[#F59E0B] text-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 shadow-lg transform group-hover:-translate-y-1 group-hover:shadow-xl flex items-center justify-center gap-2">
+                    Lista VIP
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </button>
               </div>
 
               <p className="text-sm text-gray-500 max-w-md">
-                Sé el primero en conocer nuestro lanzamiento y obtén
-                <span className="font-semibold text-[#d8ab2d]">
+                <span className="font-semibold text-[#B91C1C]">
+                  Sé la primera en conocer
+                </span>{" "}
+                nuestro lanzamiento y obtén
+                <span className="font-semibold text-[#F59E0B]">
                   {" "}
                   20% de descuento
                 </span>{" "}
@@ -122,7 +145,7 @@ export default function Hero() {
             <div>
               <button
                 onClick={() => scrollToId("sobre-nosotros")}
-                className="group  font-medium text-lg transition-all duration-300 flex items-center gap-2 cursor-pointer"
+                className="group text-[#B91C1C] hover:text-[#309551] font-medium text-lg transition-all duration-300 flex items-center gap-2"
               >
                 Conoce nuestra historia
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />

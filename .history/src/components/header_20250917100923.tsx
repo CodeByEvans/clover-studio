@@ -56,8 +56,8 @@ export default function Header() {
                 onClick={() => scrollToId("contacto")}
                 className="group relative inline-flex"
               >
-                <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 flex items-center gap-2">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#D6BA8A] to-[#c9a876] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-[#D6BA8A] hover:bg-[#c9a876] text-[#8B1E3F] px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 flex items-center gap-2">
                   Contáctanos
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </div>
@@ -71,7 +71,7 @@ export default function Header() {
                 onClick={() => scrollToId("contacto")}
                 className="group relative"
               >
-                <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white p-2 rounded-full transition-all duration-300 transform active:scale-95">
+                <div className="relative bg-[#D6BA8A] hover:bg-[#c9a876] text-[#8B1E3F] p-2 rounded-full transition-all duration-300 transform active:scale-95">
                   <ArrowRight className="w-5 h-5" />
                 </div>
               </button>
@@ -111,7 +111,7 @@ export default function Header() {
                       scrollToId("contacto");
                       setIsMenuOpen(false);
                     }}
-                    className="block w-full bg-[#39a459] hover:bg-[#2d8446] text-white px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300 cursor-pointer"
+                    className="block w-full bg-[#D6BA8A] hover:bg-[#c9a876] text-[#8B1E3F] px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300"
                   >
                     Contáctanos
                   </button>

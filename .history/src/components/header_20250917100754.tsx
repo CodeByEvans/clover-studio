@@ -9,17 +9,10 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigation = [
-    { name: "Colección", id: "coleccion-destacada" },
-    { name: "Personalizados", id: "productos-personalizados" },
-    { name: "Reseñas", id: "reseñas" },
+    { name: "Colección", href: "#coleccion-destacada" },
+    { name: "Personalizados", href: "#productos-personalizados" },
+    { name: "Reseñas", href: "#reseñas" },
   ];
-
-  const scrollToId = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <>
@@ -35,46 +28,48 @@ export default function Header() {
                 height={60}
                 className="transition-transform duration-300 group-hover:scale-110"
               />
+              <div className="hidden sm:block ml-3">
+                <div className="font-bold text-2xl text-transparent bg-gradient-to-r from-[#D6BA8A] to-[#c9a876] bg-clip-text -mt-1">
+                  Clover
+                </div>
+                <div className="text-sm font-light text-gray-500 tracking-wide">
+                  studio
+                </div>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-12">
               {navigation.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToId(item.id)}
+                <Link
+                  key={item.name}
+                  href={item.href}
                   className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4"
                 >
                   {item.name}
-                </button>
+                </Link>
               ))}
             </nav>
 
             {/* CTA Button */}
             <div className="hidden lg:block">
-              <button
-                onClick={() => scrollToId("contacto")}
-                className="group relative inline-flex"
-              >
-                <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 flex items-center gap-2">
+              <Link href="#contacto" className="group relative inline-flex">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#D6BA8A] to-[#c9a876] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative bg-[#D6BA8A] hover:bg-[#c9a876] text-[#8B1E3F] px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 flex items-center gap-2">
                   Contáctanos
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                 </div>
-              </button>
+              </Link>
             </div>
 
             {/* Mobile menu button */}
             <div className="flex items-center space-x-4 lg:hidden">
               {/* CTA button for mobile */}
-              <button
-                onClick={() => scrollToId("contacto")}
-                className="group relative"
-              >
-                <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white p-2 rounded-full transition-all duration-300 transform active:scale-95">
+              <Link href="#contacto" className="group relative">
+                <div className="relative bg-[#D6BA8A] hover:bg-[#c9a876] text-[#8B1E3F] p-2 rounded-full transition-all duration-300 transform active:scale-95">
                   <ArrowRight className="w-5 h-5" />
                 </div>
-              </button>
+              </Link>
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 className="p-2 text-gray-600 hover:text-[#8B1E3F] transition-colors"
@@ -93,28 +88,24 @@ export default function Header() {
             <div className="lg:hidden py-4 border-t border-gray-100 animate-slide-down">
               <nav className="flex flex-col space-y-4">
                 {navigation.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => {
-                      scrollToId(item.id);
-                      setIsMenuOpen(false);
-                    }}
-                    className="text-gray-700 text-left hover:text-[#8B1E3F] font-medium transition-colors duration-200 py-2"
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 py-2"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     {item.name}
-                  </button>
+                  </Link>
                 ))}
                 {/* CTA button in mobile menu */}
                 <div className="mt-4 pt-4 border-t border-gray-100">
-                  <button
-                    onClick={() => {
-                      scrollToId("contacto");
-                      setIsMenuOpen(false);
-                    }}
-                    className="block w-full bg-[#39a459] hover:bg-[#2d8446] text-white px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300 cursor-pointer"
+                  <Link
+                    href="#contacto"
+                    className="block bg-[#D6BA8A] hover:bg-[#c9a876] text-[#8B1E3F] px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300"
+                    onClick={() => setIsMenuOpen(false)}
                   >
                     Contáctanos
-                  </button>
+                  </Link>
                 </div>
               </nav>
             </div>

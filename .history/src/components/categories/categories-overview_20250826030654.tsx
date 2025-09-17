@@ -6,7 +6,7 @@ import { Flame, Sparkles, ArrowRight, Heart, Star, Zap } from "lucide-react";
 import { useCategories } from "@/lib/hooks/useCategories";
 import LoadingLayout from "../common/LoadingLayout";
 import { CategoryType } from "@/lib/types/Category.type";
-import { iconMap } from "../about";
+import { iconMap } from "../categories";
 
 export default function CategoriesOverview() {
   const { data: categoriesData, isLoading, isError } = useCategories();

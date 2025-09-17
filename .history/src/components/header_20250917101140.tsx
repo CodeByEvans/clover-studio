@@ -111,7 +111,7 @@ export default function Header() {
                       scrollToId("contacto");
                       setIsMenuOpen(false);
                     }}
-                    className="block w-full bg-[#39a459] hover:bg-[#2d8446] text-white px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300 cursor-pointer"
+                    className="block w-full bg-[#39a459] hover:bg-[#2d8446] text-white px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300"
                   >
                     Contáctanos
                   </button>
