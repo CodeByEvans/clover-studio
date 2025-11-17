@@ -4,7 +4,6 @@ import { useScrollToId } from "@/hooks/useScrollToId";
 import { useNotifications } from "@/contexts/notifications-context";
 import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/Product";
-import { Button } from "./ui/button";
 
 type HeroProps = {
   products: Products;
@@ -28,10 +27,6 @@ export const Hero = ({ products }: HeroProps) => {
           Velas artesanales, wax melts y productos aromáticos únicos. Cada pieza
           creada con amor para llenar tu hogar de calidez y personalidad.
         </p>
-        <div>
-          <Button>Ver colecciones</Button>
-          <Button onClick={() => handleScrollToId("contact")}>Contacto</Button>
-        </div>
       </div>
       <Carousel3D products={products} />
     </section>

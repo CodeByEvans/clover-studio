@@ -14,12 +14,11 @@ export const Carousel3D = ({ products }: Carousel3DProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    if (activeIndex < 0) {
-      setActiveIndex(products.length - 1);
-    } else if (activeIndex >= products.length) {
-      setActiveIndex(0);
-    }
-  }, [activeIndex, products.length]);
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % products.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [products.length]);
 
   const getCardPosition = (index: number) => {
     const diff = index - activeIndex;

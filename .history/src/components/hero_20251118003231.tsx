@@ -4,7 +4,6 @@ import { useScrollToId } from "@/hooks/useScrollToId";
 import { useNotifications } from "@/contexts/notifications-context";
 import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/Product";
-import { Button } from "./ui/button";
 
 type HeroProps = {
   products: Products;
@@ -17,21 +16,16 @@ export const Hero = ({ products }: HeroProps) => {
   const { handleScrollToId } = useScrollToId();
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-[#BEE8CC]/5 via-[#FEFCF9] to-[#FDE68A]/8 overflow-hidden relative flex flex-raw items-center justify-center px-8">
+    <section className="min-h-screen bg-gradient-to-br from-[#BEE8CC]/5 via-[#FEFCF9] to-[#FDE68A]/8 overflow-hidden relative flex flex-col items-center justify-center">
       <div className="">
-        <small className="text-lg">Clover Studio</small>
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Pequeños detalles que <span className="text-[#ae0006]">iluminan</span>{" "}
-          grandes momentos
+        <small>Clover Studio</small>
+        <h1>
+          Pequeños detalles que <span>iluminan</span> grandes momentos
         </h1>
-        <p className="text-lg md:text-xl">
+        <p>
           Velas artesanales, wax melts y productos aromáticos únicos. Cada pieza
           creada con amor para llenar tu hogar de calidez y personalidad.
         </p>
-        <div>
-          <Button>Ver colecciones</Button>
-          <Button onClick={() => handleScrollToId("contact")}>Contacto</Button>
-        </div>
       </div>
       <Carousel3D products={products} />
     </section>

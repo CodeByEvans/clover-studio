@@ -30,7 +30,6 @@ export const Hero = ({ products }: HeroProps) => {
         </p>
         <div>
           <Button>Ver colecciones</Button>
-          <Button onClick={() => handleScrollToId("contact")}>Contacto</Button>
         </div>
       </div>
       <Carousel3D products={products} />

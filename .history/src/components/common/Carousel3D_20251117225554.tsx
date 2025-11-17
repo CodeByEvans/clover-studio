@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
@@ -13,13 +13,13 @@ type Carousel3DProps = {
 export const Carousel3D = ({ products }: Carousel3DProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  useEffect(() => {
-    if (activeIndex < 0) {
-      setActiveIndex(products.length - 1);
-    } else if (activeIndex >= products.length) {
-      setActiveIndex(0);
-    }
-  }, [activeIndex, products.length]);
+  const next = () => {
+    setActiveIndex((prev) => (prev + 1) % products.length);
+  };
+
+  const prev = () => {
+    setActiveIndex((prev) => (prev - 1 + products.length) % products.length);
+  };
 
   const getCardPosition = (index: number) => {
     const diff = index - activeIndex;
