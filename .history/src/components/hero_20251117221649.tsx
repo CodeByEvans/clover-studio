@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import Reactfrom "react";
 import { useScrollToId } from "@/hooks/useScrollToId";
 import { useNotifications } from "@/contexts/notifications-context";
 import Carousel3D from "./common/Carousel3D";

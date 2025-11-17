@@ -131,7 +131,7 @@ export const Carousel3D = ({ products }: Carousel3DProps) => {
 
                     {/* Category */}
                     <div className="flex flex-wrap gap-1.5 pt-1.5">
-                      {product.category.title}
+                      {product.category}
                     </div>
                   </div>
 

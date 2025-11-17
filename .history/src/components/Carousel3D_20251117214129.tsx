@@ -6,9 +6,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { Products } from "@/types/Product";
 
-type Carousel3DProps = {
+interface Carousel3DProps {
   products: Products;
-};
+}
 
 export const Carousel3D = ({ products }: Carousel3DProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -131,7 +131,7 @@ export const Carousel3D = ({ products }: Carousel3DProps) => {
 
                     {/* Category */}
                     <div className="flex flex-wrap gap-1.5 pt-1.5">
-                      {product.category.title}
+                      {product.category}
                     </div>
                   </div>
 

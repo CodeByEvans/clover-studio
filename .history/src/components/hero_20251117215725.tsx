@@ -1,8 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useScrollToId } from "@/hooks/useScrollToId";
+import { sendWelcomeDiscountEmail } from "@/services/emailservice";
 import { useNotifications } from "@/contexts/notifications-context";
+import Image from "next/image";
 import Carousel3D from "./common/Carousel3D";
+import { getProducts } from "@/utils/supabase/product";
 import { Products } from "@/types/Product";
 
 type HeroProps = {

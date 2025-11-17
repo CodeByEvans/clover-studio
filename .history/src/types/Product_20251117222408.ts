@@ -1,6 +1,6 @@
 interface Category {
   id: number;
-  title: string;
+  name: string;
 }
 
 export type Products = Product[];
@@ -12,7 +12,7 @@ export type Product = {
   images: string[];
   portrait: string;
   price: number;
-  category: Category;
+  category: string;
   created_at: string;
   updated_at: string;
 };
