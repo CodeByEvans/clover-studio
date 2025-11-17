@@ -1,29 +1,55 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 // Datos de productos de ejemplo
 const featuredProducts = [
   {
     id: 1,
-    name: 'Vela "Jardín de Lavanda"',
-    description: "Aroma relajante a lavanda con un toque de manzanilla.",
-    image: "/images/vela-lavanda.jpg", // Reemplaza con la ruta real de tu imagen
-    link: "#", // Enlaza a la página del producto
+    name: "Pumpkin Glow",
+    description:
+      "Pequeña vela artesanal con forma de calabaza, aroma a canela y manzana caramelizada, perfecta para llenar tu hogar de calidez otoñal.",
+    image: "/images/pumpkin-glow.webp", // solo una imagen
+    link: "#",
   },
   {
     id: 2,
-    name: 'Wax Melts "Bosque Encantado"',
-    description: "Notas de pino, sándalo y un toque de incienso.",
-    image: "/images/wax-melts-bosque.jpg", // Reemplaza con la ruta real de tu imagen
+    name: "Gnome Haven",
+    description:
+      "Vela artesanal con forma de gnomo, aroma a pino y vainilla, perfecta para crear un rincón mágico en tu hogar.",
+    image: "/images/gnome-haven.webp",
     link: "#",
   },
   {
     id: 3,
-    name: 'Vela "Mañana de Cítricos"',
-    description: "Aroma fresco y vibrante a limón, bergamota y naranja.",
-    image: "/images/vela-citricos.jpg", // Reemplaza con la ruta real de tu imagen
+    name: "Little Boo",
+    description:
+      "Vela artesanal en forma de fantasma, aroma a vainilla y coco, perfecta para añadir un toque divertido y mágico a tu hogar.",
+    image: "/images/little-boo.webp",
+    link: "#",
+  },
+  {
+    id: 4,
+    name: "Calavera Alegre",
+    description:
+      "Vela calavera con colores vibrantes y aroma a canela y naranja, perfecta para celebrar la vida y la tradición.",
+    image: "/images/calavera-alegre.webp",
+    link: "#",
+  },
+  {
+    id: 5,
+    name: "Jardín Alegre",
+    description:
+      "Wax-melt con aroma a té verde y pepino, refrescante y suave, ideal para llenar tu espacio de tranquilidad y frescura.",
+    image: "/images/jardin-alegre.webp",
+    link: "#",
+  },
+  {
+    id: 6,
+    name: "Brisa de Limón",
+    description:
+      "Wax-melt amarillo pastel, con aroma cítrico y refrescante, ideal para crear un ambiente alegre y suave en cualquier habitación.",
+    image: "/images/brisa-de-limon.webp",
     link: "#",
   },
 ];
@@ -38,7 +64,7 @@ export default function FeaturedCollection() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
             La magia de los
-            <span className="block text-[#ae0006]">pequeños momentos</span>
+            <span className="block text-[#ae0006]">Momentos</span>
           </h2>
           <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
             Descubre una selección especial de nuestros productos artesanales,
@@ -49,19 +75,18 @@ export default function FeaturedCollection() {
         {/* Galería de productos */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {featuredProducts.map((product) => (
-            // Toda la tarjeta está envuelta en el componente Link
             <Link
               key={product.id}
               href={product.link}
               className="group relative bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
             >
-              <div className="relative aspect-square w-full overflow-hidden rounded-2xl mb-4">
+              <div className="relative aspect-square w-full rounded-2xl mb-4 overflow-hidden">
                 <Image
                   src={product.image}
                   alt={product.name}
-                  width={600}
-                  height={600}
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                  width={800}
+                  height={800}
+                  className="object-cover w-full h-full rounded-2xl"
                 />
               </div>
 

@@ -33,7 +33,7 @@ export default function About() {
             </p>
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
               Lo que empezó como un pasatiempo para encontrar el aroma perfecto
-              se convirtió en una reto por la artesanía de calidad. Dediqué
+              se convirtió en una obsesión por la artesanía de calidad. Dediqué
               incontables horas a investigar ceras, fragancias y mechas para que
               cada vela no solo oliera increíble, sino que también fuera segura
               y sostenible.

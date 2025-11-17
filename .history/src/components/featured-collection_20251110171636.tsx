@@ -63,8 +63,8 @@ export default function FeaturedCollection() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
-            Momentos de luz para
-            <span className="block text-[#ae0006]">esta temporada</span>
+            Momentos que iluminan
+            <span className="block text-[#ae0006]">la temporada</span>
           </h2>
           <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
             Descubre una selección especial de nuestros productos artesanales,
