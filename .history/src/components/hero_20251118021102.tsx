@@ -15,6 +15,24 @@ type HeroProps = {
 export const Hero = ({ products }: HeroProps) => {
   const { showSuccess, showError } = useNotifications();
   const { handleScrollToId } = useScrollToId();
+  const [isMobile, setIsMobile] = React.useState(
+    typeof window !== "undefined" ? window.innerWidth < 1024 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Llamada inicial por si cambia el tamaño antes de render
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
     <motion.section
@@ -25,10 +43,11 @@ export const Hero = ({ products }: HeroProps) => {
     >
       {/* Texto principal */}
       <div className="flex flex-col gap-6 max-w-2xl text-center lg:text-left">
-        <p className="text-lg md:text-2xl text-gray-600 font-medium">
-          Clover Studio
-        </p>
-
+        {isMobile === false && (
+          <p className="text-lg md:text-2xl text-gray-600 font-medium">
+            Clover Studio
+          </p>
+        )}
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
           Pequeños detalles que <span className="text-[#ae0006]">iluminan</span>{" "}
           grandes momentos
@@ -62,6 +81,16 @@ export const Hero = ({ products }: HeroProps) => {
 
       {/* Carousel */}
       <div className="w-full lg:w-1/2 flex justify-center lg:justify-end flex-col text-center relative">
+        {isMobile && (
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl md:text-6xl font-bold leading-tight text-gray-800 drop-shadow-lg"
+          >
+            Clover Studio
+          </motion.h1>
+        )}
         <Carousel3D products={products} />
       </div>
 

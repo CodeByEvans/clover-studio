@@ -43,9 +43,7 @@ export const FeaturedCollection = ({ products }: { products: Products }) => {
                 <h3 className="text-2xl font-semibold text-gray-900 mb-2">
                   {product.title}
                 </h3>
-                <p className="text-gray-600 mb-4 line-clamp-4">
-                  {product.description}
-                </p>
+                <p className="text-gray-600 mb-4">{product.description}</p>
               </div>
             </Link>
           ))}
@@ -54,5 +52,3 @@ export const FeaturedCollection = ({ products }: { products: Products }) => {
     </section>
   );
 };
-
-export default FeaturedCollection;

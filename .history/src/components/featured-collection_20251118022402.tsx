@@ -26,13 +26,13 @@ export const FeaturedCollection = ({ products }: { products: Products }) => {
           {products.map((product) => (
             <Link
               key={product.id}
-              href={product.title}
+              href={product.link}
               className="group relative bg-white p-6 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 block"
             >
               <div className="relative aspect-square w-full rounded-2xl mb-4 overflow-hidden">
                 <Image
-                  src={product.portrait}
-                  alt={product.title}
+                  src={product.image}
+                  alt={product.name}
                   width={800}
                   height={800}
                   className="object-cover w-full h-full rounded-2xl"
@@ -41,11 +41,9 @@ export const FeaturedCollection = ({ products }: { products: Products }) => {
 
               <div className="text-center">
                 <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                  {product.title}
+                  {product.name}
                 </h3>
-                <p className="text-gray-600 mb-4 line-clamp-4">
-                  {product.description}
-                </p>
+                <p className="text-gray-600 mb-4">{product.description}</p>
               </div>
             </Link>
           ))}
@@ -54,5 +52,3 @@ export const FeaturedCollection = ({ products }: { products: Products }) => {
     </section>
   );
 };
-
-export default FeaturedCollection;
