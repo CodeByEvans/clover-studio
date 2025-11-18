@@ -5,8 +5,6 @@ import { useNotifications } from "@/contexts/notifications-context";
 import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/Product";
 import { Button } from "./ui/button";
-import { motion } from "motion/react";
-import Link from "next/link";
 
 type HeroProps = {
   products: Products;
@@ -15,34 +13,20 @@ type HeroProps = {
 export const Hero = ({ products }: HeroProps) => {
   const { showSuccess, showError } = useNotifications();
   const { handleScrollToId } = useScrollToId();
-  const [isMobile, setIsMobile] = React.useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false
-  );
-
+  const [isMobile, setIsMobile] = React.useState(false);
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Llamada inicial por si cambia el tamaño antes de render
-    handleResize();
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    if (window.innerWidth < 1024) {
+      setIsMobile(true);
+    }
+  });
 
   return (
-    <section className="relative min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center gap-12 lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20">
+    <section className="relative min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center px-8 md:px-12 lg:px-20 gap-12 lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20">
       {/* Texto principal */}
       <div className="flex flex-col gap-6 max-w-2xl text-center lg:text-left">
-        {isMobile === false && (
-          <p className="text-lg md:text-2xl text-gray-600 font-medium">
-            Clover Studio
-          </p>
-        )}
+        <p className="text-lg md:text-2xl text-gray-600 font-medium">
+          Clover Studio
+        </p>
         <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
           Pequeños detalles que <span className="text-[#ae0006]">iluminan</span>{" "}
           grandes momentos
@@ -61,30 +45,18 @@ export const Hero = ({ products }: HeroProps) => {
             variant="secondary"
             size="lg"
             onClick={() => handleScrollToId("contact")}
-            asChild
           >
-            <a
-              href="https://wa.me/34691453544"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contacto
-            </a>
+            Contacto
           </Button>
         </div>
       </div>
 
       {/* Carousel */}
-      <div className="w-full lg:w-1/2 flex justify-center lg:justify-end flex-col text-center relative">
+      <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
         {isMobile && (
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold leading-tight text-gray-800 drop-shadow-lg"
-          >
+          <p className="text-lg md:text-2xl text-gray-600 font-medium">
             Clover Studio
-          </motion.h1>
+          </p>
         )}
         <Carousel3D products={products} />
       </div>

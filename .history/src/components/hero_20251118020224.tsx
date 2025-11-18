@@ -6,7 +6,6 @@ import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/Product";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
-import Link from "next/link";
 
 type HeroProps = {
   products: Products;
@@ -61,15 +60,8 @@ export const Hero = ({ products }: HeroProps) => {
             variant="secondary"
             size="lg"
             onClick={() => handleScrollToId("contact")}
-            asChild
           >
-            <a
-              href="https://wa.me/34691453544"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contacto
-            </a>
+            Contacto
           </Button>
         </div>
       </div>

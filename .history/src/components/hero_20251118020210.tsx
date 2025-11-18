@@ -6,7 +6,6 @@ import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/Product";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
-import Link from "next/link";
 
 type HeroProps = {
   products: Products;
@@ -61,15 +60,8 @@ export const Hero = ({ products }: HeroProps) => {
             variant="secondary"
             size="lg"
             onClick={() => handleScrollToId("contact")}
-            asChild
           >
-            <a
-              href="https://wa.me/34691453544"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contacto
-            </a>
+            Contacto
           </Button>
         </div>
       </div>
@@ -81,7 +73,7 @@ export const Hero = ({ products }: HeroProps) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold leading-tight text-gray-800 drop-shadow-lg"
+            className="text-4xl md:text-6xl font-bold leading-tight text-gray-600 drop-shadow-lg"
           >
             Clover Studio
           </motion.h1>

@@ -6,7 +6,6 @@ import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/Product";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
-import Link from "next/link";
 
 type HeroProps = {
   products: Products;
@@ -35,7 +34,7 @@ export const Hero = ({ products }: HeroProps) => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center gap-12 lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20">
+    <section className="relative min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center px-8 md:px-12 lg:px-20 gap-12 lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20">
       {/* Texto principal */}
       <div className="flex flex-col gap-6 max-w-2xl text-center lg:text-left">
         {isMobile === false && (
@@ -61,15 +60,8 @@ export const Hero = ({ products }: HeroProps) => {
             variant="secondary"
             size="lg"
             onClick={() => handleScrollToId("contact")}
-            asChild
           >
-            <a
-              href="https://wa.me/34691453544"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Contacto
-            </a>
+            Contacto
           </Button>
         </div>
       </div>
@@ -77,14 +69,14 @@ export const Hero = ({ products }: HeroProps) => {
       {/* Carousel */}
       <div className="w-full lg:w-1/2 flex justify-center lg:justify-end flex-col text-center relative">
         {isMobile && (
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <motion.p
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-bold leading-tight text-gray-800 drop-shadow-lg"
+            className="text-4xl md:text-6xl font-serif font-extrabold leading-tight"
           >
             Clover Studio
-          </motion.h1>
+          </motion.p>
         )}
         <Carousel3D products={products} />
       </div>

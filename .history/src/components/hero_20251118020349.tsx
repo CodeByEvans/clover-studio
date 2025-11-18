@@ -61,15 +61,14 @@ export const Hero = ({ products }: HeroProps) => {
             variant="secondary"
             size="lg"
             onClick={() => handleScrollToId("contact")}
-            asChild
           >
-            <a
+            <Link
               href="https://wa.me/34691453544"
-              target="_blank"
-              rel="noopener noreferrer"
+              className="block w-full bg-[#39a459] hover:bg-[#2d8446] text-white px-6 py-3 rounded-full font-semibold text-center transition-colors duration-300 cursor-pointer"
             >
+              {" "}
               Contacto
-            </a>
+            </Link>
           </Button>
         </div>
       </div>

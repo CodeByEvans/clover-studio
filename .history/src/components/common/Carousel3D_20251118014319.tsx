@@ -131,6 +131,7 @@ export const Carousel3D = ({ products }: Carousel3DProps) => {
         {products.map((product, index) => (
           <motion.button
             key={product.title}
+            onClick={() => setActiveIndex(index)}
             className={`h-2 rounded-full transition-all cursor-pointer ${
               index === activeIndex
                 ? "w-8 bg-primary"

@@ -119,9 +119,6 @@
   body {
     @apply bg-background text-foreground;
   }
-  section {
-    @apply px-8 md:px-12 lg:px-20;
-  }
 }
 
 /* Animaciones específicas para notificaciones */

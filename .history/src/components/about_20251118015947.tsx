@@ -10,7 +10,7 @@ export default function About() {
   return (
     <section
       id="sobre-nosotros"
-      className=" bg-[#FEFCF9] relative overflow-hidden py-20 lg:py-32"
+      className=" bg-[#FEFCF9] relative overflow-hidden py-20 lg:py-32 px-8"
     >
       {/* Elementos decorativos de fondo */}
       <div className="absolute top-10 right-0 w-48 h-48 bg-gradient-to-br from-[#ae0006]/10 to-[#8B1E3F]/5 rounded-full blur-3xl -z-10"></div>
