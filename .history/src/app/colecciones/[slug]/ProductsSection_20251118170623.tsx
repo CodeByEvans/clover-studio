@@ -23,10 +23,10 @@ export const ProductsSection = ({
   };
 
   return (
-    <section className="container mx-auto px-0 md:px-6 lg:px-20">
+    <section className="container mx-auto px-0 md:px-12 lg:px-20">
       <ProductFilters onSort={handleSort} />
       {sortedProducts.length > 0 ? (
-        <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
+        <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-12 lg:px-20">
           {filteredProducts.map((product) => (
             <Card
               key={product.id}

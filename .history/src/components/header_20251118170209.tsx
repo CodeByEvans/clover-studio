@@ -59,7 +59,6 @@ export default function Header({ collections }: { collections: Collections }) {
               <Link
                 href="https://wa.me/34691453544"
                 className="group relative inline-flex"
-                rel="noopener noreferrer"
               >
                 <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 flex items-center gap-2">
