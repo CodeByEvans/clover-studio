@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Menu, X, ArrowRight, ScanSearch } from "lucide-react";
 import { useScrollToId } from "@/hooks/useScrollToId";
 
 export default function Header() {
@@ -20,6 +20,9 @@ export default function Header() {
     <>
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40">
         <div className="container mx-auto px-4">
+          <div>
+            <ScanSearch className="w-6 h-6" />
+          </div>
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center group">
