@@ -3,7 +3,7 @@ import About from "@/components/about";
 import FeaturedCollection from "@/components/featured-collection";
 import Testimonials from "@/components/testimonials";
 import { Products } from "@/types/Product";
-import { getProducts } from "@/utils/supabase/product";
+import { getProducts } from "@/utils/supabase/Product";
 
 export default async function Home() {
   const products: Products = await getProducts();

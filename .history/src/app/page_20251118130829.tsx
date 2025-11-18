@@ -3,9 +3,9 @@ import About from "@/components/about";
 import FeaturedCollection from "@/components/featured-collection";
 import Testimonials from "@/components/testimonials";
 import { Products } from "@/types/Product";
-import { getProducts } from "@/utils/supabase/product";
+import { getProducts } from "@/utils/supabase/Product";
 
-export default async function Home() {
+export const Home = async () => {
   const products: Products = await getProducts();
   return (
     <main className="min-h-screen bg-white">
@@ -15,4 +15,6 @@ export default async function Home() {
       <Testimonials />
     </main>
   );
-}
+};
+
+export default Home;
