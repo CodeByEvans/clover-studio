@@ -1,10 +1,13 @@
 import { getCollections } from "@/utils/supabase/collections";
 import { getProducts } from "@/utils/supabase/product";
 import CollectionNotFound from "./404";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import Image from "next/image";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import { Button } from "@/components/ui/button";
 
 export const CollectionPage = async ({
   params,
@@ -26,25 +29,21 @@ export const CollectionPage = async ({
 
   return (
     <section className="container mx-auto px-4 py-12">
-      <Breadcrumbs
-        crumbs={[
-          { label: "Inicio", href: "/" },
-          { label: "Colecciones", href: "/colecciones" },
-          { label: collection.title, href: `/colecciones/${collection.slug}` },
-        ]}
-      />
       {/* Collection Header */}
       <div className="mb-12 text-center">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-[#8B1E3F] mb-3">
+        {/* Título de la colección */}
+        <h1 className="text-5xl font-extrabold text-[#8B1E3F] mb-3">
           {collection.title}
         </h1>
 
+        {/* Título de la categoría (si existe) */}
         {collection.category && (
-          <h2 className="text-sm sm:text-lg text-gray-500 uppercase tracking-wide mb-2">
+          <h2 className="text-lg text-gray-500 uppercase tracking-wide mb-2">
             {collection.category.title}
           </h2>
         )}
 
+        {/* Descripción con clamp */}
         {collection.description && (
           <p className="text-gray-600 text-base line-clamp-2 max-w-xl mx-auto">
             {collection.description}
@@ -52,35 +51,26 @@ export const CollectionPage = async ({
         )}
       </div>
 
-      {/* Filters Section */}
-      <div className="mb-8">
-        {/* Filter Options */}
-        <Button variant="outline">Filtros</Button>
-        <div>
-          <p>Ordenar por:</p>
-        </div>
-      </div>
-
       {/* Products Grid */}
       {filteredProducts.length > 0 ? (
-        <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
-            <Card key={product.id} className="overflow-hidden text-center">
-              <CardHeader className="p-2">
+            <Card key={product.id} className="overflow-hidden">
+              <CardHeader className="p-0">
                 <Image
                   src={product.portrait}
                   alt={product.title}
                   title={product.title}
-                  width={300}
-                  height={300}
-                  className="w-full h-60 object-cover rounded-md"
+                  width={500}
+                  height={500}
+                  className="w-full h-auto object-cover"
                 />
-                <CardTitle className="mt-2 text-md font-semibold">
+                <CardTitle className="p-4 text-lg font-semibold">
                   {product.title}
                 </CardTitle>
-                <p className="text-sm text-gray-700 mt-1">
-                  ${product.price.toFixed(2)}
-                </p>
+                <CardDescription className="p-4">
+                  {product.description}
+                </CardDescription>
               </CardHeader>
             </Card>
           ))}

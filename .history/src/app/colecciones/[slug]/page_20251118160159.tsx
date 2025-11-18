@@ -4,7 +4,6 @@ import CollectionNotFound from "./404";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
-import { Button } from "@/components/ui/button";
 
 export const CollectionPage = async ({
   params,
@@ -50,15 +49,6 @@ export const CollectionPage = async ({
             {collection.description}
           </p>
         )}
-      </div>
-
-      {/* Filters Section */}
-      <div className="mb-8">
-        {/* Filter Options */}
-        <Button variant="outline">Filtros</Button>
-        <div>
-          <p>Ordenar por:</p>
-        </div>
       </div>
 
       {/* Products Grid */}

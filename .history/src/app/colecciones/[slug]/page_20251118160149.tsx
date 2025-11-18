@@ -4,7 +4,6 @@ import CollectionNotFound from "./404";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
-import { Button } from "@/components/ui/button";
 
 export const CollectionPage = async ({
   params,
@@ -26,15 +25,10 @@ export const CollectionPage = async ({
 
   return (
     <section className="container mx-auto px-4 py-12">
-      <Breadcrumbs
-        crumbs={[
-          { label: "Inicio", href: "/" },
-          { label: "Colecciones", href: "/colecciones" },
-          { label: collection.title, href: `/colecciones/${collection.slug}` },
-        ]}
-      />
+        <Breadcrumbs crumbs={[ {label: "Inicio", href: "/"}, {label: "Colecciones", href: "/colecciones"}, {label: collection.title, href: `/colecciones/${collection.slug}`"}]} />
       {/* Collection Header */}
       <div className="mb-12 text-center">
+
         <h1 className="text-4xl sm:text-5xl font-extrabold text-[#8B1E3F] mb-3">
           {collection.title}
         </h1>
@@ -50,15 +44,6 @@ export const CollectionPage = async ({
             {collection.description}
           </p>
         )}
-      </div>
-
-      {/* Filters Section */}
-      <div className="mb-8">
-        {/* Filter Options */}
-        <Button variant="outline">Filtros</Button>
-        <div>
-          <p>Ordenar por:</p>
-        </div>
       </div>
 
       {/* Products Grid */}
