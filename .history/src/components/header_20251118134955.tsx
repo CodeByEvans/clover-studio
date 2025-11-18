@@ -5,7 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { useScrollToId } from "@/hooks/useScrollToId";
-import { CiSearch } from "react-icons/ci";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,9 +33,6 @@ export default function Header() {
       <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            {isMobile && (
-              <CiSearch className="w-6 h-6 text-gray-600 hover:text-[#8B1E3F] transition-colors" />
-            )}
             {/* Logo */}
             <Link href="/" className="flex items-center group">
               <Image
