@@ -23,8 +23,8 @@ export const CollectionPage = async ({
   );
 
   return (
-    <section className="container mx-auto px-4 py-12 min-h-screen">
-      <header className=" flex flex-col items-center justify-center gap-4 border-b border-gray-200 pb-12">
+    <section className="container mx-auto px-4 py-12">
+      <header className=" border-b border-gray-200 pb-12">
         <Breadcrumbs
           crumbs={[
             { label: "Inicio", href: "/" },
@@ -36,10 +36,22 @@ export const CollectionPage = async ({
           ]}
         />
         {/* Collection Header */}
-        <div className=" text-center">
+        <div className="mb-12 text-center">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-[#8B1E3F] mb-3">
             {collection.title}
           </h1>
+
+          {collection.category && (
+            <h2 className="text-sm sm:text-lg text-gray-500 uppercase tracking-wide mb-2">
+              {collection.category.title}
+            </h2>
+          )}
+
+          {collection.description && (
+            <p className="text-gray-600 text-base line-clamp-2 max-w-xl mx-auto">
+              {collection.description}
+            </p>
+          )}
         </div>
       </header>
 

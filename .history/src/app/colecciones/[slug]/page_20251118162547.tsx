@@ -23,7 +23,7 @@ export const CollectionPage = async ({
   );
 
   return (
-    <section className="container mx-auto px-4 py-12 min-h-screen">
+    <section className="container mx-auto px-4 py-12">
       <header className=" flex flex-col items-center justify-center gap-4 border-b border-gray-200 pb-12">
         <Breadcrumbs
           crumbs={[
