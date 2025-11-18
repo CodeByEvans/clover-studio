@@ -6,6 +6,7 @@ import Carousel3D from "./common/Carousel3D";
 import { Products } from "@/types/product.type";
 import { Button } from "./ui/button";
 import { motion } from "motion/react";
+import Link from "next/link";
 
 type HeroProps = {
   products: Products;

@@ -45,7 +45,7 @@ export default function Header({ collections }: { collections: Collections }) {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-10">
+            <nav className="hidden lg:flex items-center ">
               {collections.map((collection) => (
                 <button
                   key={collection.id}

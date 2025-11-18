@@ -45,11 +45,11 @@ export default function Header({ collections }: { collections: Collections }) {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-10">
+            <nav className="hidden lg:flex items-center space-x-12">
               {collections.map((collection) => (
                 <button
                   key={collection.id}
-                  className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer"
+                  className="text-gray-700 hover:text-[#8B1E3F]  transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer"
                 >
                   {collection.title}
                 </button>

@@ -13,6 +13,7 @@ export type Product = {
   portrait: string;
   price: number;
   category: Category;
+  featured: boolean;
   created_at: string;
   updated_at: string;
 };
