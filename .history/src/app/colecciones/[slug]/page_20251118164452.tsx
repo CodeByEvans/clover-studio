@@ -4,12 +4,12 @@ import CollectionNotFound from "./404";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import ProductsSection from "./ProductsSection";
 
-export default async function Page({
+export default async function CollectionPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
 
   // Fetch collections y products
   const collections = await getCollections();

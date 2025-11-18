@@ -4,12 +4,12 @@ import CollectionNotFound from "./404";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import ProductsSection from "./ProductsSection";
 
-export default async function Page({
+export const CollectionPage = async ({
   params,
 }: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+  params: { slug: string };
+}) => {
+  const { slug } = params;
 
   // Fetch collections y products
   const collections = await getCollections();
@@ -46,4 +46,6 @@ export default async function Page({
       <ProductsSection filteredProducts={filteredProducts} />
     </section>
   );
-}
+};
+
+export default CollectionPage;
