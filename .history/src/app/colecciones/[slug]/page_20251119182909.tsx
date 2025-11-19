@@ -1,7 +1,8 @@
 import { getCollections } from "@/utils/supabase/collections";
 import { getProducts } from "@/utils/supabase/product";
 import CollectionNotFound from "./404";
-import ProductsSection from "../../../components/common/ProductsSection";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import ProductsSection from "./ProductsSection";
 import { SectionHeader } from "@/components/common/SectionHeader";
 
 export default async function Page({
@@ -18,7 +19,7 @@ export default async function Page({
   if (!collection) return <CollectionNotFound />;
 
   const products = await getProducts();
-  const collectionProducts = products.filter(
+  const filteredProducts = products.filter(
     (p) => p.collection.id === collection.id
   );
 
@@ -35,7 +36,7 @@ export default async function Page({
           },
         ]}
       />
-      <ProductsSection products={collectionProducts} />
+      <ProductsSection filteredProducts={filteredProducts} />
     </section>
   );
 }
