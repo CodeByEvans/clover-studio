@@ -1,12 +1,12 @@
 "use client";
 
 import { Products } from "@/types/product.type";
-import ProductFilters from "../../app/colecciones/[slug]/ProductFilters";
+import ProductFilters from "./ProductFilters";
 import { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
-export const ProductsSection = ({ products }: { products: Products }) => {
+export const SectionProducts = ({ products }: { products: Products }) => {
   const [sortedProducts, setSortedProducts] = useState(products);
 
   const handleSort = (value: string) => {
@@ -19,7 +19,7 @@ export const ProductsSection = ({ products }: { products: Products }) => {
   };
 
   return (
-    <section className="container mx-auto px-0 md:px-6 lg:px-20">
+    <section className="container mx-auto px-0 md:px-6 lg:px-20 min-h-screen">
       <ProductFilters onSort={handleSort} />
       {sortedProducts.length > 0 ? (
         <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
@@ -56,4 +56,4 @@ export const ProductsSection = ({ products }: { products: Products }) => {
   );
 };
 
-export default ProductsSection;
+export default SectionProducts;

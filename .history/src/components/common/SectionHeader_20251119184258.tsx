@@ -14,3 +14,5 @@ export const SectionHeader = ({ title, crumbs }: SectionHeaderProps) => {
     </header>
   );
 };
+
+export default SectionHeader;

@@ -1,8 +1,8 @@
 import { getCollections } from "@/utils/supabase/collections";
 import { getProducts } from "@/utils/supabase/product";
 import CollectionNotFound from "./404";
-import SectionProducts from "../../../components/common/section/SectionProducts";
-import SectionHeader from "@/components/common/section/SectionHeader";
+import ProductsSection from "../../../components/common/ProductsSection";
+import { SectionHeader } from "@/components/common/SectionHeader";
 
 export default async function Page({
   params,
@@ -35,7 +35,7 @@ export default async function Page({
           },
         ]}
       />
-      <SectionProducts products={collectionProducts} />
+      <ProductsSection products={collectionProducts} />
     </section>
   );
 }

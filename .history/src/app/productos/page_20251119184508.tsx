@@ -7,10 +7,10 @@ export default async function Page() {
   return (
     <section>
       <SectionHeader
-        title="Nuestro Catálogo"
+        title="Nuestro Catalogo"
         crumbs={[
           { label: "Inicio", href: "/" },
-          { label: "Productos", href: "/productos" },
+          { label: "Productos", href: "/catalogo" },
         ]}
       />
       <SectionProducts products={products} />
