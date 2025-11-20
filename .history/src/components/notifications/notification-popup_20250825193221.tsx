@@ -12,7 +12,7 @@ import {
 import {
   useNotifications,
   type Notification,
-} from "@/context/notifications-context";
+} from "@/contexts/notifications-context";
 
 interface NotificationPopupProps {
   notification: Notification;
@@ -101,8 +101,8 @@ export default function NotificationPopup({
         isVisible && !isExiting
           ? "translate-x-0 opacity-100 scale-100"
           : isExiting
-            ? "translate-x-full opacity-0 scale-95"
-            : "translate-x-full opacity-0 scale-95"
+          ? "translate-x-full opacity-0 scale-95"
+          : "translate-x-full opacity-0 scale-95"
       }`}
     >
       <div

@@ -1,5 +1,5 @@
-import SectionHeader from "@/components/SectionHeader";
-import SectionProducts from "@/components/SectionProducts";
+import { SectionHeader } from "@/components/section/SectionHeader";
+import SectionProducts from "@/components/section/SectionProducts";
 import { getProducts } from "@/utils/supabase/product";
 
 export default async function Page() {

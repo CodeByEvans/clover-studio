@@ -5,7 +5,7 @@ import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ReactQueryProvider from "@/app/provider";
-import { NotificationsProvider } from "@/context/notifications-context";
+import { NotificationsProvider } from "@/contexts/notifications-context";
 import NotificationContainer from "@/components/notifications/notification-container";
 import { Collections } from "@/types/collection.type";
 import { getCollections } from "@/utils/supabase/collections";

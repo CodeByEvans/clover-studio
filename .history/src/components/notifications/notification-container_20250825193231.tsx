@@ -1,6 +1,6 @@
 "use client";
 
-import { useNotifications } from "@/context/notifications-context";
+import { useNotifications } from "@/contexts/notifications-context";
 import NotificationPopup from "./notification-popup";
 
 export default function NotificationContainer() {
