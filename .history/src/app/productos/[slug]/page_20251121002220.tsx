@@ -6,12 +6,8 @@ import { Button } from "@/components/ui/button";
 import QuantitySelector from "./_components/QuantitySelector";
 import Link from "next/link";
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
+export default async function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params;
 
   // Obtener todos los productos
   const products: Products = await getProducts();

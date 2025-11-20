@@ -1,7 +1,6 @@
 // components/home/FeaturedCollection.tsx
 "use client";
 
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Products } from "@/types/product.type";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,27 +32,25 @@ export const FeaturedCollection = ({ products }: FeaturedCollectionProps) => {
             <Link
               key={product.id}
               href={`/productos/${product.slug}`}
-              className="group block"
+              className="group relative bg-white p-4 rounded-2xl shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 block"
             >
-              <Card className="overflow-hidden text-center hover:scale-105 transition-all duration-300 shadow rounded-2xl">
-                <CardHeader className="p-2">
-                  <div className="relative w-full aspect-square overflow-hidden rounded-xl">
-                    <Image
-                      src={product.portrait}
-                      alt={product.title}
-                      title={product.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <CardTitle className="mt-2 text-md font-semibold">
-                    {product.title}
-                  </CardTitle>
-                  <p className="text-sm text-gray-700 mt-1">
-                    ${product.price.toFixed(2)}
-                  </p>
-                </CardHeader>
-              </Card>
+              <div className="relative w-full aspect-square overflow-hidden rounded-xl mb-4">
+                <Image
+                  src={product.portrait}
+                  alt={product.title}
+                  width={800}
+                  height={800}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <div className="text-center">
+                <h3 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">
+                  {product.title}
+                </h3>
+                <p className="text-lg font-bold mt-2">
+                  ${product.price.toFixed(2)}
+                </p>
+              </div>
             </Link>
           ))}
         </div>

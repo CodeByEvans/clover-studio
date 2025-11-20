@@ -79,13 +79,21 @@ export const Carousel3D = ({ products }: Carousel3DProps) => {
                 >
                   {/* Project Image */}
                   <div className="relative h-80 overflow-hidden">
-                    <Image
-                      src={product.portrait}
-                      alt={product.title}
-                      fill
-                      className="object-cover"
-                      sizes="380px"
-                    />
+                    {product.portrait.endsWith(".gif") ? (
+                      <img
+                        src={product.portrait}
+                        alt={product.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <Image
+                        src={product.portrait}
+                        alt={product.title}
+                        fill
+                        className="object-cover"
+                        sizes="380px"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
                   </div>
 

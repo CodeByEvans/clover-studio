@@ -19,7 +19,7 @@ export const ProductFilters = ({
 
   const handleChange = (value: string) => {
     setSort(value);
-    onSort(value);
+    onSort(value); // avisas al padre que cambió el orden
   };
 
   return (
@@ -27,8 +27,6 @@ export const ProductFilters = ({
       <Button variant="outline">Filtros</Button>
       <div className="flex items-center gap-2">
         <p>Ordenar por:</p>
-
-        {/* Select */}
         <Select value={sort} onValueChange={handleChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Relevancia" />

@@ -11,7 +11,7 @@ export default async function Page({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  const { slug } = await params;
+  const { slug } = params;
 
   // Obtener todos los productos
   const products: Products = await getProducts();

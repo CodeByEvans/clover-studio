@@ -1,7 +1,6 @@
 // components/home/FeaturedCollection.tsx
 "use client";
 
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Products } from "@/types/product.type";
 import Image from "next/image";
 import Link from "next/link";
@@ -33,19 +32,21 @@ export const FeaturedCollection = ({ products }: FeaturedCollectionProps) => {
             <Link
               key={product.id}
               href={`/productos/${product.slug}`}
-              className="group block"
+              className="group relative bg-white p-4 rounded-2xl shadow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 block"
             >
-              <Card className="overflow-hidden text-center hover:scale-105 transition-all duration-300 shadow rounded-2xl">
+              <Card
+                key={product.id}
+                className="overflow-hidden text-center hover:scale-105 transition-all duration-300"
+              >
                 <CardHeader className="p-2">
-                  <div className="relative w-full aspect-square overflow-hidden rounded-xl">
-                    <Image
-                      src={product.portrait}
-                      alt={product.title}
-                      title={product.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                  <Image
+                    src={product.portrait}
+                    alt={product.title}
+                    title={product.title}
+                    width={300}
+                    height={300}
+                    className="w-full h-60 object-cover rounded-md"
+                  />
                   <CardTitle className="mt-2 text-md font-semibold">
                     {product.title}
                   </CardTitle>

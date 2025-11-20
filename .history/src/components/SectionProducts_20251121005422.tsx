@@ -5,7 +5,6 @@ import ProductFilters from "./ProductFilters";
 import { useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import Link from "next/link";
 
 export const SectionProducts = ({ products }: { products: Products }) => {
   const [sortedProducts, setSortedProducts] = useState(products);
@@ -25,31 +24,27 @@ export const SectionProducts = ({ products }: { products: Products }) => {
       {sortedProducts.length > 0 ? (
         <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
           {products.map((product) => (
-            <Link
+            <Card
               key={product.id}
-              href={`/productos/${product.slug}`}
-              className="group block"
+              className="overflow-hidden text-center hover:scale-105 transition-all duration-300"
             >
-              <Card className="overflow-hidden text-center hover:scale-105 transition-all duration-300 shadow rounded-2xl">
-                <CardHeader className="p-2">
-                  <div className="relative w-full aspect-square overflow-hidden rounded-xl">
-                    <Image
-                      src={product.portrait}
-                      alt={product.title}
-                      title={product.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <CardTitle className="mt-2 text-md font-semibold">
-                    {product.title}
-                  </CardTitle>
-                  <p className="text-sm text-gray-700 mt-1">
-                    ${product.price.toFixed(2)}
-                  </p>
-                </CardHeader>
-              </Card>
-            </Link>
+              <CardHeader className="p-2">
+                <Image
+                  src={product.portrait}
+                  alt={product.title}
+                  title={product.title}
+                  width={300}
+                  height={300}
+                  className="w-full h-60 object-cover rounded-md"
+                />
+                <CardTitle className="mt-2 text-md font-semibold">
+                  {product.title}
+                </CardTitle>
+                <p className="text-sm text-gray-700 mt-1">
+                  ${product.price.toFixed(2)}
+                </p>
+              </CardHeader>
+            </Card>
           ))}
         </section>
       ) : (
