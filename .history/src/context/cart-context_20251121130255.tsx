@@ -7,7 +7,7 @@ import { createContext, useContext, useState } from "react";
 type CartContextType = {
   cart: Cart;
   itemsInCart: number;
-  addToCart: (cartItem: Product, quantity: number) => void;
+  addToCart: (cartItem: CartItem, quantity: number) => void;
   removeFromCart: (product: Product) => void;
   clearCart: () => void;
 };
@@ -18,26 +18,23 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [cart, setCart] = useState<Cart>([]);
   const itemsInCart = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
-  const addToCart = (product: Product, quantity: number) => {
+  const addToCart = (cartItem: CartItem) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-
+      const existing = prev.find((item) => item.id === cartItem.id);
       if (existing) {
-        return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
+        return prev.map((p) =>
+          p.id === cartItem.id
+            ? {
+                ...p,
+                quantity: p.quantity + cartItem.quantity,
+              }
+            : p
         );
       }
-
-      const newItem: CartItem = {
-        ...product,
-        quantity,
-      };
-
-      return [...prev, newItem];
+      return [...prev, { ...cartItem }];
     });
   };
+
   const removeFromCart = (product: Product) => {
     setCart((prev) => prev.filter((p) => p.id !== product.id));
   };

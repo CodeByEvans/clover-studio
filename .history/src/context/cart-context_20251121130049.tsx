@@ -7,7 +7,7 @@ import { createContext, useContext, useState } from "react";
 type CartContextType = {
   cart: Cart;
   itemsInCart: number;
-  addToCart: (cartItem: Product, quantity: number) => void;
+  addToCart: (cartItem: CartItem, quantity: number) => void;
   removeFromCart: (product: Product) => void;
   clearCart: () => void;
 };
