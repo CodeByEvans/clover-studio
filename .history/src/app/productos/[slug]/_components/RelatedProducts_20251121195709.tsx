@@ -1,9 +1,9 @@
 "use client";
-import { useData } from "@/context/data-context";
+import { useProductsContext } from "@/context/product-context";
 import Link from "next/link";
 
 export const RelatedProducts = ({ slug }: { slug: string }) => {
-  const { products } = useData();
+  const { products } = useProductsContext();
 
   const product = products.find((p) => p.slug === slug);
   if (!product) return null;

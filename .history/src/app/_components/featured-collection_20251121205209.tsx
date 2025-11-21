@@ -2,7 +2,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { useData } from "@/context/data-context";
+import { useData } from "@/context/product-context";
 import { Products } from "@/types/product.type";
 import { getFeaturedProducts } from "@/utils/products";
 import Image from "next/image";
@@ -29,7 +29,7 @@ export const FeaturedCollection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {featuredProducts.map((product) => (
             <Link
               key={product.id}

@@ -1,19 +1,28 @@
 "use client";
 
-import ProductFilters from "../../../components/ProductFilters";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { useData } from "@/context/data-context";
+import { useData } from "@/context/product-context";
+import ProductFilters from "@/components/ProductFilters";
+import { Products } from "@/types/product.type";
 
-export const SectionProducts = () => {
+export const SectionProductsWithSlug = ({ slug }: { slug: string }) => {
   const { products } = useData();
 
+  const [sectionProducts, setSectionProducts] = useState<Products>([]);
   const [sortedProducts, setSortedProducts] = useState(products);
 
+  useEffect(() => {
+    const filteredProducts = products.filter(
+      (product) => product.collection.slug === slug
+    );
+    setSectionProducts(filteredProducts);
+  }, [products, slug]);
+
   const handleSort = (value: string) => {
-    let sorted = [...products];
+    let sorted = [...sectionProducts];
     if (value === "precio") {
       sorted.sort((a, b) => a.price - b.price);
     }
@@ -63,4 +72,4 @@ export const SectionProducts = () => {
   );
 };
 
-export default SectionProducts;
+export default SectionProductsWithSlug;

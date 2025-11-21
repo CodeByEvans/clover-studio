@@ -9,7 +9,7 @@ import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Carousel3D from "@/components/Carousel3D";
 import { getFeaturedProducts } from "@/utils/products";
-import { useData } from "@/context/data-context";
+import { useData } from "@/context/product-context";
 
 export const Hero = () => {
   const { products } = useData();

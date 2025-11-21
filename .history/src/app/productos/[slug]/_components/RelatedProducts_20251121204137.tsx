@@ -1,5 +1,5 @@
 "use client";
-import { useData } from "@/context/data-context";
+import { useData } from "@/context/product-context";
 import Link from "next/link";
 
 export const RelatedProducts = ({ slug }: { slug: string }) => {

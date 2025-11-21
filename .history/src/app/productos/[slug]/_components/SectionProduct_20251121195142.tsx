@@ -1,12 +1,16 @@
 "use client";
 
-import { useData } from "@/context/data-context";
+import { useState } from "react";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
+import Link from "next/link";
+import { useProductsContext } from "@/context/product-context";
 import ProductNotFound from "../404";
 import AddToCartSection from "./AddToCartSection";
 import SwiperCarousel from "@/components/SwiperCarousel";
 
 export const SectionProduct = ({ slug }: { slug: string }) => {
-  const { products } = useData();
+  const { products } = useProductsContext();
 
   // Search product by slug
   const product = products.find((p) => p.slug === slug);

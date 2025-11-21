@@ -4,9 +4,14 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import ReactQueryProvider from "@/components/ReactQueryProvider";
-import { NotificationsProvider } from "@/contexts/notifications-context";
+import ReactQueryProvider from "@/app/provider";
+import { NotificationsProvider } from "@/context/notifications-context";
 import NotificationContainer from "@/components/notifications/notification-container";
+import { Collections } from "@/types/collection.type";
+import { getCollections } from "@/utils/supabase/collections";
+import { CartProvider } from "@/context/cart-context";
+import { DataProvider } from "@/context/product-context";
+import { DataBoundary } from "@/components/DataBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +29,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Clover Studio",
     description: "Velas artesanales, wax melts y productos aromáticos únicos",
-    url: "https://tu-dominio.com",
+    url: "https://cloverstudio.com",
     siteName: "Clover Studio",
     type: "website",
     locale: "es_ES",
@@ -52,24 +57,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  // Collection fetch
+  const collections: Collections = await getCollections();
   return (
     <html lang="es">
       <body className={inter.className}>
-        <NotificationsProvider>
-          <ReactQueryProvider>
-            <div className="flex min-h-screen flex-col">
-              <Header />
-              <main className="flex-1">{children}</main>
-              <Footer />
-              <NotificationContainer />
-            </div>
-          </ReactQueryProvider>
-        </NotificationsProvider>
+        <ReactQueryProvider>
+          <DataProvider>
+            <CartProvider>
+              <NotificationsProvider>
+                <DataBoundary>
+                  <div className="flex min-h-screen flex-col">
+                    <Header collections={collections} />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                    <NotificationContainer />
+                  </div>
+                </DataBoundary>
+              </NotificationsProvider>
+            </CartProvider>
+          </DataProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

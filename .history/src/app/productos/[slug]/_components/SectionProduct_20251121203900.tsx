@@ -1,6 +1,6 @@
 "use client";
 
-import { useData } from "@/context/data-context";
+import { useData } from "@/context/product-context";
 import ProductNotFound from "../404";
 import AddToCartSection from "./AddToCartSection";
 import SwiperCarousel from "@/components/SwiperCarousel";

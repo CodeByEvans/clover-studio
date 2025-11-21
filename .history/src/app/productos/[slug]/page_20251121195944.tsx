@@ -1,3 +1,8 @@
+import ProductNotFound from "./404";
+import SwiperCarousel from "@/components/SwiperCarousel";
+import Link from "next/link";
+import AddToCartSection from "./_components/AddToCartSection";
+import { useProductsContext } from "@/context/product-context";
 import SectionProduct from "./_components/SectionProduct";
 import { RelatedProducts } from "./_components/RelatedProducts";
 

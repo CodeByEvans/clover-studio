@@ -2,6 +2,7 @@ import { getCollections } from "@/utils/supabase/collections";
 import { getProducts } from "@/utils/supabase/product";
 import CollectionNotFound from "./404";
 import SectionHeader from "@/components/SectionHeader";
+import SectionProducts from "@/app/productos/_components/SectionProducts";
 import SectionProductsWithSlug from "./_components/SectionProductsWithSlug";
 
 export default async function Page({

@@ -1,24 +1,35 @@
 "use client";
 
-import ProductFilters from "../../../components/ProductFilters";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
-import { useData } from "@/context/data-context";
+import { useData } from "@/context/product-context";
+import ProductFilters from "@/components/ProductFilters";
 
-export const SectionProducts = () => {
+export const SectionProductsWithSlug = ({ slug }: { slug: string }) => {
   const { products } = useData();
+  const [sortBy, setSortBy] = useState<string>("relevancia");
 
-  const [sortedProducts, setSortedProducts] = useState(products);
+  const sectionProducts = useMemo(() => {
+    return products.filter((product) => product.collection.slug === slug);
+  }, [products, slug]);
+
+  const sortedProducts = useMemo(() => {
+    const sorted = [...sectionProducts];
+
+    if (sortBy === "precio-asc") {
+      sorted.sort((a, b) => a.price - b.price);
+    } else if (sortBy === "precio-desc") {
+      sorted.sort((a, b) => b.price - a.price);
+    }
+    // "relevancia" mantiene orden original
+
+    return sorted;
+  }, [sectionProducts, sortBy]);
 
   const handleSort = (value: string) => {
-    let sorted = [...products];
-    if (value === "precio") {
-      sorted.sort((a, b) => a.price - b.price);
-    }
-    // si quieres relevancia puedes añadir lógica
-    setSortedProducts(sorted);
+    setSortBy(value);
   };
 
   return (
@@ -26,7 +37,7 @@ export const SectionProducts = () => {
       <ProductFilters onSort={handleSort} />
       {sortedProducts.length > 0 ? (
         <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
-          {products.map((product) => (
+          {sortedProducts.map((product) => (
             <Link
               key={product.id}
               href={`/productos/${product.slug}`}
@@ -63,4 +74,4 @@ export const SectionProducts = () => {
   );
 };
 
-export default SectionProducts;
+export default SectionProductsWithSlug;
