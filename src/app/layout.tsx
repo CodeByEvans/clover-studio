@@ -10,50 +10,13 @@ import NotificationContainer from "@/components/notifications/notification-conta
 import { Collections } from "@/types/collection.type";
 import { getCollections } from "@/utils/supabase/collections";
 import { CartProvider } from "@/context/cart-context";
-import { ProductsProvider } from "@/context/product-context";
+import { DataProvider } from "@/context/data-context";
+import { DataBoundary } from "@/components/DataBoundary";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | Clover Studio", // Para páginas individuales
-    default: "Clover Studio",
-  },
-  description:
-    "Descubre nuestra colección de velas artesanales, wax melts y productos aromáticos únicos. Cada pieza está creada con amor para llenar tu hogar de calidez y personalidad.",
-  keywords: ["velas", "artesanales", "wax melts", "aromáticos", "hogar"],
-  authors: [{ name: "Clover Studio" }],
-  creator: "Clover Studio",
-  metadataBase: new URL("https://cloverstudio.es"),
-  openGraph: {
-    title: "Clover Studio",
-    description: "Velas artesanales, wax melts y productos aromáticos únicos",
-    url: "https://cloverstudio.com",
-    siteName: "Clover Studio",
-    type: "website",
-    locale: "es_ES",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-    ],
-    shortcut: "/favicon.ico",
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
-  },
-  manifest: "/site.webmanifest",
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
+  // ... tu metadata
 };
 
 export default async function RootLayout({
@@ -61,24 +24,29 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Collection fetch
   const collections: Collections = await getCollections();
+
   return (
     <html lang="es">
       <body className={inter.className}>
         <ReactQueryProvider>
-          <ProductsProvider>
+          <Header collections={collections} />
+
+          <DataProvider>
             <CartProvider>
               <NotificationsProvider>
-                <div className="flex min-h-screen flex-col">
-                  <Header collections={collections} />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-                  <NotificationContainer />
-                </div>
+                <DataBoundary>
+                  <div className="flex min-h-screen flex-col">
+                    <main className="flex-1">{children}</main>
+                  </div>
+                </DataBoundary>
+
+                <NotificationContainer />
               </NotificationsProvider>
             </CartProvider>
-          </ProductsProvider>
+          </DataProvider>
+
+          <Footer />
         </ReactQueryProvider>
       </body>
     </html>
