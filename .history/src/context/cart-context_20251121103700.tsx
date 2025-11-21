@@ -26,7 +26,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           p.id === cartItem.id
             ? {
                 ...p,
-                quantity: p.quantity + quantity,
+                quantity: (p.quantity || 0) + quantity,
               }
             : p
         );

@@ -1,15 +1,12 @@
 "use client";
 
 import { Cart, CartItem } from "@/types/cart.type";
-import { Product } from "@/types/product.type";
 import { createContext, useContext, useState } from "react";
 
 type CartContextType = {
   cart: Cart;
   itemsInCart: number;
   addToCart: (cartItem: CartItem, quantity: number) => void;
-  removeFromCart: (product: Product) => void;
-  clearCart: () => void;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -26,7 +23,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
           p.id === cartItem.id
             ? {
                 ...p,
-                quantity: p.quantity + quantity,
+                quantity: (p.quantity || 0) + quantity,
               }
             : p
         );
@@ -35,16 +32,8 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  const removeFromCart = (product: Product) => {
-    setCart((prev) => prev.filter((p) => p.id !== product.id));
-  };
-
-  const clearCart = () => setCart([]);
-
   return (
-    <CartContext.Provider
-      value={{ cart, itemsInCart, addToCart, removeFromCart, clearCart }}
-    >
+    <CartContext.Provider value={{ cart, itemsInCart, addToCart }}>
       {children}
     </CartContext.Provider>
   );
