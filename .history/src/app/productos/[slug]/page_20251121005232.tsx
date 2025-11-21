@@ -5,8 +5,6 @@ import { Products } from "@/types/product.type";
 import { Button } from "@/components/ui/button";
 import QuantitySelector from "./_components/QuantitySelector";
 import Link from "next/link";
-import { useProducts } from "@/hooks/use-products";
-import LoadingLayout from "@/app/loading";
 
 export default async function Page({
   params,
@@ -15,22 +13,14 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  // Product fetch with react query hook
-  const { data: products, error, status } = useProducts();
+  // Obtener todos los productos
+  const products: Products = await getProducts();
 
-  if (status === "pending") {
-    return <LoadingLayout />;
-  }
-
-  if (status === "error") {
-    return <p>Error al cargar los productos: {(error as Error).message}</p>;
-  }
-
-  // Search product by slug
+  // Buscar producto por slug
   const product = products.find((p) => p.slug === slug);
   if (!product) return <ProductNotFound />;
 
-  // Related products filter
+  // Productos relacionados (misma colección, diferente ID)
   const relatedProducts = products.filter(
     (p) => p.collection.id === product.collection.id && p.id !== product.id
   );
