@@ -1,9 +1,10 @@
 import { z } from "zod";
 
 const envsSchema = z.object({
+  API_URL: z.string().url(),
   RESEND_API_KEY: z.string(),
   EMAIL_FROM: z.string().email(),
-  NEXT_PUBLIC_SUPABASE_URL: z.string(),
+  NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string(),
 });
 
@@ -14,6 +15,7 @@ if (!parsed.success) {
 }
 
 export const envs = {
+  apiUrl: parsed.data.API_URL,
   resendApiKey: parsed.data.RESEND_API_KEY,
   emailFrom: parsed.data.EMAIL_FROM,
   supabaseUrl: parsed.data.NEXT_PUBLIC_SUPABASE_URL,
