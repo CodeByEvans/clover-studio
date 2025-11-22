@@ -8,7 +8,7 @@ import { useCollections } from "@/hooks/use-collections";
 
 type DataContextType = {
   products: Products;
-  categories: Collections;
+  collections: Collections;
   isLoadingProducts: boolean;
   isLoadingCollections: boolean;
   isLoading: boolean;
@@ -39,7 +39,7 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     <DataContext.Provider
       value={{
         products: products ?? [],
-        categories: collections ?? [],
+        collections: collections ?? [],
         isLoadingProducts,
         isLoadingCollections: IsLoadingCollections,
         isLoading,
