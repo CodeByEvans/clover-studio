@@ -7,7 +7,8 @@ import Footer from "@/components/footer";
 import ReactQueryProvider from "@/app/provider";
 import { NotificationsProvider } from "@/context/notifications-context";
 import NotificationContainer from "@/components/notifications/notification-container";
-
+import { Collections } from "@/types/collection.type";
+import { getCollections } from "@/utils/supabase/collections";
 import { CartProvider } from "@/context/cart-context";
 import { DataProvider } from "@/context/data-context";
 import { DataBoundary } from "@/components/DataBoundary";
@@ -23,25 +24,29 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const collections: Collections = await getCollections();
+
   return (
     <html lang="es">
       <body className={inter.className}>
         <ReactQueryProvider>
           <DataProvider>
+            <Header />
+
             <CartProvider>
               <NotificationsProvider>
                 <DataBoundary>
-                  <Header />
                   <div className="flex min-h-screen flex-col">
                     <main className="flex-1">{children}</main>
                   </div>
-                  <Footer />
                 </DataBoundary>
 
                 <NotificationContainer />
               </NotificationsProvider>
             </CartProvider>
           </DataProvider>
+
+          <Footer />
         </ReactQueryProvider>
       </body>
     </html>

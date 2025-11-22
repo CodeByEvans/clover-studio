@@ -6,8 +6,10 @@ import Image from "next/image";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { Collections } from "@/types/collection.type";
+import { useData } from "@/context/data-context";
 
-export default function Header({ collections }: { collections: Collections }) {
+export default function Header() {
+  const { collections }: { collections: Collections } = useData();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -20,7 +22,7 @@ export default function Header({ collections }: { collections: Collections }) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  });
+  }, []);
 
   return (
     <>

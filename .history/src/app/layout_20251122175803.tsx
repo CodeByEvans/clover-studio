@@ -28,20 +28,22 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ReactQueryProvider>
           <DataProvider>
+            <Header />
+
             <CartProvider>
               <NotificationsProvider>
                 <DataBoundary>
-                  <Header />
                   <div className="flex min-h-screen flex-col">
                     <main className="flex-1">{children}</main>
                   </div>
-                  <Footer />
                 </DataBoundary>
 
                 <NotificationContainer />
               </NotificationsProvider>
             </CartProvider>
           </DataProvider>
+
+          <Footer />
         </ReactQueryProvider>
       </body>
     </html>
