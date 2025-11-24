@@ -56,12 +56,8 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
   const isLoadingProducts = productsStatus === "pending";
   const IsLoadingCollections = collectionsStatus === "pending";
   const isLoadingNavigation = navigationStatus === "pending";
-  const isLoadingHeaderHighlights = headerHighlightsStatus === "pending";
   const isLoading =
-    isLoadingProducts ||
-    IsLoadingCollections ||
-    isLoadingNavigation ||
-    isLoadingHeaderHighlights;
+    isLoadingProducts || IsLoadingCollections || isLoadingNavigation;
 
   return (
     <DataContext.Provider
@@ -69,16 +65,13 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         products: products ?? [],
         collections: collections ?? [],
         navigation: navigation ?? [],
-        headerHighlights: headerHighlights ?? [],
         isLoadingProducts,
         isLoadingCollections: IsLoadingCollections,
         isLoadingNavigation,
-        isLoadingHeaderHighlights,
         isLoading,
         productsError: productsError as Error | null,
         collectionsError: collectionsError as Error | null,
         navigationError: navigationError as Error | null,
-        headerHighlightsError: headerHighlightsError as Error | null,
       }}
     >
       {children}
