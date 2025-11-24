@@ -24,6 +24,7 @@ export const collectionsAPI = {
 export const navigationAPI = {
   getAll: async () => {
     const response = await api.get("/navigation");
+    console.log("Navigation response:", response);
     return response.data;
   },
 };

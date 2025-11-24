@@ -6,19 +6,15 @@ import { Products } from "@/types/product.type";
 import { Collections } from "@/types/collection.type";
 import { useCollections } from "@/hooks/use-collections";
 import { useNavigation } from "@/hooks/use-navigation";
-import { Navigation } from "@/types/navigation.type";
 
 type DataContextType = {
   products: Products;
   collections: Collections;
-  navigation: Navigation;
   isLoadingProducts: boolean;
   isLoadingCollections: boolean;
-  isLoadingNavigation: boolean;
   isLoading: boolean;
   productsError: Error | null;
   collectionsError: Error | null;
-  navigationError: Error | null;
 };
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -53,14 +49,11 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
       value={{
         products: products ?? [],
         collections: collections ?? [],
-        navigation: navigation ?? [],
         isLoadingProducts,
         isLoadingCollections: IsLoadingCollections,
-        isLoadingNavigation,
         isLoading,
         productsError: productsError as Error | null,
         collectionsError: collectionsError as Error | null,
-        navigationError: navigationError as Error | null,
       }}
     >
       {children}

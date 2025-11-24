@@ -19,15 +19,10 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Button } from "./ui/button";
-import { Navigation } from "@/types/navigation.type";
-
-export interface HeaderProps {
-  collections: Collections;
-  navigation: Navigation;
-}
+import { getNavigation } from "@/utils/supabase/api";
 
 export default function Header() {
-  const { collections, navigation }: HeaderProps = useData();
+  const { collections }: { collections: Collections } = useData();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState<string>("all");
@@ -127,16 +122,16 @@ export default function Header() {
         {isMenuOpen && (
           <div className="lg:hidden py-4 border-t border-gray-100 animate-slide-down">
             <nav className="flex flex-col space-y-4">
-              {navigation.map((navigation) => (
+              {collections.map((collection) => (
                 <Link
-                  href={`/colecciones/${navigation.slug}`}
-                  key={navigation.id}
+                  href={`/colecciones/${collection.slug}`}
+                  key={collection.id}
                   onClick={() => {
                     setIsMenuOpen(false);
                   }}
                   className="text-gray-700 text-left hover:text-[#8B1E3F] font-medium transition-colors duration-200 py-2"
                 >
-                  {navigation.title}
+                  {collection.title}
                 </Link>
               ))}
               {/* CTA button in mobile menu */}
@@ -159,13 +154,13 @@ export default function Header() {
       <div className="container mx-auto py-2 px-4">
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-10">
-          {navigation.map((navigation) => (
+          {navigation.map((collection) => (
             <Link
-              href={`/colecciones/${navigation.slug}`}
-              key={navigation.id}
+              href={`/colecciones/${collection.slug}`}
+              key={collection.id}
               className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer lg:text-sm"
             >
-              {navigation.title}
+              {collection.title}
             </Link>
           ))}
         </nav>
