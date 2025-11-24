@@ -1,4 +1,5 @@
-import { getCollections, getProducts } from "@/utils/supabase/api";
+import { getCollections } from "@/utils/supabase/collections";
+import { getProducts } from "@/utils/supabase/api";
 import CollectionNotFound from "./404";
 import SectionHeader from "@/components/SectionHeader";
 import SectionProductsWithSlug from "./_components/SectionProductsWithSlug";

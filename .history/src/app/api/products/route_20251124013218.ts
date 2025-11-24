@@ -1,7 +1,7 @@
 import { getProducts } from "@/utils/supabase/api";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
     const products = await getProducts();
     return NextResponse.json(products, { status: 200 });
