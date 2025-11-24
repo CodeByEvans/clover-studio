@@ -5,11 +5,12 @@ import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import ReactQueryProvider from "@/app/provider";
+import { NotificationsProvider } from "@/context/notifications-context";
+import NotificationContainer from "@/components/notifications/notification-container";
 
 import { CartProvider } from "@/context/cart-context";
 import { DataProvider } from "@/context/data-context";
 import { DataBoundary } from "@/components/DataBoundary";
-import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,16 +28,19 @@ export default async function RootLayout({
       <body className={inter.className}>
         <ReactQueryProvider>
           <DataProvider>
-            <CartProvider>
-              <DataBoundary>
-                <Header />
-                <div>
-                  <main className="flex-1">{children}</main>
-                  <Toaster />
-                </div>
-                <Footer />
-              </DataBoundary>
-            </CartProvider>
+            <NotificationsProvider>
+              <CartProvider>
+                <DataBoundary>
+                  <Header />
+                  <div>
+                    <main className="flex-1">{children}</main>
+                  </div>
+                  <Footer />
+                </DataBoundary>
+
+                <NotificationContainer />
+              </CartProvider>
+            </NotificationsProvider>
           </DataProvider>
         </ReactQueryProvider>
       </body>

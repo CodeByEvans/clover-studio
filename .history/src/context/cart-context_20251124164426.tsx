@@ -3,7 +3,7 @@
 import { Cart, CartItem } from "@/types/cart.type";
 import { Product } from "@/types/product.type";
 import { createContext, useContext, useState } from "react";
-import { toast } from "sonner";
+import { useNotifications } from "./notifications-context";
 
 type CartContextType = {
   cart: Cart;
@@ -16,6 +16,7 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const { showSuccess } = useNotifications();
   const [cart, setCart] = useState<Cart>([]);
   const itemsInCart = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
@@ -37,19 +38,13 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
         quantity,
       };
 
+      showSuccess(
+        "Producto agregado al carrito",
+        `El producto ${product.title} se ha agregado al carrito`,
+        5000
+      );
+
       return [...prev, newItem];
-    });
-    toast.success("Producto añadido al carrito", {
-      description: `Se han añadido ${quantity} ${product.title} al carrito`,
-      action: {
-        label: "Deshacer",
-        onClick: () => {
-          removeFromCart(product);
-        },
-      },
-      classNames: {
-        description: "text-muted-foreground",
-      },
     });
   };
   const removeFromCart = (product: Product) => {

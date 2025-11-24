@@ -40,15 +40,12 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       return [...prev, newItem];
     });
     toast.success("Producto añadido al carrito", {
-      description: `Se han añadido ${quantity} ${product.title} al carrito`,
+      description: `El producto ${product.title} se ha añadido al carrito`,
       action: {
         label: "Deshacer",
         onClick: () => {
           removeFromCart(product);
         },
-      },
-      classNames: {
-        description: "text-muted-foreground",
       },
     });
   };

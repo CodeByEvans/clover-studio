@@ -42,7 +42,18 @@ export interface HeaderProps {
 
 export default function Header() {
   const { collections, navigation, headerHighlights }: HeaderProps = useData();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("all");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <motion.header
@@ -91,7 +102,7 @@ export default function Header() {
           </Link>
 
           <div className="flex  items-center max-w-xl w-max">
-            <InputGroup className="hidden md:flex rounded-l-none overflow-hidden">
+            <InputGroup className="hidden md:flex rounded-l-none">
               <Select
                 value={selectedCollection}
                 onValueChange={setSelectedCollection}
@@ -128,7 +139,7 @@ export default function Header() {
         </div>
 
         {/* NAV DESKTOP  */}
-        <div className="container mx-auto py-2 hidden lg:flex lg:justify-between">
+        <div className="container mx-auto py-2 px-6 hidden lg:flex lg:justify-between">
           <nav className="flex items-center space-x-10">
             {navigation.map((n) => (
               <Link
@@ -161,7 +172,7 @@ export default function Header() {
 
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
         <div className="md:hidden w-full pb-3">
-          <InputGroup className="w-full overflow-hidden">
+          <InputGroup className="w-full">
             <InputGroupInput placeholder="Buscar en Clover Studio..." />
             <Button variant="outline" className="bg-gray-100 rounded-l-none">
               <Search className="w-5 h-5" />

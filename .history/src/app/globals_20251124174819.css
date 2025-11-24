@@ -112,11 +112,6 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
-/* Estilos personalizados para Sonner */
-[data-sonner-toast][data-styled="true"] [data-description] {
-  color: var(--muted-foreground) !important;
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;

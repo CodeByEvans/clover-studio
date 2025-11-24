@@ -36,6 +36,8 @@ export default async function RootLayout({
                 </div>
                 <Footer />
               </DataBoundary>
+
+              <NotificationContainer />
             </CartProvider>
           </DataProvider>
         </ReactQueryProvider>

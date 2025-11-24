@@ -42,7 +42,18 @@ export interface HeaderProps {
 
 export default function Header() {
   const { collections, navigation, headerHighlights }: HeaderProps = useData();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("all");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <motion.header
@@ -91,12 +102,12 @@ export default function Header() {
           </Link>
 
           <div className="flex  items-center max-w-xl w-max">
-            <InputGroup className="hidden md:flex rounded-l-none overflow-hidden">
+            <InputGroup className="flex rounded-md overflow-hidden">
               <Select
                 value={selectedCollection}
                 onValueChange={setSelectedCollection}
               >
-                <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
+                <SelectTrigger className="w-[180px] bg-gray-100 text-gray-700 font-light text-xs">
                   <SelectValue placeholder="Todas las colecciones" />
                 </SelectTrigger>
 
@@ -112,8 +123,13 @@ export default function Header() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <InputGroupInput placeholder="Buscar en Clover Studio..." />
-              <Button variant="outline" className="bg-gray-100 rounded-l-none">
+
+              <InputGroupInput
+                placeholder="Buscar en Clover Studio..."
+                className="border-none"
+              />
+
+              <Button variant="outline" className="bg-gray-100 border-none">
                 <Search className="w-5 h-5" />
               </Button>
             </InputGroup>
@@ -161,7 +177,7 @@ export default function Header() {
 
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
         <div className="md:hidden w-full pb-3">
-          <InputGroup className="w-full overflow-hidden">
+          <InputGroup className="w-full">
             <InputGroupInput placeholder="Buscar en Clover Studio..." />
             <Button variant="outline" className="bg-gray-100 rounded-l-none">
               <Search className="w-5 h-5" />

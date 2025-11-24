@@ -117,6 +117,16 @@
   color: var(--muted-foreground) !important;
 }
 
+[data-sonner-toast][data-styled="true"] [data-title] {
+  color: var(--foreground);
+  font-weight: 600;
+}
+
+/* Si quieres ajustar por tema */
+.dark [data-sonner-toast][data-styled="true"] [data-description] {
+  color: var(--muted-foreground) !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

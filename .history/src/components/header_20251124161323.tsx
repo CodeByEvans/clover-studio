@@ -1,21 +1,18 @@
 "use client";
 
-// Imports
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-// Types imports
 import { Collection, Collections } from "@/types/collection.type";
 import { Navigation } from "@/types/navigation.type";
 import { HeaderHighlights } from "@/types/header_hightlights.type";
 import { useData } from "@/context/data-context";
+import { InputGroup, InputGroupInput } from "./ui/input-group";
 
 // Icons imports
 import { ShoppingCartIcon } from "lucide-react";
 import { Search } from "lucide-react";
-
-// Components imports
 import {
   Select,
   SelectContent,
@@ -26,13 +23,10 @@ import {
   SelectValue,
 } from "./ui/select";
 import { Button } from "./ui/button";
-import { InputGroup, InputGroupInput } from "./ui/input-group";
 
-// Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
-import { motion } from "framer-motion";
 
 export interface HeaderProps {
   collections: Collections;
@@ -42,15 +36,22 @@ export interface HeaderProps {
 
 export default function Header() {
   const { collections, navigation, headerHighlights }: HeaderProps = useData();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [selectedCollection, setSelectedCollection] = useState("all");
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
-    <motion.header
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 shadow-sm"
-    >
-      <section className="container mx-auto">
+    <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 shadow-sm">
+      <div className="container mx-auto px-8">
         {/* ----------------- FILA 1 MÓVIL ----------------- */}
         <div className="flex items-center justify-between h-20 relative md:hidden">
           {/* placeholder para balancear el logo */}
@@ -91,7 +92,7 @@ export default function Header() {
           </Link>
 
           <div className="flex  items-center max-w-xl w-max">
-            <InputGroup className="hidden md:flex rounded-l-none overflow-hidden">
+            <InputGroup className="hidden md:flex rounded-l-none">
               <Select
                 value={selectedCollection}
                 onValueChange={setSelectedCollection}
@@ -127,41 +128,9 @@ export default function Header() {
           </div>
         </div>
 
-        {/* NAV DESKTOP  */}
-        <div className="container mx-auto py-2 hidden lg:flex lg:justify-between">
-          <nav className="flex items-center space-x-10">
-            {navigation.map((n) => (
-              <Link
-                href={`/colecciones/${n.slug}`}
-                key={n.id}
-                className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer lg:text-sm"
-              >
-                {n.title}
-              </Link>
-            ))}
-          </nav>
-          {/* Línea separadora */}
-          <hr className="mt-2 border-gray-200" />
-          <Swiper
-            modules={[Autoplay]}
-            spaceBetween={50}
-            slidesPerView={1}
-            autoplay={{ delay: 3000 }}
-            loop
-            className="hidden md:flex items-center text-center w-1/2"
-          >
-            {headerHighlights.map((highlight) => (
-              <SwiperSlide
-                key={highlight.id}
-                className="text-gray-600 font-light text-sm"
-              >{`${highlight.text}`}</SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
-
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
         <div className="md:hidden w-full pb-3">
-          <InputGroup className="w-full overflow-hidden">
+          <InputGroup className="w-full">
             <InputGroupInput placeholder="Buscar en Clover Studio..." />
             <Button variant="outline" className="bg-gray-100 rounded-l-none">
               <Search className="w-5 h-5" />
@@ -171,7 +140,7 @@ export default function Header() {
 
         {/* ----------------- FILA 3 MÓVIL: NAV SCROLL ----------------- */}
         <nav className="md:hidden w-full overflow-x-auto scrollbar-none whitespace-nowrap scrollbar-none py-2 hide-scrollbar">
-          <div className="flex space-x-6 px-2 w-full">
+          <div className="flex space-x-6 px-2">
             {navigation.map((n) => (
               <Link
                 key={n.id}
@@ -183,7 +152,39 @@ export default function Header() {
             ))}
           </div>
         </nav>
-      </section>
-    </motion.header>
+      </div>
+
+      {/* NAV DESKTOP  */}
+      <div className="container mx-auto py-2 px-24 hidden lg:flex lg:justify-between">
+        <nav className="flex items-center space-x-10">
+          {navigation.map((n) => (
+            <Link
+              href={`/colecciones/${n.slug}`}
+              key={n.id}
+              className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer lg:text-sm"
+            >
+              {n.title}
+            </Link>
+          ))}
+        </nav>
+        {/* Línea separadora */}
+        <hr className="mt-2 border-gray-200" />
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={50}
+          slidesPerView={1}
+          autoplay={{ delay: 3000 }}
+          loop
+          className="text-center w-1/2"
+        >
+          {headerHighlights.map((highlight) => (
+            <SwiperSlide
+              key={highlight.id}
+              className="text-gray-600 font-light text-sm"
+            >{`${highlight.text}`}</SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+    </header>
   );
 }

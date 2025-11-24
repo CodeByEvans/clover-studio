@@ -117,6 +117,10 @@
   color: var(--muted-foreground) !important;
 }
 
+[data-sonner-toast][data-styled="true"] [data-button] {
+  color: var(--foreground) !important;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
