@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X, ArrowRight, ShoppingCartIcon } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 import { CiSearch } from "react-icons/ci";
 import { Collection, Collections } from "@/types/collection.type";
 import { useData } from "@/context/data-context";
@@ -43,7 +43,7 @@ export default function Header() {
 
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 shadow-sm">
-      <div className="container mx-auto px-8">
+      <div className="container mx-auto px-4">
         {/* ----------------- FILA 1 MÓVIL ----------------- */}
         <div className="flex items-center justify-between h-20 relative md:hidden">
           {/* placeholder para balancear el logo */}
@@ -57,18 +57,14 @@ export default function Header() {
             <Image
               src="/logo.svg"
               alt="Clover Studio Logo"
-              width={90}
-              height={90}
+              width={55}
+              height={55}
               className="transition-transform duration-300"
             />
           </Link>
 
           {/* CARRITO */}
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="flex items-center">
-              <ShoppingCartIcon className="size-6" />
-            </Button>
-          </div>
+          <CiSearch className="w-6 h-6 text-gray-600 hover:text-[#8B1E3F] transition-colors" />
         </div>
 
         {/* ----------------- FILA 1 DESKTOP ----------------- */}
@@ -77,46 +73,70 @@ export default function Header() {
             <Image
               src="/logo.svg"
               alt="Clover Studio Logo"
-              width={80}
-              height={80}
+              width={60}
+              height={60}
               className="transition-transform duration-300 group-hover:scale-110"
             />
           </Link>
 
-          <div className="flex  items-center max-w-xl w-max">
-            <InputGroup className="hidden md:flex rounded-l-none">
-              <Select
-                value={selectedCollection}
-                onValueChange={setSelectedCollection}
-              >
-                <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
-                  <SelectValue placeholder="Todas las colecciones" />
-                </SelectTrigger>
+          <div className="flex items-center max-w-xl w-max">
+            <Select
+              value={selectedCollection}
+              onValueChange={setSelectedCollection}
+            >
+              <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:block">
+                <SelectValue placeholder="Todas las colecciones" />
+              </SelectTrigger>
 
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Colecciones</SelectLabel>
-                    <SelectItem value="all">Todas las colecciones</SelectItem>
-                    {collections.map((collection: Collection) => (
-                      <SelectItem value={collection.slug} key={collection.id}>
-                        {collection.title}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Colecciones</SelectLabel>
+                  <SelectItem value="all">Todas las colecciones</SelectItem>
+                  {collections.map((collection: Collection) => (
+                    <SelectItem value={collection.slug} key={collection.id}>
+                      {collection.title}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <InputGroup className="hidden md:flex rounded-l-none">
               <InputGroupInput placeholder="Buscar en Clover Studio..." />
-              <Button variant="outline" className="bg-gray-100 rounded-l-none">
+              <Button
+                variant="outline"
+                onClick={() => console.log(selectedCollection)}
+                className="bg-gray-100 rounded-l-none"
+              >
                 <Search className="w-5 h-5" />
               </Button>
             </InputGroup>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <Button variant="default" className="flex items-center">
-              <ShoppingCartIcon className="size-6" />
-              Carrito
-            </Button>
+          <div className="hidden lg:block">
+            <Link
+              href="https://wa.me/34691453544"
+              className="group relative inline-flex"
+            >
+              <div className="absolute inset-0 bg-[#39a459] rounded-full blur opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative bg-[#39a459] hover:bg-[#2d8446] text-white px-8 py-3 rounded-full font-semibold text-lg transition-all duration-300 shadow-xl transform group-hover:-translate-y-1 flex items-center gap-2">
+                Contáctanos
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </div>
+            </Link>
+          </div>
+
+          <div className="flex items-center space-x-4 lg:hidden">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-2 text-gray-600 hover:text-[#8B1E3F] transition-colors"
+            >
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
+            </button>
           </div>
         </div>
 
@@ -124,14 +144,42 @@ export default function Header() {
         <div className="md:hidden w-full pb-3">
           <InputGroup className="w-full">
             <InputGroupInput placeholder="Buscar en Clover Studio..." />
-            <Button variant="outline" className="bg-gray-100 rounded-l-none">
+            <Button className="bg-gray-100">
               <Search className="w-5 h-5" />
             </Button>
           </InputGroup>
         </div>
 
+        {/* ----------------- MOBILE MENU (ya lo tenías) ----------------- */}
+        {isMenuOpen && (
+          <div className="lg:hidden py-4 border-t border-gray-100 animate-slide-down">
+            <nav className="flex flex-col space-y-4">
+              {navigation.map((n) => (
+                <Link
+                  href={`/colecciones/${n.slug}`}
+                  key={n.id}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="text-gray-700 hover:text-[#8B1E3F] font-medium py-2"
+                >
+                  {n.title}
+                </Link>
+              ))}
+
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <Link
+                  href="https://wa.me/34691453544"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block w-full bg-[#39a459] hover:bg-[#2d8446] text-white px-6 py-3 rounded-full font-semibold text-center"
+                >
+                  Contáctanos
+                </Link>
+              </div>
+            </nav>
+          </div>
+        )}
+
         {/* ----------------- FILA 3 MÓVIL: NAV SCROLL ----------------- */}
-        <nav className="md:hidden w-full overflow-x-auto scrollbar-none whitespace-nowrap scrollbar-none py-2 hide-scrollbar">
+        <nav className="md:hidden w-full overflow-x-auto whitespace-nowrap scrollbar-none py-2">
           <div className="flex space-x-6 px-2">
             {navigation.map((n) => (
               <Link
@@ -146,8 +194,8 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* NAV DESKTOP  */}
-      <div className="container mx-auto py-2 px-24 hidden lg:flex lg:justify-between">
+      {/* NAV DESKTOP (igual que antes) */}
+      <div className="container mx-auto py-2 px-4 hidden lg:block">
         <nav className="flex items-center space-x-10">
           {navigation.map((n) => (
             <Link
@@ -159,9 +207,6 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        {/* Línea separadora */}
-        <hr className="mt-2 border-gray-200" />
-        <p>Pequeños detalles que iluminan grandes momentos</p>
       </div>
     </header>
   );

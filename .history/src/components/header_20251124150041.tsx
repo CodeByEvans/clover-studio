@@ -147,7 +147,7 @@ export default function Header() {
       </div>
 
       {/* NAV DESKTOP  */}
-      <div className="container mx-auto py-2 px-24 hidden lg:flex lg:justify-between">
+      <div className="container mx-auto py-2 px-20 hidden lg:flex">
         <nav className="flex items-center space-x-10">
           {navigation.map((n) => (
             <Link

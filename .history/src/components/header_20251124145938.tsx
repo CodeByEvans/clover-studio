@@ -147,7 +147,7 @@ export default function Header() {
       </div>
 
       {/* NAV DESKTOP  */}
-      <div className="container mx-auto py-2 px-24 hidden lg:flex lg:justify-between">
+      <div className="container mx-auto py-2 px-4 hidden lg:block">
         <nav className="flex items-center space-x-10">
           {navigation.map((n) => (
             <Link
@@ -159,9 +159,6 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        {/* Línea separadora */}
-        <hr className="mt-2 border-gray-200" />
-        <p>Pequeños detalles que iluminan grandes momentos</p>
       </div>
     </header>
   );

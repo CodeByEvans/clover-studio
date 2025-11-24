@@ -43,7 +43,7 @@ export default function Header() {
 
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 shadow-sm">
-      <div className="container mx-auto px-8">
+      <div className="container mx-auto px-4">
         {/* ----------------- FILA 1 MÓVIL ----------------- */}
         <div className="flex items-center justify-between h-20 relative md:hidden">
           {/* placeholder para balancear el logo */}
@@ -65,7 +65,7 @@ export default function Header() {
 
           {/* CARRITO */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="flex items-center">
+            <Button variant="outline" className="flex items-center">
               <ShoppingCartIcon className="size-6" />
             </Button>
           </div>
@@ -77,34 +77,35 @@ export default function Header() {
             <Image
               src="/logo.svg"
               alt="Clover Studio Logo"
-              width={80}
-              height={80}
+              width={60}
+              height={60}
               className="transition-transform duration-300 group-hover:scale-110"
             />
           </Link>
 
           <div className="flex  items-center max-w-xl w-max">
-            <InputGroup className="hidden md:flex rounded-l-none">
-              <Select
-                value={selectedCollection}
-                onValueChange={setSelectedCollection}
-              >
-                <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
-                  <SelectValue placeholder="Todas las colecciones" />
-                </SelectTrigger>
+            <Select
+              value={selectedCollection}
+              onValueChange={setSelectedCollection}
+            >
+              <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
+                <SelectValue placeholder="Todas las colecciones" />
+              </SelectTrigger>
 
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Colecciones</SelectLabel>
-                    <SelectItem value="all">Todas las colecciones</SelectItem>
-                    {collections.map((collection: Collection) => (
-                      <SelectItem value={collection.slug} key={collection.id}>
-                        {collection.title}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Colecciones</SelectLabel>
+                  <SelectItem value="all">Todas las colecciones</SelectItem>
+                  {collections.map((collection: Collection) => (
+                    <SelectItem value={collection.slug} key={collection.id}>
+                      {collection.title}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <InputGroup className="hidden md:flex rounded-l-none">
               <InputGroupInput placeholder="Buscar en Clover Studio..." />
               <Button variant="outline" className="bg-gray-100 rounded-l-none">
                 <Search className="w-5 h-5" />
@@ -131,7 +132,7 @@ export default function Header() {
         </div>
 
         {/* ----------------- FILA 3 MÓVIL: NAV SCROLL ----------------- */}
-        <nav className="md:hidden w-full overflow-x-auto scrollbar-none whitespace-nowrap scrollbar-none py-2 hide-scrollbar">
+        <nav className="md:hidden w-full overflow-x-auto whitespace-nowrap scrollbar-none py-2">
           <div className="flex space-x-6 px-2">
             {navigation.map((n) => (
               <Link
@@ -146,8 +147,8 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* NAV DESKTOP  */}
-      <div className="container mx-auto py-2 px-24 hidden lg:flex lg:justify-between">
+      {/* NAV DESKTOP (igual que antes) */}
+      <div className="container mx-auto py-2 px-4 hidden lg:block">
         <nav className="flex items-center space-x-10">
           {navigation.map((n) => (
             <Link
@@ -159,9 +160,6 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        {/* Línea separadora */}
-        <hr className="mt-2 border-gray-200" />
-        <p>Pequeños detalles que iluminan grandes momentos</p>
       </div>
     </header>
   );

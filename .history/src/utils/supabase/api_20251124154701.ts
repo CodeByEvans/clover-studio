@@ -41,9 +41,9 @@ export const getHeaderHighlights = async (): Promise<HeaderHighlights> => {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from<"header_highlights", HeaderHighlight>("header_highlights")
-    .select(`*`)
-    .filter("active", "eq", true);
+    .select(`*`);
 
   if (error) throw error;
-  return data;
+  const dataFiltered = data.filter((highlight) => highlight.active);
+  return dataFiltered;
 };

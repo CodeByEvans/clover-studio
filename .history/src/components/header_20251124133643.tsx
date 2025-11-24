@@ -84,29 +84,30 @@ export default function Header() {
           </Link>
 
           <div className="flex  items-center max-w-xl w-max">
-            <InputGroup className="hidden md:flex rounded-l-none">
-              <Select
-                value={selectedCollection}
-                onValueChange={setSelectedCollection}
-              >
-                <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
-                  <SelectValue placeholder="Todas las colecciones" />
-                </SelectTrigger>
+            <Select
+              value={selectedCollection}
+              onValueChange={setSelectedCollection}
+            >
+              <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
+                <SelectValue placeholder="Todas las colecciones" />
+              </SelectTrigger>
 
-                <SelectContent>
-                  <SelectGroup>
-                    <SelectLabel>Colecciones</SelectLabel>
-                    <SelectItem value="all">Todas las colecciones</SelectItem>
-                    {collections.map((collection: Collection) => (
-                      <SelectItem value={collection.slug} key={collection.id}>
-                        {collection.title}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Colecciones</SelectLabel>
+                  <SelectItem value="all">Todas las colecciones</SelectItem>
+                  {collections.map((collection: Collection) => (
+                    <SelectItem value={collection.slug} key={collection.id}>
+                      {collection.title}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            <InputGroup className="hidden md:flex rounded-l-none">
               <InputGroupInput placeholder="Buscar en Clover Studio..." />
-              <Button variant="outline" className="bg-gray-100 rounded-l-none">
+              <Button variant="ghost" className="bg-gray-100 rounded-l-none">
                 <Search className="w-5 h-5" />
               </Button>
             </InputGroup>
@@ -146,8 +147,8 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* NAV DESKTOP  */}
-      <div className="container mx-auto py-2 px-24 hidden lg:flex lg:justify-between">
+      {/* NAV DESKTOP (igual que antes) */}
+      <div className="container mx-auto py-2 px-4 hidden lg:block">
         <nav className="flex items-center space-x-10">
           {navigation.map((n) => (
             <Link
@@ -159,9 +160,6 @@ export default function Header() {
             </Link>
           ))}
         </nav>
-        {/* Línea separadora */}
-        <hr className="mt-2 border-gray-200" />
-        <p>Pequeños detalles que iluminan grandes momentos</p>
       </div>
     </header>
   );

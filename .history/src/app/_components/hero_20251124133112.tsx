@@ -23,7 +23,7 @@ export const Hero = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative flex flex-col-reverse lg:flex-row items-center justify-center lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20"
+      className="relative min-h-screen flex flex-col-reverse lg:flex-row items-center justify-center lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20"
     >
       {/* Texto principal */}
       <div className="hidden md:flex flex-col gap-6 max-w-2xl text-center lg:text-left">
