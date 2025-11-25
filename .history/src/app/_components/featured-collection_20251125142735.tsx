@@ -1,8 +1,8 @@
 // components/home/FeaturedCollection.tsx
 "use client";
 
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { useData } from "@/context/data-context";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -33,36 +33,27 @@ export const FeaturedCollection = () => {
             <Link
               key={collection.id}
               href={`/colecciones/${collection.slug}`}
-              className="group block overflow-hidden rounded-2xl shadow-lg hover:scale-105 transition-transform duration-300"
+              className="group block"
             >
-              {/* Imagen */}
-              <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] lg:aspect-[1] overflow-hidden rounded-t-2xl">
-                <Image
-                  src={collection.image}
-                  alt={collection.title}
-                  title={collection.title}
-                  fill
-                  className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
-                />
-              </div>
+              <Card className="overflow-hidden text-center hover:scale-105 transition-transform duration-300 shadow-lg rounded-2xl">
+                <CardHeader className="p-0">
+                  {/* Imagen */}
+                  <div className="relative w-full aspect-[4/3] sm:aspect-[3/2] lg:aspect-[1] overflow-hidden rounded-t-2xl">
+                    <Image
+                      src={collection.image}
+                      alt={collection.title}
+                      title={collection.title}
+                      fill
+                      className="object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                    />
+                  </div>
 
-              {/* Título */}
-              <div className="p-4 text-left">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {collection.title}
-                </h3>
-                <p className="mt-2 text-sm text-gray-600">
-                  {collection.description}
-                </p>
-              </div>
-
-              {/* Botón */}
-              <div className="p-4 text-left ">
-                <button className="text-[#ae0006] py-2 px-4 rounded cursor-pointer">
-                  Explorar
-                  <ArrowRight className="inline-block ml-2" />
-                </button>
-              </div>
+                  {/* Título */}
+                  <CardTitle className="mt-3 text-lg font-semibold text-gray-900">
+                    {collection.title}
+                  </CardTitle>
+                </CardHeader>
+              </Card>
             </Link>
           ))}
         </div>

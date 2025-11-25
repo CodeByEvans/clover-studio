@@ -57,7 +57,7 @@ export const FeaturedCollection = () => {
               </div>
 
               {/* Botón */}
-              <div className="p-4 text-left ">
+              <div className="p-4 text-left cursor-pointer">
                 <button className="text-[#ae0006] py-2 px-4 rounded cursor-pointer">
                   Explorar
                   <ArrowRight className="inline-block ml-2" />

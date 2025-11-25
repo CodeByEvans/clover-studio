@@ -57,12 +57,15 @@ export const FeaturedCollection = () => {
               </div>
 
               {/* Botón */}
-              <div className="p-4 text-left ">
+              <Link
+                href={`/colecciones/${collection.slug}`}
+                className="p-4 text-left "
+              >
                 <button className="text-[#ae0006] py-2 px-4 rounded cursor-pointer">
                   Explorar
                   <ArrowRight className="inline-block ml-2" />
                 </button>
-              </div>
+              </Link>
             </Link>
           ))}
         </div>

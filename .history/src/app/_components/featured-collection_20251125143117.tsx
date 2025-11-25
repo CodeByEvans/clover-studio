@@ -2,7 +2,6 @@
 "use client";
 
 import { useData } from "@/context/data-context";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -54,14 +53,6 @@ export const FeaturedCollection = () => {
                 <p className="mt-2 text-sm text-gray-600">
                   {collection.description}
                 </p>
-              </div>
-
-              {/* Botón */}
-              <div className="p-4 text-left ">
-                <button className="text-[#ae0006] py-2 px-4 rounded cursor-pointer">
-                  Explorar
-                  <ArrowRight className="inline-block ml-2" />
-                </button>
               </div>
             </Link>
           ))}
