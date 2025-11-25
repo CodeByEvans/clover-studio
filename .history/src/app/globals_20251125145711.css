@@ -124,8 +124,12 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  h2 {
+    @apply text-3xl md:text-5xl font-bold text-gray-900 leading-tight;
+  }
   section {
-    @apply px-4 md:px-12 lg:px-16;
+    @apply px-4 md:px-12 lg:px-20;
   }
 }
 

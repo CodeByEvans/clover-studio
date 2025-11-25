@@ -17,12 +17,13 @@ export const FeaturedCollection = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-3">
-            Momentos de luz para{" "}
-            <span className=" text-[#ae0006]">esta temporada</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-gray-600">
-            Descubre nuestras colecciones de luz y luces para decorar tu hogar.
+          <h2 className="text-3xl md:text-5xl font-bold leading-tight">
+            Momentos de luz para
+            <span className="block text-[#ae0006]">esta temporada</span>
+          </h2>
+          <p className="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+            Descubre una selección especial de nuestros productos artesanales,
+            hechos a mano con amor y dedicación.
           </p>
         </div>
 
@@ -47,9 +48,9 @@ export const FeaturedCollection = () => {
 
               {/* Título */}
               <div className="p-4 text-left">
-                <h2 className="text-lg font-semibold text-gray-900">
+                <h3 className="text-lg font-semibold text-gray-900">
                   {collection.title}
-                </h2>
+                </h3>
                 <p className="mt-2 text-sm text-gray-600">
                   {collection.description}
                 </p>

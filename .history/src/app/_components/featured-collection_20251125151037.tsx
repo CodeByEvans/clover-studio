@@ -17,13 +17,13 @@ export const FeaturedCollection = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-3">
+          <h1>
             Momentos de luz para{" "}
             <span className=" text-[#ae0006]">esta temporada</span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600">
+          <h2>
             Descubre nuestras colecciones de luz y luces para decorar tu hogar.
-          </p>
+          </h3>
         </div>
 
         {/* Grid de colecciones */}

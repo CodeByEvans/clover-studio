@@ -40,11 +40,11 @@ export default function Testimonials() {
       <div className="container mx-auto px-4">
         {/* Encabezado de la sección */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
-            Lo que dicen{" "}
-            <span className=" text-[#ae0006]">nuestros clientes</span>
-          </h1>
-          <p className="text-lg md:text-xl text-gray-600">
+          <h2 className="">
+            Lo que dicen
+            <span className="block text-[#ae0006]">nuestros clientes</span>
+          </h2>
+          <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto">
             La mejor prueba de nuestro trabajo es la felicidad que llevamos a
             cada hogar.
           </p>

@@ -21,7 +21,7 @@ export const FeaturedCollection = () => {
             Momentos de luz para{" "}
             <span className=" text-[#ae0006]">esta temporada</span>
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600">
+          <p>
             Descubre nuestras colecciones de luz y luces para decorar tu hogar.
           </p>
         </div>

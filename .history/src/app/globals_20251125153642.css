@@ -124,6 +124,16 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  h1 {
+    @apply text-3xl md:text-5xl font-bold text-gray-900 leading-tight;
+  }
+  h2 {
+    @apply text-lg md:text-2xl font-semibold text-gray-900;
+  }
+  h3 {
+    @apply text-xs text-gray-600 max-w-2xl mx-auto mt-4;
+  }
   section {
     @apply px-4 md:px-12 lg:px-16;
   }
