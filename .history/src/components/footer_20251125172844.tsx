@@ -1,17 +1,12 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, Mail, Phone } from "lucide-react";
+import { ArrowUp, Mail, Phone } from "lucide-react";
 import { useScrollToId } from "@/hooks/useScrollToId";
+import { useData } from "@/context/data-context";
 
 export default function Footer() {
-  const { handleScrollToId } = useScrollToId();
-
-  const sections = [
-    { label: "Colección", id: "coleccion-destacada" },
-    { label: "Personalizados", id: "productos-personalizados" },
-    { label: "Reseñas", id: "reseñas" },
-  ];
+  const { navigation } = useData();
 
   return (
     <footer className="bg-gray-900 text-white relative overflow-hidden py-20">
@@ -20,22 +15,18 @@ export default function Footer() {
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-[#BEE8CC]/10 rounded-full blur-3xl animate-soft-pulse"></div>
 
       <div className="container mx-auto px-4 text-center relative z-10">
-        {/* Logo */}
-        <div className="flex items-center justify-center mb-6">
-          <Image
-            src="/logo.svg"
-            alt="Clover Studio Logo"
-            width={60}
-            height={60}
-            className="mr-4"
-          />
-          <div>
-            <div className="font-bold text-2xl bg-gradient-to-r from-[#F8C8DC] to-[#D3B5E5] bg-clip-text text-transparent">
-              CLOVER
-            </div>
-            <div className="text-sm text-[#F8C8DC] -mt-1 font-medium">
-              STUDIO
-            </div>
+        {/* Logo with glow */}
+        <div className="flex items-center justify-center mb-6 relative">
+          {/* Glow únicamente detrás del logo */}
+          <div className="relative w-24 h-24">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#F8C8DC]/40 to-[#D3B5E5]/40 rounded-full blur-xl -z-10"></div>
+            <Image
+              src="/logo.svg"
+              alt="Clover Studio Logo"
+              width={100}
+              height={100}
+              className="brightness-0 invert"
+            />
           </div>
         </div>
 
@@ -49,14 +40,14 @@ export default function Footer() {
 
         {/* CTA buttons to sections */}
         <div className="flex flex-col sm:flex-row justify-center gap-6 mb-12">
-          {sections.map((section, index) => (
-            <button
+          {navigation.map((navigation, index) => (
+            <Link
+              href={`/${navigation.slug}`}
               key={index}
-              onClick={() => handleScrollToId(section.id)}
-              className="bg-[#8B1E3F] hover:bg-[#6a1530] px-6 py-3 rounded-full font-semibold text-white flex items-center gap-2 transition-all duration-300"
+              className="bg-[#8B1E3F] hover:bg-[#6a1530] px-6 py-3 rounded-full font-semibold text-white flex items-center gap-2 transition-all duration-300 cursor-pointer"
             >
-              {section.label} <ArrowDown className="w-4 h-4 animate-bounce" />
-            </button>
+              {navigation.title}
+            </Link>
           ))}
         </div>
 

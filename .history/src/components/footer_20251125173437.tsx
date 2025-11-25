@@ -4,25 +4,25 @@ import Image from "next/image";
 import {
   Mail,
   Phone,
+  Clock,
+  MapPin,
+  Facebook,
   Instagram,
-  BadgeInfo,
-  FileText,
-  ShieldCheck,
+  Twitter,
 } from "lucide-react";
 import { useData } from "@/context/data-context";
-import { SiTiktok } from "react-icons/si";
 
 export default function Footer() {
   const { navigation } = useData();
 
   return (
-    <footer className="bg-gray-900 text-white relative overflow-hidden pt-10 pb-6">
+    <footer className="bg-gray-900 text-white relative overflow-hidden py-24">
       {/* Decorative floating orbs */}
       <div className="absolute top-10 left-10 w-32 h-32 bg-[#F8C8DC]/10 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-[#BEE8CC]/10 rounded-full blur-3xl animate-soft-pulse"></div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Logo + Newsletter */}
+        {/* Logo + Newsletter Section */}
         <div className="flex flex-col items-center mb-20">
           <div className="relative w-24 h-24 mb-6">
             <div className="absolute inset-0 bg-gradient-to-r from-[#F8C8DC]/40 to-[#D3B5E5]/40 rounded-full blur-xl -z-10"></div>
@@ -35,12 +35,14 @@ export default function Footer() {
             />
           </div>
 
+          {/* Newsletter */}
           <div className="w-full max-w-lg text-center">
             <h3 className="text-xl font-semibold mb-3">
               Únete a nuestra newsletter
             </h3>
             <p className="text-gray-300 mb-5 text-sm">
-              Accede a descuentos exclusivos y novedades antes que nadie.
+              Recibe descuentos, lanzamientos y contenido especial directamente
+              en tu correo.
             </p>
 
             <form className="flex gap-3 justify-center">
@@ -59,11 +61,11 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Main Grid */}
+        {/* Main grid */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          {/* Navegación */}
+          {/* Información */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Navegación</h4>
+            <h4 className="text-lg font-semibold mb-6">Información</h4>
             <ul className="space-y-3 text-gray-300 text-sm">
               {navigation.map((item, i) => (
                 <li key={i}>
@@ -78,68 +80,36 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Políticas & Ayuda */}
+          {/* Horario */}
           <div>
-            <h4 className="text-lg font-semibold mb-6 flex gap-2 items-center">
-              <FileText size={18} /> Políticas & Ayuda
+            <h4 className="text-lg font-semibold mb-6 flex items-center gap-2">
+              <Clock size={18} /> Horario
             </h4>
-            <ul className="space-y-3 text-gray-300 text-sm">
-              <li>
-                <Link href="/faq" className="hover:text-white transition">
-                  Preguntas Frecuentes (FAQ)
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/politica-de-servicio"
-                  className="hover:text-white transition"
-                >
-                  Política de Servicio
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/devoluciones"
-                  className="hover:text-white transition"
-                >
-                  Cambios & Devoluciones
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/privacidad"
-                  className="hover:text-white transition"
-                >
-                  Política de Privacidad
-                </Link>
-              </li>
+            <ul className="space-y-2 text-gray-300 text-sm">
+              <li className="text-white font-medium">Lunes - Viernes</li>
+              <li>10:00 - 18:00</li>
+
+              <li className="text-white font-medium mt-4">Sábado</li>
+              <li>11:00 - 16:00</li>
+
+              <li className="text-white font-medium mt-4">Domingo</li>
+              <li className="text-red-400">Cerrado</li>
             </ul>
           </div>
 
-          {/* Redes Sociales */}
+          {/* Entrega */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Redes Sociales</h4>
-            <ul className="space-y-4 text-gray-300 text-sm">
-              <li className="flex items-center gap-3">
-                <Instagram size={20} className="text-[#F8C8DC]" />
-                <Link
-                  href="https://instagram.com/byclover.studio"
-                  target="_blank noreferrer"
-                  className="hover:text-white transition"
-                >
-                  Instagram
-                </Link>
+            <h4 className="text-lg font-semibold mb-6 flex items-center gap-2">
+              <MapPin size={18} /> Entrega
+            </h4>
+            <ul className="space-y-3 text-gray-300 text-sm">
+              <li>
+                <span className="text-white font-medium">Zona Local:</span>
+                <p>Entregas dentro de la región</p>
               </li>
-
-              <li className="flex items-center gap-3">
-                <SiTiktok size={20} className="text-white" />
-                <Link
-                  href="https://tiktok.com/@byclover.studio"
-                  target="_blank noreferrer"
-                  className="hover:text-white transition"
-                >
-                  TikTok
-                </Link>
+              <li>
+                <span className="text-white font-medium">Tiempo:</span>
+                <p>3–5 días hábiles</p>
               </li>
             </ul>
           </div>
@@ -171,7 +141,29 @@ export default function Footer() {
           </div>
         </section>
 
-        {/* Bottom */}
+        {/* Social Icons */}
+        <div className="flex justify-center gap-6 mb-10">
+          <Link
+            href="https://facebook.com"
+            className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition"
+          >
+            <Facebook size={20} />
+          </Link>
+          <Link
+            href="https://instagram.com"
+            className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition"
+          >
+            <Instagram size={20} />
+          </Link>
+          <Link
+            href="https://twitter.com"
+            className="p-3 rounded-full bg-gray-800 hover:bg-gray-700 transition"
+          >
+            <Twitter size={20} />
+          </Link>
+        </div>
+
+        {/* Bottom text */}
         <p className="text-gray-500 text-center text-sm">
           © 2025 Clover Studio. Todos los derechos reservados.
         </p>

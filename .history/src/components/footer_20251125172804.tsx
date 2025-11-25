@@ -1,17 +1,12 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, ArrowUp, Mail, Phone } from "lucide-react";
+import { ArrowUp, Mail, Phone } from "lucide-react";
 import { useScrollToId } from "@/hooks/useScrollToId";
+import { useData } from "@/context/data-context";
 
 export default function Footer() {
-  const { handleScrollToId } = useScrollToId();
-
-  const sections = [
-    { label: "Colección", id: "coleccion-destacada" },
-    { label: "Personalizados", id: "productos-personalizados" },
-    { label: "Reseñas", id: "reseñas" },
-  ];
+  const { navigation } = useData();
 
   return (
     <footer className="bg-gray-900 text-white relative overflow-hidden py-20">
@@ -45,13 +40,12 @@ export default function Footer() {
 
         {/* CTA buttons to sections */}
         <div className="flex flex-col sm:flex-row justify-center gap-6 mb-12">
-          {sections.map((section, index) => (
+          {navigation.map((navigation, index) => (
             <button
               key={index}
-              onClick={() => handleScrollToId(section.id)}
               className="bg-[#8B1E3F] hover:bg-[#6a1530] px-6 py-3 rounded-full font-semibold text-white flex items-center gap-2 transition-all duration-300 cursor-pointer"
             >
-              {section.label} <ArrowUp className="w-4 h-4 animate-bounce" />
+              {navigation.title}
             </button>
           ))}
         </div>

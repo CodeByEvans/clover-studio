@@ -134,7 +134,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <SiTiktok size={20} className="text-white" />
                 <Link
-                  href="https://tiktok.com/@byclover.studio"
+                  href="https://tiktok.com"
                   target="_blank noreferrer"
                   className="hover:text-white transition"
                 >

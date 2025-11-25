@@ -16,7 +16,7 @@ export default function Footer() {
   const { navigation } = useData();
 
   return (
-    <footer className="bg-gray-900 text-white relative overflow-hidden pt-10 pb-6">
+    <footer className="bg-gray-900 text-white relative overflow-hidden ">
       {/* Decorative floating orbs */}
       <div className="absolute top-10 left-10 w-32 h-32 bg-[#F8C8DC]/10 rounded-full blur-3xl animate-float"></div>
       <div className="absolute bottom-10 right-10 w-40 h-40 bg-[#BEE8CC]/10 rounded-full blur-3xl animate-soft-pulse"></div>
@@ -123,8 +123,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Instagram size={20} className="text-[#F8C8DC]" />
                 <Link
-                  href="https://instagram.com/byclover.studio"
-                  target="_blank noreferrer"
+                  href="https://instagram.com"
                   className="hover:text-white transition"
                 >
                   Instagram
@@ -134,8 +133,7 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <SiTiktok size={20} className="text-white" />
                 <Link
-                  href="https://tiktok.com/@byclover.studio"
-                  target="_blank noreferrer"
+                  href="https://tiktok.com"
                   className="hover:text-white transition"
                 >
                   TikTok
