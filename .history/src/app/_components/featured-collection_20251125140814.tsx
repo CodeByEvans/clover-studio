@@ -31,7 +31,7 @@ export const FeaturedCollection = () => {
           {collections.map((collection) => (
             <Link
               key={collection.id}
-              href={`/colecciones/${collection.slug}`}
+              href={`/productos/${collection.slug}`}
               className="group block"
             >
               <Card className="overflow-hidden text-center hover:scale-105 transition-all duration-300 shadow rounded-2xl">
