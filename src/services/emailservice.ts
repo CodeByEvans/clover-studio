@@ -1,12 +1,12 @@
 import axios from "axios";
 
-export const sendWelcomeDiscountEmail = async (email: string) => {
+export const sendWelcomeEmail = async (email: string) => {
   if (!email || !email.includes("@")) {
     throw new Error("Email inválido");
   }
 
   try {
-    const response = await axios.post("/api/send-welcome-discount-email", {
+    const response = await axios.post("/api/send-welcome-email", {
       email,
     });
     return response.data;
