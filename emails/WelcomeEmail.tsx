@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Html } from "@react-email/html";
 
-export default function WelcomeDiscountEmail({ name }: { name?: string }) {
+export default function WelcomeEmail({ name }: { name?: string }) {
   return (
     <Html>
       <body
@@ -18,7 +18,7 @@ export default function WelcomeDiscountEmail({ name }: { name?: string }) {
           width="100%"
           cellPadding={0}
           cellSpacing={0}
-          style={{ padding: "40px 0" }}
+          style={{ padding: "0" }}
         >
           <tr>
             <td align="center">
@@ -37,11 +37,10 @@ export default function WelcomeDiscountEmail({ name }: { name?: string }) {
               >
                 {/* Logo */}
                 <tr>
-                  <td style={{ paddingBottom: "24px" }}>
+                  <td>
                     <img
-                      src="https://cloverstudio.es/logo.svg"
-                      width="70"
-                      height="70"
+                      src="https://res.cloudinary.com/dri0yoxgm/image/upload/v1764153225/logo_jkxlkn.png"
+                      width="140"
                       alt="Clover Studio"
                       style={{ display: "block", margin: "0 auto" }}
                     />
@@ -141,8 +140,8 @@ export default function WelcomeDiscountEmail({ name }: { name?: string }) {
                         lineHeight: "1.6",
                       }}
                     >
-                      © {new Date().getFullYear()} Clover Studio Hecho con amor
-                      y cera natural.
+                      © {new Date().getFullYear()} Clover Studio. Hecho con
+                      amor y cera natural.
                     </p>
                   </td>
                 </tr>
