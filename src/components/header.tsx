@@ -33,6 +33,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { motion } from "framer-motion";
+import { useCart } from "@/context/cart-context";
 
 export interface HeaderProps {
   collections: Collections;
@@ -41,6 +42,7 @@ export interface HeaderProps {
 }
 
 export default function Header() {
+  const { openCart } = useCart();
   const { collections, navigation, headerHighlights }: HeaderProps = useData();
   const [selectedCollection, setSelectedCollection] = useState("all");
 
@@ -72,7 +74,11 @@ export default function Header() {
 
           {/* CARRITO */}
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" className="flex items-center">
+            <Button
+              variant="ghost"
+              className="flex items-center"
+              onClick={openCart}
+            >
               <ShoppingCartIcon className="size-6" />
             </Button>
           </div>
@@ -120,7 +126,11 @@ export default function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Button variant="default" className="flex items-center">
+            <Button
+              variant="default"
+              className="flex items-center"
+              onClick={openCart}
+            >
               <ShoppingCartIcon className="size-6" />
               Carrito
             </Button>
