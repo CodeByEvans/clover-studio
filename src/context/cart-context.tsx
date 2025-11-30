@@ -7,19 +7,25 @@ import { toast } from "sonner";
 
 type CartContextType = {
   cart: Cart;
-  itemsInCart: number;
-  addToCart: (cartItem: Product, quantity: number) => void;
-  removeFromCart: (product: Product) => void;
+  total: number;
+  addItem: (cartItem: Product, quantity: number) => void;
+  removeItem: (product: Product) => void;
+  updateQuantity: (product: Product, quantity: number) => void;
   clearCart: () => void;
+  openCart: () => void;
+  closeCart: () => void;
+  isOpen: boolean;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useState<Cart>([]);
-  const itemsInCart = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
-  const addToCart = (product: Product, quantity: number) => {
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const addItem = (product: Product, quantity: number) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
 
@@ -44,7 +50,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       action: {
         label: "Deshacer",
         onClick: () => {
-          removeFromCart(product);
+          removeItem(product);
         },
       },
       classNames: {
@@ -52,15 +58,36 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       },
     });
   };
-  const removeFromCart = (product: Product) => {
+  const removeItem = (product: Product) => {
     setCart((prev) => prev.filter((p) => p.id !== product.id));
+  };
+
+  const updateQuantity = (product: Product, quantity: number) => {
+    setCart((prev) =>
+      prev.map((item) =>
+        item.id === product.id ? { ...item, quantity } : item
+      )
+    );
   };
 
   const clearCart = () => setCart([]);
 
+  const openCart = () => setIsOpen(true);
+  const closeCart = () => setIsOpen(false);
+
   return (
     <CartContext.Provider
-      value={{ cart, itemsInCart, addToCart, removeFromCart, clearCart }}
+      value={{
+        cart,
+        total,
+        addItem,
+        removeItem,
+        updateQuantity,
+        clearCart,
+        openCart,
+        closeCart,
+        isOpen,
+      }}
     >
       {children}
     </CartContext.Provider>
