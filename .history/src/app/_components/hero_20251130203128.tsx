@@ -28,8 +28,8 @@ export const Hero = () => {
           Clover Studio
         </p>
 
-        <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold leading-tight">
-          Pequeños detalles que <span className="text-[#cbc070]">iluminan</span>{" "}
+        <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold leading-tight">
+          Pequeños detalles que <span className="text-[#ae0006]">iluminan</span>{" "}
           grandes momentos
         </h1>
         <p className="text-lg lg:text-xl text-gray-700">
