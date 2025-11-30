@@ -10,6 +10,7 @@ import { CartProvider } from "@/context/cart-context";
 import { DataProvider } from "@/context/data-context";
 import { DataBoundary } from "@/components/DataBoundary";
 import { Toaster } from "@/components/ui/sonner";
+import { CartSidebar } from "@/components/CartSidebar";
 
 const eb_garamond = EB_Garamond({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
                 <div>
                   <main className="flex-1">{children}</main>
                   <Toaster />
+                  <CartSidebar />
                 </div>
                 <Footer />
               </DataBoundary>
