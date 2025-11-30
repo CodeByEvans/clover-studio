@@ -10,10 +10,10 @@ export const CartButton = ({
   product: Product;
   quantity?: number;
 }) => {
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
 
   return (
-    <Button className="mt-0" onClick={() => addToCart(product, quantity || 1)}>
+    <Button className="mt-0" onClick={() => addItem(product, quantity || 1)}>
       Añadir al carrito
     </Button>
   );
