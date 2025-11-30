@@ -21,7 +21,6 @@ export const FeaturedCollection = () => {
             Elige como <span className=" text-[#ae0006]">perfumar</span> tu
             mundo
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600"></p>
         </div>
 
         {/* Grid de colecciones */}

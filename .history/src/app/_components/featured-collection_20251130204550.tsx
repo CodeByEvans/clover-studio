@@ -18,10 +18,12 @@ export const FeaturedCollection = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 mb-3">
-            Elige como <span className=" text-[#ae0006]">perfumar</span> tu
+            Elige como <span className=" text-[#cbc070]">perfumar</span> tu
             mundo
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600"></p>
+          <p className="text-lg sm:text-xl text-gray-600">
+            Descubre nuestras colecciones de luz y luces para decorar tu hogar.
+          </p>
         </div>
 
         {/* Grid de colecciones */}

@@ -49,7 +49,7 @@ export const Carousel3D = ({ products }: { products: Products }) => {
                 href={`/productos/${product.slug}`}
                 className="w-full h-full"
               >
-                <div className="relative w-full h-full overflow-hidden shadow-2xl border border-border/40 bg-background">
+                <div className="relative w-full h-full  overflow-hidden shadow-2xl border border-border/40 bg-background">
                   {/* Imagen */}
                   <div className="relative aspect-[3/4] w-full h-[360px]">
                     <Image
@@ -78,34 +78,26 @@ export const Carousel3D = ({ products }: { products: Products }) => {
 
       {/* Botones móviles */}
       {isMobile && (
-        <div className="px-6 text-center mb-6">
-          <h1 className="text-3xl font-bold leading-tight">
-            Pequeños detalles que{" "}
-            <span className="text-[#cbc070]">iluminan</span> grandes momentos
-          </h1>
-
-          <p className="text-sm text-muted-foreground mt-3">
-            Velas artesanales, wax melts y productos aromáticos únicos creados
-            con amor.
-          </p>
-
-          <div className="flex flex-col gap-3 mt-6">
-            <Link href="/colecciones">
-              <Button className="w-full bg-[#18905a] hover:bg-[#18905a]/90">
-                Ver colecciones
-              </Button>
-            </Link>
-
-            <Link
-              href="https://wa.me/34691453544"
-              target="_blank"
-              rel="noopener noreferrer"
+        <div className="flex flex-col gap-4 mt-6">
+          <Link href="/colecciones">
+            <Button
+              variant="default"
+              size="lg"
+              className="mx-auto w-52 bg-[#18905a] hover:bg-[#18905a]/90"
             >
-              <Button variant="secondary" className="w-full border-[#cbc070]">
-                Contacto
-              </Button>
-            </Link>
-          </div>
+              Ver colecciones
+            </Button>
+          </Link>
+
+          <Link
+            href="https://wa.me/34691453544"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="secondary" size="lg" className="mx-auto w-52">
+              Contacto
+            </Button>
+          </Link>
         </div>
       )}
     </div>

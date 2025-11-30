@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import Carousel3D from "@/components/Carousel3D";
 import { getFeaturedProducts } from "@/utils/products";
 import { useData } from "@/context/data-context";
-import Link from "next/link";
 
 export const Hero = () => {
   const { products } = useData();
@@ -21,7 +20,7 @@ export const Hero = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative flex flex-col-reverse lg:flex-row items-center justify-center lg:gap-20 overflow-hidden bg-gradient-to-br from-[#BEE8CC]/10 via-[#FEFCF9]/60 to-[#FDE68A]/20"
+      className="relative flex flex-col-reverse lg:flex-row items-center justify-center lg:gap-20 overflow-hidden "
     >
       {/* Texto principal */}
       <div className="hidden md:flex flex-col gap-6 max-w-2xl text-center lg:text-left">
@@ -44,9 +43,8 @@ export const Hero = () => {
             variant="default"
             size="lg"
             className="bg-[#18905a] hover:bg-[#18905a]/90"
-            asChild
           >
-            <Link href="/colecciones">Ver colecciones</Link>
+            Ver colecciones
           </Button>
           <Button
             variant="secondary"
@@ -54,13 +52,13 @@ export const Hero = () => {
             asChild
             className="border-[#18905a] hover:border-[#18905a]/90"
           >
-            <Link
+            <a
               href="https://wa.me/34691453544"
               target="_blank"
               rel="noopener noreferrer"
             >
               Contacto
-            </Link>
+            </a>
           </Button>
         </div>
       </div>

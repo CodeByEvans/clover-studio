@@ -54,13 +54,13 @@ export const Hero = () => {
             asChild
             className="border-[#18905a] hover:border-[#18905a]/90"
           >
-            <Link
+            <a
               href="https://wa.me/34691453544"
               target="_blank"
               rel="noopener noreferrer"
             >
               Contacto
-            </Link>
+            </a>
           </Button>
         </div>
       </div>
