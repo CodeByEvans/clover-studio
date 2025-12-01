@@ -7,7 +7,7 @@ export type Collection = {
   description: string;
   image: string;
   order: number;
-  productCount: number;
+  products: { count: number };
   created_at: string;
   updated_at: string;
 };

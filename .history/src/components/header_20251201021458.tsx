@@ -1,7 +1,7 @@
 "use client";
 
 // Imports
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -34,10 +34,8 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/cart-context";
-import { Products } from "@/types/product.type";
 
 export interface HeaderProps {
-  products: Products;
   collections: Collections;
   navigation: Navigation;
   headerHighlights: HeaderHighlights;
@@ -45,24 +43,8 @@ export interface HeaderProps {
 
 export default function Header() {
   const { openCart } = useCart();
-  const { collections, navigation, headerHighlights, products }: HeaderProps =
-    useData();
+  const { collections, navigation, headerHighlights }: HeaderProps = useData();
   const [selectedCollection, setSelectedCollection] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredProducts, setFilteredProducts] = useState<Products>([]);
-
-  useEffect(() => {
-    const results = products.filter((product) => {
-      const matchesName = product.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCollection =
-        selectedCollection === "all" ||
-        product.collection.slug === selectedCollection;
-      return matchesName && matchesCollection;
-    });
-    setFilteredProducts(results);
-  }, [searchTerm, selectedCollection, products]);
 
   return (
     <motion.header
@@ -114,13 +96,13 @@ export default function Header() {
             />
           </Link>
 
-          <div className="flex  items-center max-w-xl w-full">
-            <InputGroup className="hidden md:flex rounded-l-none overflow-hidden text-md">
+          <div className="flex  items-center max-w-xl w-max">
+            <InputGroup className="hidden md:flex rounded-l-none overflow-hidden">
               <Select
                 value={selectedCollection}
                 onValueChange={setSelectedCollection}
               >
-                <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light hidden md:flex">
+                <SelectTrigger className="w-[180px] rounded-r-none bg-gray-100 text-gray-700 font-light text-xs hidden md:flex">
                   <SelectValue placeholder="Todas las colecciones" />
                 </SelectTrigger>
 
@@ -136,11 +118,7 @@ export default function Header() {
                   </SelectGroup>
                 </SelectContent>
               </Select>
-              <InputGroupInput
-                placeholder="Buscar en Clover Studio..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              <InputGroupInput placeholder="Buscar en Clover Studio..." />
               <Button variant="outline" className="bg-gray-100 rounded-l-none">
                 <Search className="w-5 h-5" />
               </Button>
@@ -166,7 +144,7 @@ export default function Header() {
               <Link
                 href={`/${n.slug}`}
                 key={n.id}
-                className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer lg:text-base"
+                className="text-gray-700 hover:text-[#8B1E3F] font-medium transition-colors duration-200 hover:underline hover:underline-offset-4 cursor-pointer lg:text-md"
               >
                 {n.title}
               </Link>
@@ -185,7 +163,7 @@ export default function Header() {
             {headerHighlights.map((highlight) => (
               <SwiperSlide
                 key={highlight.id}
-                className="text-gray-600 font-light text-base"
+                className="text-gray-600 font-light text-md"
               >{`${highlight.text}`}</SwiperSlide>
             ))}
           </Swiper>
@@ -194,11 +172,7 @@ export default function Header() {
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
         <div className="md:hidden w-full pb-3">
           <InputGroup className="w-full overflow-hidden">
-            <InputGroupInput
-              placeholder="Buscar en Clover Studio..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <InputGroupInput placeholder="Buscar en Clover Studio..." />
             <Button variant="outline" className="bg-gray-100 rounded-l-none">
               <Search className="w-5 h-5" />
             </Button>
@@ -219,20 +193,6 @@ export default function Header() {
             ))}
           </div>
         </nav>
-        {searchTerm && filteredProducts.length > 0 && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-md rounded-md mt-1 max-h-60 overflow-auto z-50">
-            {filteredProducts.map((product) => (
-              <Link
-                key={product.id}
-                href={`/productos/${product.slug}`}
-                className="block px-4 py-2 hover:bg-gray-100"
-                onClick={() => setSearchTerm("")} // limpiar input al hacer click
-              >
-                {product.title}
-              </Link>
-            ))}
-          </div>
-        )}
       </section>
     </motion.header>
   );

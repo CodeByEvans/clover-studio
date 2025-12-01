@@ -24,14 +24,7 @@ export const getCollections = async (): Promise<Collections> => {
     .select(`*, products:products(count)`);
 
   if (error) throw error;
-  const collectionsWithCount = data.map((collection) => {
-    const { products, ...rest } = collection;
-    return {
-      ...rest,
-      productCount: products[0]?.count ?? 0,
-    };
-  });
-  return collectionsWithCount;
+  return data;
 };
 
 export const getNavigation = async (): Promise<Navigation> => {

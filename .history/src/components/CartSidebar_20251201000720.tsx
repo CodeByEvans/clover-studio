@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Plus, Minus, Download } from "lucide-react";
 import { useState } from "react";
 import { sendOrderViaWhatsApp } from "@/lib/sendOrderViaWhatsApp";
-import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 
 export function CartSidebar() {
   const {
@@ -127,7 +126,7 @@ export function CartSidebar() {
                   className="w-full bg-primary text-white hover:bg-primary/90 font-semibold py-6"
                 >
                   <>
-                    <MdOutlineShoppingCartCheckout size={18} className="mr-2" />
+                    <Download size={18} className="mr-2" />
                     Completar compra
                   </>
                 </Button>

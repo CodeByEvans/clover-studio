@@ -11,7 +11,6 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Plus, Minus, Download } from "lucide-react";
 import { useState } from "react";
 import { sendOrderViaWhatsApp } from "@/lib/sendOrderViaWhatsApp";
-import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 
 export function CartSidebar() {
   const {
@@ -23,11 +22,21 @@ export function CartSidebar() {
     total,
     clearCart,
   } = useCart();
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  const handleCheckout = () => {
-    sendOrderViaWhatsApp(cart, total);
-    clearCart();
-    closeCart();
+  const handleCompleteTransaction = async () => {
+    setIsGenerating(true);
+    try {
+      await sendOrderViaWhatsApp(cart, total);
+      // Limpiar carrito después de generar PDF y abrir WhatsApp
+      setTimeout(() => {
+        clearCart();
+        closeCart();
+      }, 1000);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -56,7 +65,7 @@ export function CartSidebar() {
         ) : (
           <>
             {/* Items List */}
-            <div className="flex-1 space-y-4 mb-6 max-h-96 overflow-y-auto px-2">
+            <div className="flex-1 space-y-4 mb-6 max-h-96 overflow-y-auto">
               {cart.map((item) => (
                 <div
                   key={item.id}
@@ -110,7 +119,7 @@ export function CartSidebar() {
             </div>
 
             {/* Total */}
-            <div className="border-t border-border pt-4 mb-6 px-4">
+            <section className="border-t border-border pt-4 mb-6">
               <div className="flex justify-between items-center mb-4">
                 <span className="text-lg font-semibold text-foreground">
                   Total:
@@ -121,15 +130,23 @@ export function CartSidebar() {
               </div>
 
               {/* Buttons */}
-              <div className="space-y-3 px-4">
+              <section className="space-y-3">
                 <Button
-                  onClick={handleCheckout}
+                  onClick={handleCompleteTransaction}
+                  disabled={isGenerating}
                   className="w-full bg-primary text-white hover:bg-primary/90 font-semibold py-6"
                 >
-                  <>
-                    <MdOutlineShoppingCartCheckout size={18} className="mr-2" />
-                    Completar compra
-                  </>
+                  {isGenerating ? (
+                    <>
+                      <span className="animate-spin mr-2">⏳</span>
+                      Generando PDF...
+                    </>
+                  ) : (
+                    <>
+                      <Download size={18} className="mr-2" />
+                      Completar compra
+                    </>
+                  )}
                 </Button>
                 <Button
                   variant="outline"
@@ -138,12 +155,12 @@ export function CartSidebar() {
                 >
                   Seguir comprando
                 </Button>
-              </div>
+              </section>
               <p className="text-xs text-muted-foreground text-center mt-4">
                 Al completar tu compra, recibirás un PDF y se abrirá WhatsApp
                 para contactarnos.
               </p>
-            </div>
+            </section>
           </>
         )}
       </SheetContent>

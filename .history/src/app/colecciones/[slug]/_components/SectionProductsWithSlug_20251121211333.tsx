@@ -58,7 +58,7 @@ export const SectionProductsWithSlug = ({ slug }: { slug: string }) => {
                     {product.title}
                   </CardTitle>
                   <p className="text-sm text-gray-700 mt-1">
-                    {product.price.toFixed(2)}€
+                    ${product.price.toFixed(2)}
                   </p>
                 </CardHeader>
               </Card>

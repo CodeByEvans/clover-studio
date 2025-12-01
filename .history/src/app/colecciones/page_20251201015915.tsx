@@ -47,12 +47,8 @@ export default function ColeccionesPage() {
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      <strong className="text-base text-primary">
-                        {collection.productCount}
-                      </strong>{" "}
-                      {collection.productCount === 1 ? "producto" : "productos"}
+                      {collection.products.count} productos
                     </span>
-
                     <Link
                       href={`/colecciones/${collection.slug}`}
                       className="text-primary hover:text-primary/80 font-medium text-sm"

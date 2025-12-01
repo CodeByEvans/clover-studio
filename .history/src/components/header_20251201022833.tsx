@@ -194,11 +194,7 @@ export default function Header() {
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
         <div className="md:hidden w-full pb-3">
           <InputGroup className="w-full overflow-hidden">
-            <InputGroupInput
-              placeholder="Buscar en Clover Studio..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <InputGroupInput placeholder="Buscar en Clover Studio..." />
             <Button variant="outline" className="bg-gray-100 rounded-l-none">
               <Search className="w-5 h-5" />
             </Button>
@@ -219,19 +215,29 @@ export default function Header() {
             ))}
           </div>
         </nav>
+
         {searchTerm && filteredProducts.length > 0 && (
-          <div className="absolute top-full left-0 w-full bg-white shadow-md rounded-md mt-1 max-h-60 overflow-auto z-50">
-            {filteredProducts.map((product) => (
-              <Link
-                key={product.id}
-                href={`/productos/${product.slug}`}
-                className="block px-4 py-2 hover:bg-gray-100"
-                onClick={() => setSearchTerm("")} // limpiar input al hacer click
-              >
-                {product.title}
-              </Link>
-            ))}
-          </div>
+          <>
+            {/* Overlay */}
+            <div
+              className="fixed inset-0 bg-black bg-opacity-30 z-40"
+              onClick={() => setSearchTerm("")} // cierra dropdown al click fuera
+            />
+
+            {/* Dropdown */}
+            <div className="absolute top-full left-0 w-full bg-white shadow-md rounded-md mt-1 max-h-60 overflow-auto z-50">
+              {filteredProducts.map((product) => (
+                <Link
+                  key={product.id}
+                  href={`/productos/${product.slug}`}
+                  className="block px-4 py-2 hover:bg-gray-100"
+                  onClick={() => setSearchTerm("")}
+                >
+                  {product.title}
+                </Link>
+              ))}
+            </div>
+          </>
         )}
       </section>
     </motion.header>

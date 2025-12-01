@@ -46,7 +46,7 @@ export default function ColeccionesPage() {
                     {collection.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-base text-muted-foreground">
                       <strong className="text-base text-primary">
                         {collection.productCount}
                       </strong>{" "}

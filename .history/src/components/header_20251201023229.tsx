@@ -194,11 +194,7 @@ export default function Header() {
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
         <div className="md:hidden w-full pb-3">
           <InputGroup className="w-full overflow-hidden">
-            <InputGroupInput
-              placeholder="Buscar en Clover Studio..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <InputGroupInput placeholder="Buscar en Clover Studio..." />
             <Button variant="outline" className="bg-gray-100 rounded-l-none">
               <Search className="w-5 h-5" />
             </Button>

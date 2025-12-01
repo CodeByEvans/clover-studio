@@ -1,5 +1,11 @@
 export type Collections = Collection[];
 
+export type CollectionWithProductsCount = Collection & {
+  products: {
+    count: number;
+  };
+};
+
 export type Collection = {
   id: number;
   title: string;
@@ -7,7 +13,6 @@ export type Collection = {
   description: string;
   image: string;
   order: number;
-  productCount: number;
   created_at: string;
   updated_at: string;
 };

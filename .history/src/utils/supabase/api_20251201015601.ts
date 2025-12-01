@@ -17,6 +17,17 @@ export const getProducts = async (): Promise<Products> => {
   return data;
 };
 
+export const getCollectionsWithProductCount = async () => {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("collections")
+    .select("id, title, slug, products:products(count)");
+
+  if (error) throw error;
+  return data;
+};
+
 export const getCollections = async (): Promise<Collections> => {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -24,14 +35,7 @@ export const getCollections = async (): Promise<Collections> => {
     .select(`*, products:products(count)`);
 
   if (error) throw error;
-  const collectionsWithCount = data.map((collection) => {
-    const { products, ...rest } = collection;
-    return {
-      ...rest,
-      productCount: products[0]?.count ?? 0,
-    };
-  });
-  return collectionsWithCount;
+  return data;
 };
 
 export const getNavigation = async (): Promise<Navigation> => {

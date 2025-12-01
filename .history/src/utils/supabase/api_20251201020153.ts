@@ -24,13 +24,10 @@ export const getCollections = async (): Promise<Collections> => {
     .select(`*, products:products(count)`);
 
   if (error) throw error;
-  const collectionsWithCount = data.map((collection) => {
-    const { products, ...rest } = collection;
-    return {
-      ...rest,
-      productCount: products[0]?.count ?? 0,
-    };
-  });
+  const collectionsWithCount = data.map((collection) => ({
+    ...collection,
+    productCount: collection.products[0].count,
+  }));
   return collectionsWithCount;
 };
 

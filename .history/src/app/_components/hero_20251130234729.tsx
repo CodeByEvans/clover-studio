@@ -43,7 +43,7 @@ export const Hero = () => {
           <Button
             variant="default"
             size="lg"
-            className="bg-[#18905a] hover:bg-[#18905a]/90"
+            className="bg-[#18905a] hover:bg-[#7fb64a]/90"
             asChild
           >
             <Link href="/colecciones">Ver colecciones</Link>

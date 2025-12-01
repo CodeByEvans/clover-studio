@@ -46,10 +46,15 @@ export default function ColeccionesPage() {
                     {collection.description}
                   </p>
                   <div className="flex items-center justify-between">
-                    <span className="text-xs text-muted-foreground">
-                      <strong className="text-base text-primary">
-                        {collection.productCount}
-                      </strong>{" "}
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <svg
+                        className="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M2 4h16v12H2z" />
+                      </svg>
+                      {collection.productCount}{" "}
                       {collection.productCount === 1 ? "producto" : "productos"}
                     </span>
 
