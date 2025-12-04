@@ -9,21 +9,30 @@ import { useNavigation } from "@/hooks/use-navigation";
 import { Navigation } from "@/types/navigation.type";
 import { HeaderHighlights } from "@/types/header_hightlights.type";
 import { useHeaderHighlights } from "@/hooks/use-header-highlights";
+import { FragranceCategories, Fragrances } from "@/types/fragances.type";
+import { useFragrancesCategories } from "@/hooks/use-fragrancesCategories";
+import { useFragrances } from "@/hooks/use-fragrances";
 
 type DataContextType = {
   products: Products;
   collections: Collections;
   navigation: Navigation;
   headerHighlights: HeaderHighlights;
+  fragrances: Fragrances;
+  fragranceCategories: FragranceCategories;
   isLoadingProducts: boolean;
   isLoadingCollections: boolean;
   isLoadingNavigation: boolean;
   isLoadingHeaderHighlights: boolean;
+  isLoadingFragrances: boolean;
+  isLoadingFragranceCategories: boolean;
   isLoading: boolean;
   productsError: Error | null;
   collectionsError: Error | null;
   navigationError: Error | null;
   headerHighlightsError: Error | null;
+  fragrancesError: Error | null;
+  fragranceCategoriesError: Error | null;
 };
 
 const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -53,15 +62,31 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
     error: headerHighlightsError,
   } = useHeaderHighlights();
 
+  const {
+    data: fragrances,
+    status: fragrancesStatus,
+    error: fragrancesError,
+  } = useFragrances();
+
+  const {
+    data: fragranceCategories,
+    status: fragranceCategoriesStatus,
+    error: fragranceCategoriesError,
+  } = useFragrancesCategories();
+
   const isLoadingProducts = productsStatus === "pending";
   const IsLoadingCollections = collectionsStatus === "pending";
   const isLoadingNavigation = navigationStatus === "pending";
   const isLoadingHeaderHighlights = headerHighlightsStatus === "pending";
+  const isLoadingFragrances = fragrancesStatus === "pending";
+  const isLoadingFragranceCategories = fragranceCategoriesStatus === "pending";
   const isLoading =
     isLoadingProducts ||
     IsLoadingCollections ||
     isLoadingNavigation ||
-    isLoadingHeaderHighlights;
+    isLoadingHeaderHighlights ||
+    isLoadingFragrances ||
+    isLoadingFragranceCategories;
 
   return (
     <DataContext.Provider
@@ -70,15 +95,21 @@ export const DataProvider = ({ children }: { children: ReactNode }) => {
         collections: collections ?? [],
         navigation: navigation ?? [],
         headerHighlights: headerHighlights ?? [],
+        fragranceCategories: fragranceCategories ?? [],
+        fragrances: fragrances ?? [],
         isLoadingProducts,
         isLoadingCollections: IsLoadingCollections,
         isLoadingNavigation,
         isLoadingHeaderHighlights,
+        isLoadingFragrances,
+        isLoadingFragranceCategories,
         isLoading,
         productsError: productsError as Error | null,
         collectionsError: collectionsError as Error | null,
         navigationError: navigationError as Error | null,
         headerHighlightsError: headerHighlightsError as Error | null,
+        fragrancesError: fragrancesError as Error | null,
+        fragranceCategoriesError: fragranceCategoriesError as Error | null,
       }}
     >
       {children}
