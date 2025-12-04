@@ -1,32 +1,38 @@
 "use client";
 
 import ProductFilters from "../../../components/ProductFilters";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { useData } from "@/context/data-context";
+import { SortKey, sortProducts } from "@/utils/sortProducts";
 
 export const SectionProducts = () => {
   const { products } = useData();
+  const [sortBy, setSortBy] = useState<SortKey>("relevancia");
+  const [minPrice, setMinPrice] = useState<number>();
+  const [maxPrice, setMaxPrice] = useState<number>();
 
-  const [sortedProducts, setSortedProducts] = useState(products);
+  const sortedProducts = useMemo(() => {
+    return sortProducts(products, sortBy, minPrice, maxPrice);
+  }, [products, sortBy, minPrice, maxPrice]);
 
   const handleSort = (value: string) => {
-    let sorted = [...products];
-    if (value === "precio") {
-      sorted.sort((a, b) => a.price - b.price);
-    }
-    // si quieres relevancia puedes añadir lógica
-    setSortedProducts(sorted);
+    setSortBy(value as SortKey);
+  };
+
+  const handlePriceChange = (min: number, max: number) => {
+    setMinPrice(min);
+    setMaxPrice(max);
   };
 
   return (
     <section className="container mx-auto px-0 md:px-6 lg:px-20 min-h-screen">
-      <ProductFilters onSort={handleSort} />
+      <ProductFilters onSort={handleSort} onPriceChange={handlePriceChange} />
       {sortedProducts.length > 0 ? (
         <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
-          {products.map((product) => (
+          {sortedProducts.map((product) => (
             <Link
               key={product.id}
               href={`/productos/${product.slug}`}
@@ -47,7 +53,7 @@ export const SectionProducts = () => {
                     {product.title}
                   </CardTitle>
                   <p className="text-sm text-gray-700 mt-1">
-                    ${product.price.toFixed(2)}
+                    {product.price.toFixed(2)} €
                   </p>
                 </CardHeader>
               </Card>

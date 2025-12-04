@@ -3,7 +3,7 @@ import SectionProducts from "@/app/productos/_components/SectionProducts";
 
 export default async function Page() {
   return (
-    <section>
+    <section className="container mx-auto px-4 py-12 min-h-screen">
       <SectionHeader
         title="Nuestro Catálogo"
         crumbs={[
