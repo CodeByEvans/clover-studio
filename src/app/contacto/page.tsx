@@ -5,6 +5,7 @@ import type React from "react";
 import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { useState } from "react";
+import { contactAPI } from "@/services/api";
 
 export default function ContactoPage() {
   const [formData, setFormData] = useState({
@@ -25,12 +26,25 @@ export default function ContactoPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Aquí iría la lógica de envío
-    alert("Gracias por tu mensaje. Nos pondremos en contacto pronto.");
-    setFormData({ name: "", email: "", subject: "", message: "", phone: "" });
+    try {
+      await contactAPI.send(formData);
+
+      alert("Gracias por tu mensaje. Nos pondremos en contacto pronto.");
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+        phone: "",
+      });
+    } catch (error) {
+      console.error(error);
+      alert(
+        "Ocurrió un error al enviar tu mensaje. Intenta de nuevo más tarde."
+      );
+    }
   };
 
   return (
