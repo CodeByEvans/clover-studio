@@ -79,11 +79,16 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const updateQuantity = (product: Product, quantity: number) => {
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === product.id ? { ...item, quantity } : item
-      )
-    );
+    if (quantity <= 0) {
+      // si la cantidad es 0 o menos, eliminamos el item
+      removeItem(product);
+    } else {
+      setCart((prev) =>
+        prev.map((item) =>
+          item.id === product.id ? { ...item, quantity } : item
+        )
+      );
+    }
   };
 
   const clearCart = () => setCart([]);
