@@ -20,7 +20,6 @@ export const CartButton = ({
   return (
     <Button
       className="mt-0"
-      disabled={needsFragrance && !fragrance}
       onClick={() => addItem(product, quantity || 1, fragrance)}
     >
       Añadir al carrito
