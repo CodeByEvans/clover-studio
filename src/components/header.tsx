@@ -44,7 +44,7 @@ export interface HeaderProps {
 }
 
 export default function Header() {
-  const { openCart } = useCart();
+  const { openCart, cart } = useCart();
   const { collections, navigation, headerHighlights, products }: HeaderProps =
     useData();
   const [selectedCollection, setSelectedCollection] = useState("all");
@@ -91,7 +91,7 @@ export default function Header() {
           </Link>
 
           {/* CARRITO */}
-          <div className="flex items-center space-x-4">
+          <div className="relative">
             <Button
               variant="ghost"
               className="flex items-center"
@@ -99,6 +99,11 @@ export default function Header() {
             >
               <ShoppingCartIcon className="size-6" />
             </Button>
+            {cart.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
+                {cart.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            )}
           </div>
         </div>
 
@@ -147,7 +152,7 @@ export default function Header() {
             </InputGroup>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="relative">
             <Button
               variant="default"
               className="flex items-center"
@@ -156,6 +161,11 @@ export default function Header() {
               <ShoppingCartIcon className="size-6" />
               Carrito
             </Button>
+            {cart.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-white text-red-600 text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold shadow">
+                {cart.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            )}
           </div>
         </div>
 
