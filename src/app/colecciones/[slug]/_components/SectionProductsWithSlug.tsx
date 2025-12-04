@@ -6,35 +6,34 @@ import Image from "next/image";
 import Link from "next/link";
 import { useData } from "@/context/data-context";
 import ProductFilters from "@/components/ProductFilters";
+import { SortKey, sortProducts } from "@/utils/sortProducts";
 
 export const SectionProductsWithSlug = ({ slug }: { slug: string }) => {
   const { products } = useData();
-  const [sortBy, setSortBy] = useState<string>("relevancia");
+  const [sortBy, setSortBy] = useState<SortKey>("relevancia");
+  const [minPrice, setMinPrice] = useState<number>();
+  const [maxPrice, setMaxPrice] = useState<number>();
 
   const sectionProducts = useMemo(() => {
     return products.filter((product) => product.collection.slug === slug);
   }, [products, slug]);
 
   const sortedProducts = useMemo(() => {
-    const sorted = [...sectionProducts];
-
-    if (sortBy === "precio-asc") {
-      sorted.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "precio-desc") {
-      sorted.sort((a, b) => b.price - a.price);
-    }
-    // "relevancia" mantiene orden original
-
-    return sorted;
-  }, [sectionProducts, sortBy]);
+    return sortProducts(sectionProducts, sortBy, minPrice, maxPrice);
+  }, [products, sortBy, minPrice, maxPrice]);
 
   const handleSort = (value: string) => {
-    setSortBy(value);
+    setSortBy(value as SortKey);
+  };
+
+  const handlePriceChange = (min: number, max: number) => {
+    setMinPrice(min);
+    setMaxPrice(max);
   };
 
   return (
     <section className="container mx-auto px-0 md:px-6 lg:px-20 min-h-screen">
-      <ProductFilters onSort={handleSort} />
+      <ProductFilters onSort={handleSort} onPriceChange={handlePriceChange} />
       {sortedProducts.length > 0 ? (
         <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
           {sortedProducts.map((product) => (
@@ -58,7 +57,7 @@ export const SectionProductsWithSlug = ({ slug }: { slug: string }) => {
                     {product.title}
                   </CardTitle>
                   <p className="text-sm text-gray-700 mt-1">
-                    {product.price.toFixed(2)}€
+                    {product.price.toFixed(2)} €
                   </p>
                 </CardHeader>
               </Card>

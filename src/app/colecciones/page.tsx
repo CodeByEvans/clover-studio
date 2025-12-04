@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default function ColeccionesPage() {
   const { collections } = useData();
-  const { products } = useData();
   return (
     <>
       <section className="py-12 md:py-16 bg-white border-b border-border">
