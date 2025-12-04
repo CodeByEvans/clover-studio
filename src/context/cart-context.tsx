@@ -80,7 +80,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const updateQuantity = (product: Product, quantity: number) => {
     if (quantity <= 0) {
-      // si la cantidad es 0 o menos, eliminamos el item
       removeItem(product);
     } else {
       setCart((prev) =>
