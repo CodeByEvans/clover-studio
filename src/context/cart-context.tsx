@@ -1,6 +1,7 @@
 "use client";
 
 import { Cart, CartItem } from "@/types/cart.type";
+import { Fragrance } from "@/types/fragances.type";
 import { Product } from "@/types/product.type";
 import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -8,7 +9,7 @@ import { toast } from "sonner";
 type CartContextType = {
   cart: Cart;
   total: number;
-  addItem: (cartItem: Product, quantity: number) => void;
+  addItem: (product: Product, quantity: number, fragrance?: Fragrance) => void;
   removeItem: (product: Product) => void;
   updateQuantity: (product: Product, quantity: number) => void;
   clearCart: () => void;
@@ -35,7 +36,11 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const addItem = (product: Product, quantity: number) => {
+  const addItem = (
+    product: Product,
+    quantity: number,
+    fragrance?: Fragrance
+  ) => {
     setCart((prev) => {
       const existing = prev.find((item) => item.id === product.id);
 
@@ -51,6 +56,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       const newItem: CartItem = {
         ...product,
         quantity,
+        fragrance: fragrance,
       };
 
       return [...prev, newItem];
