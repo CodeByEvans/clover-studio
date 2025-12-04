@@ -34,3 +34,24 @@ export const headerHighlightsAPI = {
     return response.data;
   },
 };
+
+export const fragancesAPI = {
+  getAll: async () => {
+    const response = await api.get("/fragrances");
+    return response.data;
+  },
+};
+
+export const fraganceCategoriesAPI = {
+  getAll: async () => {
+    const response = await api.get("/fragrance-categories");
+    return response.data;
+  },
+};
+
+export const contactAPI = {
+  send: async (data: any) => {
+    const response = await api.post("/contact", data);
+    return response.data;
+  },
+};
