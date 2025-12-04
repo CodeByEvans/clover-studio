@@ -3,7 +3,7 @@ import { SectionHeaderProps } from "@/types/section-header.type";
 
 export const SectionHeader = ({ title, crumbs }: SectionHeaderProps) => {
   return (
-    <header className=" flex flex-col items-center justify-center gap-4 border-b border-gray-200 pb-12">
+    <header className="flex flex-col items-center justify-center gap-4 border-b border-gray-200 pb-12">
       <Breadcrumbs crumbs={crumbs} />
       {/* Section Header */}
       <div className=" text-center">

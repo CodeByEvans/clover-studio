@@ -56,7 +56,7 @@ export function CartSidebar() {
         ) : (
           <>
             {/* Items List */}
-            <div className="flex-1 space-y-4 mb-6 max-h-96 overflow-y-auto px-2">
+            <div className="flex-1 space-y-4 mb-6  overflow-y-auto px-2">
               {cart.map((item) => (
                 <div
                   key={item.id}
@@ -74,8 +74,15 @@ export function CartSidebar() {
                       {item.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      €{item.price.toFixed(2)}
+                      {item.price.toFixed(2)} €
                     </p>
+
+                    {item.fragrance && (
+                      <p className="text-sm text-muted-foreground mb-2">
+                        Aroma: {item.fragrance.name} ({item.fragrance.intensity}
+                        )
+                      </p>
+                    )}
 
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2">
@@ -140,8 +147,8 @@ export function CartSidebar() {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground text-center mt-4">
-                Al completar tu compra, recibirás un PDF y se abrirá WhatsApp
-                para contactarnos.
+                Al completar tu compra, se abrirá WhatsApp para contactar con
+                nosotros y confirmar tu pedido.
               </p>
             </div>
           </>
