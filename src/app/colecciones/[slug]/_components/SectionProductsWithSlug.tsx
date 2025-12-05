@@ -10,7 +10,7 @@ import { SortKey, sortProducts } from "@/utils/sortProducts";
 
 export const SectionProductsWithSlug = ({ slug }: { slug: string }) => {
   const { products } = useData();
-  const [sortBy, setSortBy] = useState<SortKey>("relevancia");
+  const [sortBy, setSortBy] = useState<SortKey>("featured");
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
 
