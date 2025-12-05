@@ -10,13 +10,21 @@ import { SortKey, sortProducts } from "@/utils/sortProducts";
 
 export const SectionProducts = () => {
   const { products } = useData();
-  const [sortBy, setSortBy] = useState<SortKey>("relevancia");
+  const [sortBy, setSortBy] = useState<SortKey>("featured");
   const [minPrice, setMinPrice] = useState<number>();
   const [maxPrice, setMaxPrice] = useState<number>();
+  const [selectedCollection, setSelectedCollection] = useState<string>("all");
 
   const sortedProducts = useMemo(() => {
     return sortProducts(products, sortBy, minPrice, maxPrice);
   }, [products, sortBy, minPrice, maxPrice]);
+
+  const filteredproducts = useMemo(() => {
+    if (selectedCollection === "all") return sortedProducts;
+    return sortedProducts.filter(
+      (p) => p.collection.slug === selectedCollection
+    );
+  }, [sortedProducts, selectedCollection]);
 
   const handleSort = (value: string) => {
     setSortBy(value as SortKey);
@@ -27,12 +35,20 @@ export const SectionProducts = () => {
     setMaxPrice(max);
   };
 
+  const handleCollectionChange = (collectionSlug: string) => {
+    setSelectedCollection(collectionSlug);
+  };
+
   return (
     <section className="container mx-auto px-0 md:px-6 lg:px-20 min-h-screen">
-      <ProductFilters onSort={handleSort} onPriceChange={handlePriceChange} />
-      {sortedProducts.length > 0 ? (
+      <ProductFilters
+        onSort={handleSort}
+        onPriceChange={handlePriceChange}
+        onCollectionChange={handleCollectionChange}
+      />
+      {filteredproducts.length > 0 ? (
         <section className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full px-0 md:px-6 lg:px-20">
-          {sortedProducts.map((product) => (
+          {filteredproducts.map((product) => (
             <Link
               key={product.id}
               href={`/productos/${product.slug}`}
