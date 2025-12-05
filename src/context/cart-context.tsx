@@ -42,22 +42,23 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     fragrance?: Fragrance
   ) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const newItem: CartItem = {
+        ...product,
+        id: product.id + (fragrance?.id ?? "no-fragrance"),
+        quantity,
+        fragrance: fragrance,
+      };
+
+      const existing = prev.find((item) => item.id === newItem.id);
 
       if (existing) {
         console.log("Updating quantity");
         return prev.map((item) =>
-          item.id === product.id
+          item.id === newItem.id
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-
-      const newItem: CartItem = {
-        ...product,
-        quantity,
-        fragrance: fragrance,
-      };
 
       return [...prev, newItem];
     });
