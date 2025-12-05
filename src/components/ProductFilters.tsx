@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -17,16 +17,41 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
+import { usePathname } from "next/navigation";
+import { useData } from "@/context/data-context";
+import { Collections } from "@/types/collection.type";
 
 export const ProductFilters = ({
   onSort,
   onPriceChange,
+  onCollectionChange,
 }: {
   onSort: (value: string) => void;
   onPriceChange: (min: number, max: number) => void;
+  onCollectionChange?: (value: string) => void;
 }) => {
-  const [sort, setSort] = useState("relevancia");
+  const { collections } = useData();
+  const pathname = usePathname();
+  const [sort, setSort] = useState("featured");
+
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 50]);
+  const [productPage, setProductPage] = useState<boolean>(false);
+  const [collectionsData, setCollectionsData] = useState<Collections>([]);
+  const [selectedCollection, setSelectedCollection] = useState<string>("");
+
+  useEffect(() => {
+    if (pathname === "/productos") {
+      setProductPage(true);
+      setCollectionsData(collections);
+    } else {
+      setProductPage(false);
+    }
+  }, []);
+
+  const handleCollectionChange = (value: string) => {
+    setSelectedCollection(value);
+    onCollectionChange?.(value);
+  };
 
   const handleChange = (value: string) => {
     setSort(value);
@@ -61,6 +86,28 @@ export const ProductFilters = ({
               max={50}
               step={1}
             />
+            {productPage && collectionsData.length > 0 && (
+              <div className="mt-4 flex flex-col gap-2">
+                <p>Filtrar por colección:</p>
+                <Select
+                  value={selectedCollection}
+                  onValueChange={handleCollectionChange}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Selecciona colección" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todas</SelectItem>
+                    {collectionsData.map((collection) => (
+                      <SelectItem key={collection.id} value={collection.slug}>
+                        {collection.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
             <Button
               className="mt-4"
               variant="outline"
@@ -68,6 +115,8 @@ export const ProductFilters = ({
                 const initialRange: [number, number] = [0, 50];
                 setPriceRange(initialRange);
                 onPriceChange(initialRange[0], initialRange[1]);
+                setSelectedCollection("all");
+                onCollectionChange?.("all");
               }}
             >
               Limpiar Filtros
@@ -81,10 +130,9 @@ export const ProductFilters = ({
           <p>Ordenar por:</p>
           <Select value={sort} onValueChange={handleChange}>
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Relevancia" />
+              <SelectValue placeholder="Destacados" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="relevancia">Relevancia</SelectItem>
               <SelectItem value="featured">Destacados</SelectItem>
               <SelectItem value="price-asc">Precio (asc)</SelectItem>
               <SelectItem value="price-desc">Precio (desc)</SelectItem>
