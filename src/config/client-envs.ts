@@ -4,6 +4,7 @@ const envsSchema = z.object({
   NEXT_PUBLIC_API_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: z.string(),
+  NEXT_PUBLIC_WHATSAPP_PHONE: z.string(),
 });
 
 const parsed = envsSchema.safeParse({
@@ -11,6 +12,7 @@ const parsed = envsSchema.safeParse({
   NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  NEXT_PUBLIC_WHATSAPP_PHONE: process.env.NEXT_PUBLIC_WHATSAPP_PHONE,
 });
 
 if (!parsed.success) {
@@ -21,4 +23,5 @@ export const clientEnvs = {
   apiUrl: parsed.data.NEXT_PUBLIC_API_URL,
   supabaseUrl: parsed.data.NEXT_PUBLIC_SUPABASE_URL,
   supabaseKey: parsed.data.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  whatsappPhone: parsed.data.NEXT_PUBLIC_WHATSAPP_PHONE,
 };
