@@ -1,6 +1,4 @@
 "use client";
-
-import { Sparkles, Heart, Leaf } from "lucide-react";
 import Image from "next/image";
 
 export default function QuienesSomosPage() {
