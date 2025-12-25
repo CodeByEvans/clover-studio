@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+    unoptimized: process.env.NODE_ENV === "development",
   },
   allowedDevOrigins: ["pretelegraph-kareem-timorously.ngrok-free.dev"],
 };
