@@ -15,7 +15,44 @@ import { CartSidebar } from "@/components/CartSidebar";
 const eb_garamond = EB_Garamond({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  // ... tu metadata
+  title: "Clover Studio: Velas Artesanales, Wax-Melts y Decoración",
+  description:
+    "Descubre nuestras velas artesanales y wax-melts hechos a mano con cera de soja y fragancias únicas. Añade un toque especial a tu hogar con nuestra decoración exclusiva.",
+  keywords: [
+    "Clover Studio",
+    "velas artesanales",
+    "wax-melts",
+    "decoración",
+    "cera de soja",
+    "fragancias",
+    "velas decorativas",
+  ],
+  authors: [{ name: "Clover Studio", url: "https://cloverstudio.es" }],
+  creator: "Clover Studio",
+  publisher: "Clover Studio",
+  robots: "index, follow",
+  openGraph: {
+    title: "Clover Studio - Velas Artesanales, Wax-Melts y Decoración",
+    description:
+      "Descubre nuestras velas artesanales y wax-melts hechos a mano con cera de soja y fragancias únicas. Añade un toque especial a tu hogar con nuestra decoración exclusiva.",
+    url: "https://cloverstudio.es",
+    siteName: "Clover Studio",
+    images: [
+      {
+        url: "/logo.svg",
+        width: 260,
+        height: 260,
+        alt: "Clover Studio Logo",
+      },
+    ],
+    locale: "es_ES",
+    type: "website",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default async function RootLayout({
