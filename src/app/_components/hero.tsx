@@ -1,20 +1,29 @@
 "use client";
 import React, { useEffect } from "react";
-import { useScrollToId } from "@/hooks/useScrollToId";
 
 import { Products } from "@/types/product.type";
 
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/button";
 import Carousel3D from "@/components/Carousel3D";
-import { getFeaturedProducts } from "@/utils/products";
-import { useData } from "@/context/data-context";
 import Link from "next/link";
+import { productsAPI } from "@/services/api";
 
 export const Hero = () => {
-  const { products } = useData();
+  const [featuredProducts, setFeaturedProducts] = React.useState<Products>([]);
 
-  const featuredProducts: Products = getFeaturedProducts(products);
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        const products = await productsAPI.getFeatured();
+        setFeaturedProducts(products);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
 
   return (
     <motion.section
