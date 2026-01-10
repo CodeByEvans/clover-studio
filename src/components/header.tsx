@@ -75,42 +75,6 @@ export default function Header() {
       className="bg-white/95 backdrop-blur-sm border-b border-gray-100 sticky top-0 z-40 shadow-sm"
     >
       <section className="container mx-auto">
-        {/* ----------------- FILA 1 MÓVIL ----------------- */}
-        <div className="flex items-center justify-between h-20 relative md:hidden">
-          {/* placeholder para balancear el logo */}
-          <div className="w-6" />
-
-          {/* LOGO CENTRADO */}
-          <Link
-            href="/"
-            className="absolute left-1/2 -translate-x-1/2 flex items-center"
-          >
-            <Image
-              src="/logo.svg"
-              alt="Clover Studio Logo"
-              width={90}
-              height={90}
-              className="transition-transform duration-300"
-            />
-          </Link>
-
-          {/* CARRITO */}
-          <div className="relative">
-            <Button
-              variant="ghost"
-              className="flex items-center"
-              onClick={openCart}
-            >
-              <ShoppingCartIcon className="size-6" />
-            </Button>
-            {cart.length > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
-                {cart.reduce((acc, item) => acc + item.quantity, 0)}
-              </span>
-            )}
-          </div>
-        </div>
-
         {/* ----------------- FILA 1 DESKTOP ----------------- */}
         <div className="hidden md:flex items-center justify-between h-20">
           <Link href="/" className="flex items-center group">
@@ -192,17 +156,55 @@ export default function Header() {
             modules={[Autoplay]}
             spaceBetween={50}
             slidesPerView={1}
-            autoplay={{ delay: 3000 }}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
             loop
-            className="hidden md:flex items-center text-center w-1/2"
+            className="hidden md:flex items-center text-center w-1/2 pointer-events-none"
           >
             {headerHighlights.map((highlight) => (
               <SwiperSlide
                 key={highlight.id}
-                className="text-gray-600 font-light text-base"
-              >{`${highlight.text}`}</SwiperSlide>
+                className="text-gray-600 font-light text-base pointer-events-none"
+              >
+                {highlight.text}
+              </SwiperSlide>
             ))}
           </Swiper>
+        </div>
+
+        {/* ----------------- FILA 1 MÓVIL ----------------- */}
+        <div className="flex items-center justify-between h-20 relative md:hidden">
+          {/* placeholder para balancear el logo */}
+          <div className="w-6" />
+
+          {/* LOGO CENTRADO */}
+          <Link
+            href="/"
+            className="absolute left-1/2 -translate-x-1/2 flex items-center"
+          >
+            <Image
+              src="/logo.svg"
+              alt="Clover Studio Logo"
+              width={90}
+              height={90}
+              className="transition-transform duration-300"
+            />
+          </Link>
+
+          {/* CARRITO */}
+          <div className="relative">
+            <Button
+              variant="ghost"
+              className="flex items-center"
+              onClick={openCart}
+            >
+              <ShoppingCartIcon className="size-6" />
+            </Button>
+            {cart.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-semibold">
+                {cart.reduce((acc, item) => acc + item.quantity, 0)}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* ----------------- FILA 2 MÓVIL: SEARCHBAR ----------------- */}
