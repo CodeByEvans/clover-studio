@@ -11,23 +11,38 @@ import { Button } from "@/components/ui/button";
 import { Trash2, Plus, Minus } from "lucide-react";
 import { sendOrderViaWhatsApp } from "@/lib/sendOrderViaWhatsApp";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
+import { useProducts } from "@/hooks/use-products";
+import { useFragrances } from "@/hooks/use-fragrances";
 
 export function CartSidebar() {
-  const {
-    cart,
-    isOpen,
-    closeCart,
-    removeItem,
-    updateQuantity,
-    total,
-    clearCart,
-  } = useCart();
+  const { cart, isOpen, closeCart, removeItem, updateQuantity, clearCart } =
+    useCart();
+  const { data: products = [] } = useProducts();
+  const { data: fragrances = [] } = useFragrances();
+
+  const enhancedCart = cart.map((cartItem) => {
+    const product = products.find((p) => p.id === cartItem.productId);
+    const fragrance = cartItem.fragranceId
+      ? fragrances.find((f) => f.id === cartItem.fragranceId)
+      : null;
+
+    return {
+      ...cartItem,
+      product,
+      fragrance,
+      subtotal: product ? product.price * cartItem.quantity : 0,
+    };
+  });
+
+  const total = enhancedCart.reduce((acc, item) => acc + item.subtotal, 0);
 
   const handleCheckout = () => {
-    sendOrderViaWhatsApp(cart, total);
+    sendOrderViaWhatsApp(enhancedCart, total);
     clearCart();
     closeCart();
   };
+
+  console.log(enhancedCart);
 
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
@@ -56,24 +71,24 @@ export function CartSidebar() {
           <>
             {/* Items List */}
             <div className="flex-1 space-y-4 mb-6  overflow-y-auto px-2">
-              {cart.map((item) => (
+              {enhancedCart.map((item) => (
                 <div
                   key={item.id}
                   className="flex gap-4 p-4 bg-secondary rounded-lg border border-border"
                 >
-                  {item.portrait && (
+                  {item.product?.portrait && (
                     <img
-                      src={item.portrait || "/placeholder.svg"}
-                      alt={item.title}
+                      src={item.product?.portrait || "/placeholder.svg"}
+                      alt={item.product?.title}
                       className="w-20 h-20 rounded object-cover flex-shrink-0"
                     />
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-foreground truncate">
-                      {item.title}
+                      {item.product?.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      {item.price.toFixed(2)} €
+                      {item.product?.price.toFixed(2)} €
                     </p>
 
                     {item.fragrance && (
@@ -86,7 +101,9 @@ export function CartSidebar() {
                     {/* Quantity Controls */}
                     <div className="flex items-center gap-2">
                       <button
-                        onClick={() => updateQuantity(item, item.quantity - 1)}
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity - 1)
+                        }
                         className="p-1 hover:bg-primary/20 rounded transition"
                         aria-label="Disminuir cantidad"
                       >
@@ -96,14 +113,16 @@ export function CartSidebar() {
                         {item.quantity}
                       </span>
                       <button
-                        onClick={() => updateQuantity(item, item.quantity + 1)}
+                        onClick={() =>
+                          updateQuantity(item.id, item.quantity + 1)
+                        }
                         className="p-1 hover:bg-primary/20 rounded transition"
                         aria-label="Aumentar cantidad"
                       >
                         <Plus size={16} />
                       </button>
                       <button
-                        onClick={() => removeItem(item)}
+                        onClick={() => removeItem(item.id)}
                         className="ml-auto p-1 hover:bg-red-100 text-red-600 rounded transition"
                         aria-label="Eliminar producto"
                       >
