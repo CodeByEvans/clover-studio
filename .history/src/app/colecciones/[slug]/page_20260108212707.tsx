@@ -53,7 +53,7 @@ export async function generateMetadata({
   };
 }
 
-async function getDehydratedState(slug: string) {
+export async function loader(slug: string) {
   const queryClient = new QueryClient();
 
   const collection = await getCachedCollection(slug);
@@ -62,6 +62,7 @@ async function getDehydratedState(slug: string) {
     notFound();
   }
 
+  // ✅ Prefetch de AMBOS: colección y productos
   await Promise.all([
     queryClient.prefetchQuery({
       queryKey: ["collection", slug], // ✅ Cachea la colección
@@ -86,7 +87,7 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
-  const { collection, dehydratedState } = await getDehydratedState(slug);
+  const { collection, dehydratedState } = await loader(slug);
 
   return (
     <section className="container mx-auto px-4 py-12 min-h-screen">

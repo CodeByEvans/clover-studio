@@ -1,4 +1,5 @@
 "use client";
+import { useData } from "@/context/data-context";
 import { useProducts } from "@/hooks/use-products";
 import { Product } from "@/@types/product.type";
 import Link from "next/link";
