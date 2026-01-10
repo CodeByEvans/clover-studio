@@ -12,32 +12,29 @@ import { Trash2, Plus, Minus } from "lucide-react";
 import { sendOrderViaWhatsApp } from "@/lib/sendOrderViaWhatsApp";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import { useProducts } from "@/hooks/use-products";
-import { useFragrances } from "@/hooks/use-fragrances";
 
 export function CartSidebar() {
   const { cart, isOpen, closeCart, removeItem, updateQuantity, clearCart } =
     useCart();
   const { data: products = [] } = useProducts();
-  const { data: fragrances = [] } = useFragrances();
 
   const enhancedCart = cart.map((cartItem) => {
-    const product = products.find((p) => p.id === cartItem.productId);
-    const fragrance = cartItem.fragranceId
-      ? fragrances.find((f) => f.id === cartItem.fragranceId)
-      : null;
-
+    const product = products.find((p) => p.id === cartItem.id);
     return {
       ...cartItem,
-      product,
-      fragrance,
-      subtotal: product ? product.price * cartItem.quantity : 0,
+      portrait: product?.portrait || "/placeholder.svg",
+      price: product?.price || 0,
+      title: product?.title || "",
     };
   });
 
-  const total = enhancedCart.reduce((acc, item) => acc + item.subtotal, 0);
+  const total = enhancedCart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
 
   const handleCheckout = () => {
-    sendOrderViaWhatsApp(enhancedCart, total);
+    sendOrderViaWhatsApp(cart, total);
     clearCart();
     closeCart();
   };
@@ -74,19 +71,19 @@ export function CartSidebar() {
                   key={item.id}
                   className="flex gap-4 p-4 bg-secondary rounded-lg border border-border"
                 >
-                  {item.product?.portrait && (
+                  {item.portrait && (
                     <img
-                      src={item.product?.portrait || "/placeholder.svg"}
-                      alt={item.product?.title}
+                      src={item.portrait || "/placeholder.svg"}
+                      alt={item.title}
                       className="w-20 h-20 rounded object-cover flex-shrink-0"
                     />
                   )}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-foreground truncate">
-                      {item.product?.title}
+                      {item.title}
                     </h3>
                     <p className="text-sm text-muted-foreground mb-2">
-                      {item.product?.price.toFixed(2)} €
+                      {item.price.toFixed(2)} €
                     </p>
 
                     {item.fragrance && (

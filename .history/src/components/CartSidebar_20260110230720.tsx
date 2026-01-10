@@ -42,6 +42,8 @@ export function CartSidebar() {
     closeCart();
   };
 
+  console.log(enhancedCart);
+
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
       <SheetContent

@@ -37,7 +37,7 @@ export function CartSidebar() {
   const total = enhancedCart.reduce((acc, item) => acc + item.subtotal, 0);
 
   const handleCheckout = () => {
-    sendOrderViaWhatsApp(enhancedCart, total);
+    sendOrderViaWhatsApp(cart, total);
     clearCart();
     closeCart();
   };

@@ -21,7 +21,7 @@ export function CartSidebar() {
   const { data: fragrances = [] } = useFragrances();
 
   const enhancedCart = cart.map((cartItem) => {
-    const product = products.find((p) => p.id === cartItem.productId);
+    const product = products.find((p) => p.id === cartItem.id);
     const fragrance = cartItem.fragranceId
       ? fragrances.find((f) => f.id === cartItem.fragranceId)
       : null;
@@ -37,7 +37,7 @@ export function CartSidebar() {
   const total = enhancedCart.reduce((acc, item) => acc + item.subtotal, 0);
 
   const handleCheckout = () => {
-    sendOrderViaWhatsApp(enhancedCart, total);
+    sendOrderViaWhatsApp(cart, total);
     clearCart();
     closeCart();
   };
