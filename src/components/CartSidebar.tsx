@@ -8,8 +8,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { Trash2, Plus, Minus, Download } from "lucide-react";
-import { useState } from "react";
+import { Trash2, Plus, Minus } from "lucide-react";
 import { sendOrderViaWhatsApp } from "@/lib/sendOrderViaWhatsApp";
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 

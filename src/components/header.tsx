@@ -9,7 +9,6 @@ import Image from "next/image";
 import { Collection, Collections } from "@/types/collection.type";
 import { Navigation } from "@/types/navigation.type";
 import { HeaderHighlights } from "@/types/header_hightlights.type";
-import { useData } from "@/context/data-context";
 
 // Icons imports
 import { ShoppingCartIcon } from "lucide-react";
@@ -35,6 +34,10 @@ import "swiper/css";
 import { motion } from "framer-motion";
 import { useCart } from "@/context/cart-context";
 import { Products } from "@/types/product.type";
+import { useCollections } from "@/hooks/use-collections";
+import { useNavigation } from "@/hooks/use-navigation";
+import { useHeaderHighlights } from "@/hooks/use-header-highlights";
+import { productsAPI } from "@/services/api";
 
 export interface HeaderProps {
   products: Products;
@@ -45,24 +48,25 @@ export interface HeaderProps {
 
 export default function Header() {
   const { openCart, cart } = useCart();
-  const { collections, navigation, headerHighlights, products }: HeaderProps =
-    useData();
+
+  const { data: collections = [] } = useCollections();
+  const { data: navigation = [] } = useNavigation();
+  const { data: headerHighlights = [] } = useHeaderHighlights();
   const [selectedCollection, setSelectedCollection] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredProducts, setFilteredProducts] = useState<Products>([]);
 
   useEffect(() => {
-    const results = products.filter((product) => {
-      const matchesName = product.title
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCollection =
-        selectedCollection === "all" ||
-        product.collection.slug === selectedCollection;
-      return matchesName && matchesCollection;
-    });
-    setFilteredProducts(results);
-  }, [searchTerm, selectedCollection, products]);
+    const fetchFilteredProducts = async () => {
+      const results = await productsAPI.searchByTerm({
+        search: searchTerm,
+        collection: selectedCollection,
+        limit: 10,
+      });
+      setFilteredProducts(results);
+    };
+    fetchFilteredProducts();
+  }, [searchTerm, selectedCollection]);
 
   return (
     <motion.header

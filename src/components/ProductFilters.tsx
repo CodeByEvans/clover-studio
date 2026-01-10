@@ -18,8 +18,8 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 import { usePathname } from "next/navigation";
-import { useData } from "@/context/data-context";
 import { Collections } from "@/types/collection.type";
+import { useCollections } from "@/hooks/use-collections";
 
 export const ProductFilters = ({
   onSort,
@@ -30,7 +30,7 @@ export const ProductFilters = ({
   onPriceChange: (min: number, max: number) => void;
   onCollectionChange?: (value: string) => void;
 }) => {
-  const { collections } = useData();
+  const { data: collections = [] } = useCollections();
   const pathname = usePathname();
   const [sort, setSort] = useState("featured");
 

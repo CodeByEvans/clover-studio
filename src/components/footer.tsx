@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Mail,
   Phone,
@@ -9,11 +8,11 @@ import {
   FileText,
   ShieldCheck,
 } from "lucide-react";
-import { useData } from "@/context/data-context";
 import { SiTiktok } from "react-icons/si";
+import { useNavigation } from "@/hooks/use-navigation";
 
 export default function Footer() {
-  const { navigation } = useData();
+  const { data: navigation = [] } = useNavigation();
 
   return (
     <footer className="bg-gray-900 text-white relative overflow-hidden pt-10 pb-6">
