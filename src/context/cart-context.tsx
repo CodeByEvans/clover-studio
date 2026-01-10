@@ -8,10 +8,9 @@ import { toast } from "sonner";
 
 type CartContextType = {
   cart: Cart;
-  total: number;
   addItem: (product: Product, quantity: number, fragrance?: Fragrance) => void;
-  removeItem: (product: Product) => void;
-  updateQuantity: (product: Product, quantity: number) => void;
+  removeItem: (productId: string) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
@@ -22,52 +21,62 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [cart, setCart] = useState<Cart>(() => {
-    if (typeof window !== "undefined") {
-      const storedCart = localStorage.getItem("cart");
-      return storedCart ? JSON.parse(storedCart) : [];
+  const [cart, setCart] = useState<Cart>([]);
+
+  useEffect(() => {
+    const storedCart = localStorage.getItem("cart");
+    if (storedCart) {
+      setCart(JSON.parse(storedCart));
     }
-    return [];
-  });
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
-
-  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const addItem = (
     product: Product,
     quantity: number,
     fragrance?: Fragrance
   ) => {
+    const itemId = product.id + (fragrance?.id ?? "no-fragrance");
+    const existingItem = cart.find((item) => item.id === itemId);
+    const newItem: CartItem = {
+      id: itemId,
+      quantity,
+      fragranceId: fragrance?.id,
+      productId: product.id,
+    };
+
     setCart((prev) => {
-      const newItem: CartItem = {
-        ...product,
-        id: product.id + (fragrance?.id ?? "no-fragrance"),
-        quantity,
-        fragrance: fragrance,
-      };
-
-      const existing = prev.find((item) => item.id === newItem.id);
-
-      if (existing) {
-        console.log("Updating quantity");
+      if (existingItem) {
         return prev.map((item) =>
-          item.id === newItem.id
+          item.id === itemId
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
+      } else {
+        return [...prev, newItem];
       }
-
-      return [...prev, newItem];
     });
     toast.success("Producto añadido al carrito", {
-      description: `Se han añadido ${quantity} ${product.title} al carrito`,
+      description: `Se ${existingItem ? "actualizaron" : "añadieron"} ${quantity} ${product.title} al carrito.`,
       action: {
         label: "Deshacer",
         onClick: () => {
-          removeItem(product);
+          setCart((prev) => {
+            if (existingItem) {
+              return prev
+                .map((item) =>
+                  item.id === itemId
+                    ? { ...item, quantity: item.quantity - quantity }
+                    : item
+                )
+                .filter((item) => item.quantity > 0);
+            } else {
+              return prev.filter((item) => item.id !== itemId);
+            }
+          });
         },
       },
       classNames: {
@@ -75,17 +84,17 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
       },
     });
   };
-  const removeItem = (product: Product) => {
-    setCart((prev) => prev.filter((p) => p.id !== product.id));
+  const removeItem = (productId: string) => {
+    setCart((prev) => prev.filter((item) => item.id !== productId));
   };
 
-  const updateQuantity = (product: Product, quantity: number) => {
+  const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
-      removeItem(product);
+      removeItem(productId);
     } else {
       setCart((prev) =>
         prev.map((item) =>
-          item.id === product.id ? { ...item, quantity } : item
+          item.id === productId ? { ...item, quantity } : item
         )
       );
     }
@@ -100,7 +109,6 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     <CartContext.Provider
       value={{
         cart,
-        total,
         addItem,
         removeItem,
         updateQuantity,
